@@ -1,0 +1,31 @@
+# Per-site defaults applied to every fetch, at every tier (site_rules.py).
+#
+# A DATA FILE, deliberately, like signatures.yaml: a consent cookie's value
+# changes when the vendor rotates it, and updating one must not need a deploy.
+#
+# Fields per rule:
+#   hosts     host suffixes the rule applies to ("google.com" matches
+#             www.google.com, maps.google.com and google.com; "google." with a
+#             trailing dot matches every google TLD: google.co.uk, google.de …)
+#   cookies   sent on tiers 0/1 as a Cookie header and installed into the
+#             browser context on tiers 2+. `domain` is the cookie domain as the
+#             browser needs it; it is rewritten to the actual host's registrable
+#             domain when the rule matched by TLD wildcard.
+#   why       one line, so nobody deletes a rule they do not understand
+#
+# Not here: anything that authenticates. Site rules carry consent and
+# preference state a first visit would set anyway — never a session.
+
+rules:
+  - hosts: ["google.", "youtube.com", "gstatic.com"]
+    why: >
+      Google's GDPR consent interstitial ("Before you continue to Google") is
+      served to EU/UK exits on every property and defeats extraction — Maps
+      returned it as a 200 with 230 words of legal copy (5 Sep 2026). The
+      deprecated CONSENT=YES+ cookie no longer dismisses it; SOCS does. This is
+      the state clicking "Accept all" leaves behind.
+    cookies:
+      - name: SOCS
+        value: CAISHAgBEhJnd3NfMjAyNDAxMDEtMF9SQzIaAmVuIAEaBgiA_LyaBg
+        domain: .google.com
+        path: /

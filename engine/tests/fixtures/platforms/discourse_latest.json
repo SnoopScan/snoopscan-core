@@ -1,0 +1,366 @@
+{
+ "topic_list": {
+  "can_create_topic": false,
+  "filter": "latest",
+  "more_topics_url": "/latest?no_definitions=true&page=1",
+  "per_page": 30,
+  "top_tags": [
+   {
+    "id": 23,
+    "name": "help",
+    "slug": "help"
+   },
+   {
+    "id": 26,
+    "name": "typing",
+    "slug": "typing"
+   },
+   {
+    "id": 6,
+    "name": "release",
+    "slug": "release"
+   },
+   {
+    "id": 14,
+    "name": "documentation",
+    "slug": "documentation"
+   },
+   {
+    "id": 70,
+    "name": "packaging-help",
+    "slug": "packaging-help"
+   },
+   {
+    "id": 3,
+    "name": "election",
+    "slug": "election"
+   },
+   {
+    "id": 35,
+    "name": "c-api",
+    "slug": "c-api"
+   },
+   {
+    "id": 30,
+    "name": "stdlib",
+    "slug": "stdlib"
+   },
+   {
+    "id": 1,
+    "name": "governance",
+    "slug": "governance"
+   },
+   {
+    "id": 43,
+    "name": "asyncio",
+    "slug": "asyncio"
+   },
+   {
+    "id": 36,
+    "name": "meeting",
+    "slug": "meeting"
+   },
+   {
+    "id": 31,
+    "name": "promotion",
+    "slug": "promotion"
+   },
+   {
+    "id": 9,
+    "name": "build",
+    "slug": "build"
+   },
+   {
+    "id": 60,
+    "name": "PyPI",
+    "slug": "pypi"
+   },
+   {
+    "id": 80,
+    "name": "typing-spec",
+    "slug": "typing-spec"
+   },
+   {
+    "id": 39,
+    "name": "error-handling",
+    "slug": "error-handling"
+   },
+   {
+    "id": 49,
+    "name": "performance",
+    "slug": "performance"
+   },
+   {
+    "id": 34,
+    "name": "builtins",
+    "slug": "builtins"
+   },
+   {
+    "id": 38,
+    "name": "new-users",
+    "slug": "new-users"
+   },
+   {
+    "id": 63,
+    "name": "Windows",
+    "slug": "windows"
+   },
+   {
+    "id": 45,
+    "name": "security",
+    "slug": "security"
+   },
+   {
+    "id": 64,
+    "name": "pep",
+    "slug": "pep"
+   },
+   {
+    "id": 25,
+    "name": "solved",
+    "slug": "solved"
+   },
+   {
+    "id": 89,
+    "name": "free-threading",
+    "slug": "free-threading"
+   },
+   {
+    "id": 44,
+    "name": "sc-update",
+    "slug": "sc-update"
+   },
+   {
+    "id": 32,
+    "name": "dev-in-residence",
+    "slug": "dev-in-residence"
+   },
+   {
+    "id": 84,
+    "name": "logging",
+    "slug": "logging"
+   },
+   {
+    "id": 74,
+    "name": "review-request",
+    "slug": "review-request"
+   },
+   {
+    "id": 12,
+    "name": "GC",
+    "slug": "gc"
+   },
+   {
+    "id": 58,
+    "name": "github",
+    "slug": "github"
+   },
+   {
+    "id": 83,
+    "name": "argparse",
+    "slug": "argparse"
+   }
+  ],
+  "topics": [
+   {
+    "fancy_title": "Runtime docstrings for type aliases",
+    "id": 108901,
+    "title": "Runtime docstrings for type aliases",
+    "slug": "runtime-docstrings-for-type-aliases",
+    "posts_count": 1,
+    "reply_count": 0,
+    "highest_post_number": 1,
+    "image_url": null,
+    "created_at": "2026-09-06T01:34:41.117Z",
+    "last_posted_at": "2026-09-06T01:34:41.197Z",
+    "bumped": true,
+    "bumped_at": "2026-09-06T01:34:41.197Z",
+    "archetype": "regular",
+    "unseen": false,
+    "pinned": false,
+    "unpinned": null,
+    "visible": true,
+    "closed": false,
+    "archived": false,
+    "bookmarked": null,
+    "liked": null,
+    "tags": [
+     {
+      "id": 26,
+      "name": "typing",
+      "slug": "typing"
+     },
+     {
+      "id": 14,
+      "name": "documentation",
+      "slug": "documentation"
+     }
+    ],
+    "tags_descriptions": {},
+    "views": 30,
+    "like_count": 2,
+    "has_summary": false,
+    "last_poster_username": "bswck",
+    "category_id": 6,
+    "op_like_count": 2,
+    "pinned_globally": false,
+    "featured_link": null,
+    "has_accepted_answer": false,
+    "can_vote": false,
+    "posters": [
+     {
+      "extras": "latest single",
+      "description": "Original Poster, Most Recent Poster",
+      "user_id": 10313,
+      "primary_group_id": null,
+      "flair_group_id": null
+     }
+    ]
+   },
+   {
+    "fancy_title": "PEP 843: Export Statement for DRY Re-exports",
+    "id": 108687,
+    "title": "PEP 843: Export Statement for DRY Re-exports",
+    "slug": "pep-843-export-statement-for-dry-re-exports",
+    "posts_count": 114,
+    "reply_count": 95,
+    "highest_post_number": 118,
+    "image_url": null,
+    "created_at": "2026-08-21T19:09:01.643Z",
+    "last_posted_at": "2026-09-06T00:35:19.389Z",
+    "bumped": true,
+    "bumped_at": "2026-09-06T00:35:19.389Z",
+    "archetype": "regular",
+    "unseen": false,
+    "pinned": false,
+    "unpinned": null,
+    "visible": true,
+    "closed": false,
+    "archived": false,
+    "bookmarked": null,
+    "liked": null,
+    "tags": [],
+    "tags_descriptions": {},
+    "views": 2690,
+    "like_count": 173,
+    "has_summary": true,
+    "last_poster_username": "Melendowski",
+    "category_id": 19,
+    "op_like_count": 10,
+    "pinned_globally": false,
+    "featured_link": null,
+    "has_accepted_answer": false,
+    "can_vote": false,
+    "posters": [
+     {
+      "extras": null,
+      "description": "Original Poster",
+      "user_id": 5975,
+      "primary_group_id": null,
+      "flair_group_id": null
+     },
+     {
+      "extras": null,
+      "description": "Frequent Poster",
+      "user_id": 29461,
+      "primary_group_id": null,
+      "flair_group_id": null
+     },
+     {
+      "extras": null,
+      "description": "Frequent Poster",
+      "user_id": 6022,
+      "primary_group_id": null,
+      "flair_group_id": null
+     },
+     {
+      "extras": null,
+      "description": "Recent Poster",
+      "user_id": 35,
+      "primary_group_id": 41,
+      "flair_group_id": 41
+     },
+     {
+      "extras": "latest",
+      "description": "Most Recent Poster",
+      "user_id": 2882,
+      "primary_group_id": null,
+      "flair_group_id": null
+     }
+    ]
+   },
+   {
+    "fancy_title": "PEP 832: virtual environment discovery",
+    "id": 106998,
+    "title": "PEP 832: virtual environment discovery",
+    "slug": "pep-832-virtual-environment-discovery",
+    "posts_count": 173,
+    "reply_count": 140,
+    "highest_post_number": 175,
+    "image_url": null,
+    "created_at": "2026-04-15T22:20:49.081Z",
+    "last_posted_at": "2026-09-06T00:21:26.442Z",
+    "bumped": true,
+    "bumped_at": "2026-09-06T00:21:26.442Z",
+    "archetype": "regular",
+    "unseen": false,
+    "pinned": false,
+    "unpinned": null,
+    "visible": true,
+    "closed": false,
+    "archived": false,
+    "bookmarked": null,
+    "liked": null,
+    "tags": [],
+    "tags_descriptions": {},
+    "views": 11496,
+    "like_count": 345,
+    "has_summary": true,
+    "last_poster_username": "Fraetor",
+    "category_id": 19,
+    "op_like_count": 25,
+    "pinned_globally": false,
+    "featured_link": null,
+    "has_accepted_answer": false,
+    "can_vote": false,
+    "posters": [
+     {
+      "extras": null,
+      "description": "Original Poster",
+      "user_id": 36,
+      "primary_group_id": 41,
+      "flair_group_id": 41
+     },
+     {
+      "extras": null,
+      "description": "Frequent Poster",
+      "user_id": 35,
+      "primary_group_id": 41,
+      "flair_group_id": 41
+     },
+     {
+      "extras": null,
+      "description": "Frequent Poster",
+      "user_id": 88316,
+      "primary_group_id": null,
+      "flair_group_id": null
+     },
+     {
+      "extras": null,
+      "description": "Recent Poster",
+      "user_id": 54,
+      "primary_group_id": 41,
+      "flair_group_id": 41
+     },
+     {
+      "extras": "latest",
+      "description": "Most Recent Poster",
+      "user_id": 9977,
+      "primary_group_id": null,
+      "flair_group_id": null
+     }
+    ]
+   }
+  ]
+ }
+}

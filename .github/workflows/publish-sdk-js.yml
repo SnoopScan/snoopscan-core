@@ -1,0 +1,80 @@
+name: Publish JS SDK
+
+# Manual only. A version bump is a decision, not a side effect of pushing to
+# main — nothing here runs on every commit that happens to touch sdk/js.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: npm
+    defaults:
+      run:
+        working-directory: sdk/js
+    # id-token: write is the whole point — npm's Trusted Publisher flow
+    # (npm CLI >= 11.5.1) exchanges this run's OIDC token for publish
+    # permission, so no npm access token is ever generated, copied, or
+    # stored as a GitHub secret. One-time setup on npmjs.com: the
+    # `snoopscan` package's Settings -> Trusted Publisher, add a GitHub
+    # Actions publisher with owner=SnoopScan, repo=snoopscan,
+    # workflow=publish-sdk-js.yml, environment=npm.
+    #
+    # contents: read must be repeated here, not inherited: a job-level
+    # `permissions:` block REPLACES the workflow-level one for that job
+    # rather than merging with it. Without this line, actions/checkout
+    # gets a token scoped to nothing and fails with "repository not
+    # found" — the Python publish workflow never hits this because its
+    # checkout lives in a separate job with no permissions override at
+    # all, and only the job that never touches the repo (just downloads
+    # a build artifact) sets id-token: write.
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+
+      # Run the command the way a user gets it: packed, installed, and called
+      # through npm's bin symlink. Unit tests import the source, so they could
+      # not see that the installed `snoopscan` exited 0 having done nothing
+      # (0.3.0 and 0.4.0 shipped like that). No key is set, so a working
+      # command must print the "No API key yet" help and exit 1.
+      - name: Smoke-test the installed command
+        run: |
+          npm pack --pack-destination /tmp >/dev/null
+          mkdir /tmp/smoke && cd /tmp/smoke && npm init -y >/dev/null
+          npm install /tmp/snoopscan-*.tgz >/dev/null
+          set +e
+          out=$(XDG_CONFIG_HOME=/tmp/smoke ./node_modules/.bin/snoopscan scrape https://example.com 2>&1)
+          code=$?
+          set -e
+          echo "$out"
+          [ "$code" = "1" ] && echo "$out" | grep -q "snoopscan login"
+
+      # Trusted Publishing needs npm >= 11.5.1, and Node 20 does NOT ship it.
+      # This comment used to claim it did: the 0.1.4 release ran npm 10.8.2,
+      # never made the OIDC exchange, fell back to setup-node's placeholder
+      # token, and was refused with a 404 (npm answers 404, not 403, when it
+      # will not say whether a package exists). Upgrade explicitly.
+      - run: npm install -g npm@^11.5.1
+      - run: npm --version
+
+      # No --provenance: npm only accepts provenance from PUBLIC source
+      # repositories, and this one is private — the 0.1.4 release was refused
+      # with E422 for exactly that. Trusted Publishing itself works with a
+      # private repository; it is only the public attestation that does not.
+      # Put the flag back if the repository is ever made public.
+      - run: npm publish --access public

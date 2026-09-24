@@ -1,0 +1,56 @@
+[
+ {
+  "id": 3161049,
+  "date": "2026-09-05T15:49:55",
+  "modified": "2026-09-05T15:50:03",
+  "link": "https://techcrunch.com/2026/09/05/seattle-times-and-newsday-are-the-latest-publications-to-sue-openai-and-microsoft/",
+  "title": {
+   "rendered": "Seattle Times and Newsday are the latest publications to sue OpenAI and Microsoft"
+  },
+  "content": {
+   "rendered": "\n<p id=\"speakable-summary\" class=\"wp-block-paragraph\">Two more news organizations are suing OpenAI and Microsoft over the supposed use of their journalism to train AI.</p>\n\n<p class=\"wp-block-paragraph\"><a rel=\"nofollow\" href=\"https://storage.courtlistener.com/recap/gov.uscourts.nysd.672142/gov.uscourts.nysd.672142.1.0.pdf\">A lawsuit</a> filed by The Seattle Times and Newsday argued that with the advent of AI, the journalism industry could become \u201cbroken beyond repair.\u201d The lawsuit described generative AI as \u201ca snake eating its own tail\u201d that could \u201cdestroy the very organizations\u201d that produce the content it\u2019s trained on.</p>\n\n<p class=\"wp-block-paragraph\">\u201cAI products like ChatGPT and CoPilot are touted as producers of content, but in fact they are rapacious consumers, devouring human-authored content and delivering back to the world copies and derivative imitations of that same original content they consumed to achieve their commercial objectives,\u201d the lawsuit said.</p>\n\n<p class=\"wp-block-paragraph\">Back in 2023, <a href=\"https://techcrunch.com/2023/12/27/the-new-york-times-wants-openai-and-microsoft-to-pay-for-training-data/\">The New York Times sued OpenAI and its partner/investor Microsoft</a> over alleged copyright infringement; other publications have followed suit as the case continued. The Seattle Times\u2019 lawsuit is particularly notable because Microsoft and OpenAI have funded some of the organization\u2019s journalism projects and fellowships.</p>\n\n<p class=\"wp-block-paragraph\">A Microsoft spokesperson <a rel=\"nofollow\" href=\"https://www.geekwire.com/2026/seattle-times-sues-microsoft-and-openai-alleging-they-trained-their-ai-on-its-journalism/\">told GeekWire</a> that the company is \u201csurprised by the lawsuit\u201d but is \u201calways happy to sit down and explore solutions to this type of dispute.\u201d</p>\n",
+   "protected": false
+  },
+  "excerpt": {
+   "rendered": "<p>Two more news organizations are suing OpenAI and Microsoft over the supposed use of their journalism to train AI.</p>\n",
+   "protected": false
+  },
+  "author": 31035538
+ },
+ {
+  "id": 3161045,
+  "date": "2026-09-05T12:35:24",
+  "modified": "2026-09-05T13:00:28",
+  "link": "https://techcrunch.com/2026/09/05/hikers-rescued-after-using-google-gemini-for-planning/",
+  "title": {
+   "rendered": "Hikers rescued after using Google Gemini for planning"
+  },
+  "content": {
+   "rendered": "\n<p id=\"speakable-summary\" class=\"wp-block-paragraph\">Three hikers were rescued from California\u2019s Mount Shasta this week after using Google\u2019s AI chatbot Gemini to plan their expedition, <a rel=\"nofollow\" href=\"https://www.chicagotribune.com/2026/09/03/mount-shasta-rescue-ai-planning/\">according to the Chicago Tribune</a>.</p>\n\n<p class=\"wp-block-paragraph\">A report from the Siskiyou County sheriff\u2019s office said that three young men set off on their hike at 3am and \u2014 although hikers are told to turn around if they haven\u2019t reached the summit by noon \u2014 they made it to the top at 7pm.&nbsp;</p>\n\n<p class=\"wp-block-paragraph\">The trio then tried to descend in the dark, called the sheriff\u2019s office to ask for directions, and spent the night in Mud Creek Canyon before being rescued the next morning by Forest Service rangers and volunteers.</p>\n\n<p class=\"wp-block-paragraph\">While it\u2019s not clear whether Gemini can take all the blame for these bad decisions, the sheriff\u2019s office said the hikers \u201cwere advised by Gemini to bring far less food and water than their group required, especially when their planned 8-hour ascent became a multiday ordeal.\u201d</p>\n\n<p class=\"wp-block-paragraph\">\u201cIt is always advisable to call the local USFS Mount Shasta ranger station ahead of your trip to ensure you have the most accurate information, and to never rely solely on AI for your trip planning,\u201d the sheriff\u2019s office said.</p>\n",
+   "protected": false
+  },
+  "excerpt": {
+   "rendered": "<p>The sheriff\u2019s office said the hikers \u201cwere advised by Gemini to bring far less food and water than their group required.&#8221;</p>\n",
+   "protected": false
+  },
+  "author": 31035538
+ },
+ {
+  "id": 3161042,
+  "date": "2026-09-05T11:05:27",
+  "modified": "2026-09-05T11:05:34",
+  "link": "https://techcrunch.com/2026/09/05/openai-confirms-wiki-incident-says-its-working-on-a-framework-for-more-disclosure/",
+  "title": {
+   "rendered": "OpenAI confirms \u2018wiki incident,\u2019 says it\u2019s \u2018working on a framework\u2019 for more disclosure"
+  },
+  "content": {
+   "rendered": "\n<p id=\"speakable-summary\" class=\"wp-block-paragraph\">OpenAI has acknowledged its role in a recently reported incident where <a href=\"https://techcrunch.com/2026/09/04/another-swarm-of-openai-agents-reached-the-open-internet-without-the-frontier-labs-knowledge/\">AI agents took over a German wiki forum</a>. The company also said it\u2019s \u201cpast time\u201d to \u201cdefine standards\u201d around how it shares information around incidents where its technology behaves in unexpected ways.</p>\n\n<p class=\"wp-block-paragraph\">In <a rel=\"nofollow\" href=\"https://x.com/OpenAI/status/2096133504417616165\">a post on X</a>, OpenAI said it previously \u201ctreated misalignment [when AI models and agents pursue goals different from those of their creators and users] largely as a research question, which gets communicated in research publications.\u201d But as misalignment has \u201ccaused new types of real-world impact,\u201d the company said its approach needs \u201cto expand for this new phase of model capabilities.\u201d</p>\n\n<p class=\"wp-block-paragraph\">On Friday, <a rel=\"nofollow\" href=\"https://www.reuters.com/world/europe/openai-agents-hijacked-german-website-previously-undisclosed-ai-breakout-this-2026-09-04/\">Reuters reported</a> that OpenAI agents had escaped from their testing environment and \u201chijacked\u201d an obscure German wiki forum, turning it into a message board for other agents. It also reported that OpenAI leadership became aware of the incident weeks ago but kept it hidden as the company dealt with the fallout from a separate incident where <a href=\"https://techcrunch.com/2026/08/26/openai-releases-its-official-report-on-the-hugging-face-breach/\">OpenAI agents hacked Hugging Face servers</a>. (California Attorney General Rob Bonta is <a rel=\"nofollow\" href=\"https://www.politico.com/news/2026/09/04/california-investigation-openai-hugging-face-hack-01065800\">reportedly investigating the hack</a>.)</p>\n\n<p class=\"wp-block-paragraph\">A company spokesperson told Reuters that OpenAI could not \u201cmeaningfully respond to claims or findings on a report that we have not had an opportunity to review,\u201d but they insisted that the company\u2019s legal team had not discouraged an investigation.</p>\n\n<p class=\"wp-block-paragraph\">In its more recent social media post, OpenAI said it had considered the \u201cwiki incident\u201d to be \u201can instance of misalignment similar\u201d to others that it had already shared. The company contrasted this with \u201cthe Hugging Face incident,\u201d where it \u201cfollowed a traditional security incident response playbook.\u201d</p>\n\n<p class=\"wp-block-paragraph\"><a href=\"https://techcrunch.com/2026/09/04/openais-rogue-agents-keep-escaping-with-no-formal-process-to-investigate-them/\">During a media briefing this week</a>, Jacob Steinhardt, founder and CEO of nonprofit research lab Transluce, told reporters that the tools being developed and tested by AI labs are \u201cfundamentally difficult to control and have significant risk of leaking out of the lab.\u201d So Steinhardt argued, \u201cWe need to hold this technology to at least the same standards we hold other high-risk scientific research to.\u201d</p>\n\n<p class=\"wp-block-paragraph\">OpenAI\u2019s statement also gestured at the need for more standards, stating that both OpenAI and \u201cthe larger AI community do not yet have a clear standard for how to report misalignment that shows up during training, evaluation, and deployment, including examples that don\u2019t look like traditional security incidents but could provide insight into AI behavior and future risks.\u201d</p>\n<div class=\"jw-player-inline-promo wp-block-techcrunch-jw-player-embed\">\n\t<div id=\"jwplayer_6a9cd3d4c8e7c\"></div>\n\t<script class=\"tcembed-script tcembed-script\" type=\"text/javascript\" src=\"https://content.jwplatform.com/libraries/0NX4vsNk.js\"></script>\n\t<script>\n\t\tvar playerInstance_jwplayer_6a9cd3d4c8e7c = jwplayer( \"jwplayer_6a9cd3d4c8e7c\" );\n\t\tplayerInstance_jwplayer_6a9cd3d4c8e7c.setup({\n\t\t\tplaylist: \"https://cdn.jwplayer.com/v2/media/zE7I4MMa\",\n\t\t\t\t\t\t\t\t});\n\t</script>\n</div>\n\n<p class=\"wp-block-paragraph\">In the absence of that standard, OpenAI said it\u2019s \u201cworking on a framework and will share it in upcoming weeks, and in parallel we&#8217;re working with dozens of government regulatory agencies worldwide on these issues.\u201d</p>\n\n<p class=\"wp-block-paragraph\">OpenAI isn\u2019t the only AI company dealing with these issues, as both Meta and Anthropic have <a href=\"https://techcrunch.com/2026/07/27/openais-hugging-face-breach-has-reignited-the-debate-over-alignment-and-control/\">acknowledged incidents where their agents misbehaved</a>.</p>\n",
+   "protected": false
+  },
+  "excerpt": {
+   "rendered": "<p>OpenAI acknowledged its role in a recently reported incident where AI agents took over a German wiki forum.</p>\n",
+   "protected": false
+  },
+  "author": 31035538
+ }
+]

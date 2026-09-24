@@ -1,0 +1,219 @@
+# Prometheus alerting rules — 07-orchestration.md section 10.
+#
+# Every rule here is checked by engine/tests/test_alerts.py, which asserts that
+# each metric an expression references actually exists in the registry. An
+# alert naming a metric that was renamed does not error: it silently evaluates
+# to nothing, for ever, and looks exactly like a healthy system. That is the
+# specific failure this file is written to make impossible.
+#
+# Thresholds are deliberately not tighter than the evidence supports. Two of
+# them are marked `provisional` and should be revisited once a fortnight of
+# production data exists — an alert tuned by guesswork gets silenced, and a
+# silenced alert is worse than an absent one because it looks like coverage.
+
+groups:
+  - name: engine-cost
+    interval: 1m
+    rules:
+      # Bandwidth is the dominant real cost. The 100% case is not "spend more",
+      # it is "the budget stopped us and work is now going out direct" — which
+      # is the designed behaviour, but someone needs to know it happened.
+      - alert: ProxyBandwidthNearCap
+        expr: |
+          engine_proxy_budget_used_ratio >= 0.8 < 1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Proxy bandwidth at {{ $value | humanizePercentage }} of the daily cap"
+          runbook: "docs/RUNBOOK.md#the-proxy-bill-is-climbing"
+          description: >
+            Check mb_per_success first. Above roughly 0.15MB per successful page
+            means assets are not being blocked, which is a bug rather than
+            growth.
+
+      - alert: ProxyBandwidthExhausted
+        expr: engine_proxy_budget_used_ratio >= 1
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Proxy budget exhausted — proxied requests are being refused"
+          runbook: "docs/RUNBOOK.md#the-proxy-bill-is-climbing"
+          description: >
+            The engine continues DIRECT rather than failing. Success rate on
+            protected domains will fall until the window resets.
+
+      # A rising average escalation depth means we are paying more per page for
+      # the same work, before any block shows up as an outright failure.
+      - alert: EscalationDepthRising
+        expr: |
+          (
+            sum(rate(engine_escalation_depth_sum[1h]))
+            / sum(rate(engine_escalation_depth_count[1h]))
+          )
+          > 1.5 *
+          (
+            sum(rate(engine_escalation_depth_sum[24h] offset 24h))
+            / sum(rate(engine_escalation_depth_count[24h] offset 24h))
+          )
+        for: 30m
+        labels:
+          severity: warning
+          provisional: "true"
+        annotations:
+          summary: "Average escalation depth is half again what it was yesterday"
+          runbook: "docs/RUNBOOK.md#escalation-and-cost"
+
+  - name: engine-blocking
+    interval: 1m
+    rules:
+      # Tier 1 specifically, because the likely cause is ours rather than
+      # theirs: ENGINE_IMPERSONATE_PROFILE is pinned, and a pinned browser
+      # profile goes stale as Chrome ships.
+      - alert: Tier1BlockRateRising
+        expr: |
+          sum(rate(engine_blocks_total{tier="impersonate"}[1h]))
+          / sum(rate(engine_fetch_attempts_total{tier="impersonate"}[1h]))
+          > 0.2
+        for: 30m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Tier 1 block rate above 20% — likely fingerprint drift"
+          runbook: "docs/RUNBOOK.md#escalation-and-cost"
+          description: >
+            Test a newer impersonation profile against the checkpoint set
+            before promoting it. Do not raise min_working_tier to compensate;
+            that pays browser prices for a stale header.
+
+      - alert: BlockRateJumped
+        expr: |
+          sum(rate(engine_blocks_total[6h])) / sum(rate(engine_fetch_attempts_total[6h]))
+          - sum(rate(engine_blocks_total[6h] offset 7d))
+            / sum(rate(engine_fetch_attempts_total[6h] offset 7d))
+          > 0.2
+        for: 1h
+        labels:
+          severity: warning
+        annotations:
+          summary: "Block rate up more than 20 points week-over-week"
+          runbook: "docs/RUNBOOK.md#everything-on-one-domain-suddenly-fails"
+
+      # A spike is either a decoy campaign or a broken threshold, and those need
+      # opposite responses — so the alert says so rather than implying a cause.
+      - alert: PlausibilityRejectionsSpiking
+        expr: sum(rate(engine_plausibility_rejections_total[15m])) > 0.5
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Content is being refused as implausible at an unusual rate"
+          runbook: "docs/RUNBOOK.md#is-this-content-real"
+          description: >
+            Either a decoy campaign or a broken threshold. A false positive
+            discards real content, so confirm which before tightening anything.
+
+  - name: engine-quality
+    interval: 1m
+    rules:
+      # The silent one. Output still looks like text, so nothing errors.
+      - alert: ExtractionConfidenceFalling
+        expr: |
+          (
+            sum(rate(engine_extraction_confidence_sum[6h]))
+            / sum(rate(engine_extraction_confidence_count[6h]))
+          ) < 0.6
+        for: 1h
+        labels:
+          severity: warning
+        annotations:
+          summary: "Mean extraction confidence below 0.6"
+          runbook: "docs/RUNBOOK.md#extraction-quality-dropped"
+          description: >
+            Run tools/extraction_score.py --check. Do NOT re-baseline to make
+            it green; that discards the only signal there is.
+
+      # A shift to the fallback path means the routed extractor is failing and
+      # the cross-check is rescuing it. That works, and it is still a warning.
+      - alert: ExtractionFallingBackTooOften
+        expr: |
+          sum(rate(engine_extraction_path_total{path="fallback"}[1h]))
+          / sum(rate(engine_extraction_path_total[1h]))
+          > 0.25
+        for: 30m
+        labels:
+          severity: warning
+          provisional: "true"
+        annotations:
+          summary: "Over a quarter of extractions are taking the fallback path"
+          runbook: "docs/RUNBOOK.md#pages-come-back-nearly-empty"
+
+  - name: engine-throughput
+    interval: 1m
+    rules:
+      - alert: QueueDepthGrowing
+        expr: |
+          min_over_time(engine_queue_depth[30m]) > 100
+          and deriv(engine_queue_depth[30m]) > 0
+        for: 30m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Queue {{ $labels.queue }} has grown for 30 minutes"
+          runbook: "docs/RUNBOOK.md#a-crawl-will-not-finish"
+          description: >
+            The `min_over_time` guard means a brief spike does not fire this.
+            Sustained growth means discovery is outpacing fetching.
+
+      # Sustained equality with pool size means requests are queueing for a
+      # browser, which shows up as latency rather than as an error.
+      - alert: BrowserPoolSaturated
+        expr: |
+          engine_browser_pool_in_use >= engine_browser_pool_size
+          and engine_browser_pool_size > 0
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Every browser in the pool has been checked out for 15 minutes"
+          runbook: "docs/RUNBOOK.md#escalation-and-cost"
+
+      - alert: CacheHitRateCollapsed
+        expr: |
+          sum(rate(engine_cache_total{result="hit"}[1h]))
+          / sum(rate(engine_cache_total[1h]))
+          < 0.1
+        for: 1h
+        labels:
+          severity: warning
+        annotations:
+          summary: "Cache hit rate below 10% — spend will rise accordingly"
+          runbook: "docs/RUNBOOK.md#the-proxy-bill-is-climbing"
+
+  - name: engine-availability
+    interval: 30s
+    rules:
+      # Postgres down is a full outage by design: serving stale or partial
+      # results is worse than serving none. 06-storage.md.
+      - alert: EngineDown
+        expr: up{job="engine"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Engine instance {{ $labels.instance }} is not responding"
+          runbook: "docs/RUNBOOK.md#first-moves-for-any-incident"
+
+      - alert: NoFetchesAtAll
+        expr: sum(rate(engine_fetch_attempts_total[15m])) == 0
+        for: 15m
+        labels:
+          severity: critical
+        annotations:
+          summary: "No fetch has been attempted in 15 minutes"
+          runbook: "docs/RUNBOOK.md#first-moves-for-any-incident"
+          description: >
+            The engine is up and doing nothing, which no other alert here
+            catches — every rate-based rule reads healthy when the numerator
+            and denominator are both zero.

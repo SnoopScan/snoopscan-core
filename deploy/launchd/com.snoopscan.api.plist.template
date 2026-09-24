@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.snoopscan.api</string>
+
+  <!-- Absolute paths in an ARRAY, never one shell string: the repo path
+       contains a space and a shell would split it. -->
+  <key>ProgramArguments</key>
+  <array>
+    <!-- python -m uvicorn, never .venv/bin/uvicorn. That console script is a
+         `#!/bin/sh` wrapper (pip writes one whenever the venv path contains a
+         space, and this one does), so launchd execs /bin/sh, which is denied
+         reading the script out of ~/Documents under TCC: exit 126, "Operation
+         not permitted", while the worker and scheduler on the same repo run
+         fine. Exec the venv's python directly, like the other two. -->
+    <string>__REPO__/.venv/bin/python</string>
+    <string>-m</string><string>uvicorn</string>
+    <string>engine.api.app:app</string>
+    <string>--host</string><string>127.0.0.1</string>
+    <string>--port</string><string>8099</string>
+  </array>
+
+  <!-- settings.py reads .env relative to the working directory. -->
+  <key>WorkingDirectory</key><string>__REPO__</string>
+
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <!-- launchd's floor is 10s; being explicit stops a bad config thrashing. -->
+  <key>ThrottleInterval</key><integer>10</integer>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <!-- launchd gives a bare PATH; Homebrew's libs (libpq, redis) live here. -->
+    <key>PATH</key><string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    <key>PYTHONUNBUFFERED</key><string>1</string>
+  </dict>
+
+  <key>StandardOutPath</key><string>__LOGS__/api.log</string>
+  <key>StandardErrorPath</key><string>__LOGS__/api.log</string>
+</dict>
+</plist>

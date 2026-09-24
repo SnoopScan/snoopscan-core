@@ -1,0 +1,89 @@
+# Boilerplate phrase list (04-extraction.md section 6).
+#
+# A DATA FILE so it can be extended without a deploy.
+#
+# Applied CONSERVATIVELY. Removing genuine content is worse than leaving a
+# stray cookie line, so every rule here has a fixture test proving it does not
+# eat real text. Phrases match case-insensitively against a whole line, and a
+# line is only dropped when it is short — a paragraph that happens to mention
+# cookies is real content.
+
+# Maximum length of a line eligible for phrase-based removal. Longer lines are
+# prose and are left alone even on a match.
+max_line_chars: 200
+
+# A line is dropped when it starts with, or is entirely, one of these.
+phrases:
+  # Cookie / consent
+  - "we use cookies"
+  - "we and our partners use cookies"
+  - "this website uses cookies"
+  - "this site uses cookies"
+  - "accept all cookies"
+  - "accept cookies"
+  - "reject all"
+  - "manage cookies"
+  - "manage preferences"
+  - "cookie preferences"
+  - "cookie policy"
+  - "your privacy choices"
+  - "we value your privacy"
+  - "by continuing to browse"
+  - "diese website verwendet cookies"
+  - "ce site utilise des cookies"
+  - "utilizamos cookies"
+  - "questo sito utilizza i cookie"
+  - "wij gebruiken cookies"
+
+  # Newsletter / subscribe
+  - "subscribe to our newsletter"
+  - "sign up for our newsletter"
+  - "sign up for updates"
+  - "join our newsletter"
+  - "get the latest news"
+  - "enter your email"
+  - "subscribe now"
+  - "never miss an update"
+
+  # Social / share
+  - "share this article"
+  - "share on facebook"
+  - "share on twitter"
+  - "share on linkedin"
+  - "follow us on"
+  - "tweet this"
+
+  # Nav / chrome
+  - "skip to content"
+  - "skip to main content"
+  - "back to top"
+  - "toggle navigation"
+  - "main menu"
+  - "search this site"
+  - "javascript is disabled"
+  - "please enable javascript"
+  - "your browser is out of date"
+
+  # Recirculation labels are NOT listed here on purpose. They are handled by
+  # `trailing_section_headings` below, which only removes them at the tail of
+  # the document. A blanket phrase match would delete a legitimate
+  # "Related articles" heading in the middle of a page and keep the content
+  # under it, which is worse than leaving the heading alone.
+  - "sponsored content"
+
+# Headings that mark the end of main content. Everything after one of these,
+# at the tail of the document, is recirculation rather than content.
+trailing_section_headings:
+  - "related articles"
+  - "related posts"
+  - "you may also like"
+  - "more like this"
+  - "recommended for you"
+  - "recommended reading"
+  - "read next"
+  - "further reading"
+  - "trending now"
+  - "most popular"
+  - "comments"
+  - "leave a reply"
+  - "leave a comment"

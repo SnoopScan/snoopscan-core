@@ -1,0 +1,972 @@
+{
+ "website": {
+  "baseUrl": "https://www.flourandbranch.com",
+  "siteTitle": "Flour &amp; Branch"
+ },
+ "collection": {
+  "id": "5f2304520562d96cc258c7cf",
+  "type": 13,
+  "title": "Shop",
+  "fullUrl": "/shop",
+  "itemCount": 39
+ },
+ "pagination": null,
+ "items": [
+  {
+   "id": "6545583280dbf5603cb2582f",
+   "collectionId": "5f2304520562d96cc258c7cf",
+   "recordType": 11,
+   "addedOn": 1623469635275,
+   "updatedOn": 1787859155105,
+   "displayIndex": 0,
+   "starred": true,
+   "passthrough": false,
+   "categoryIds": [
+    "5f234266784b986c4ed68a5b"
+   ],
+   "workflowState": 1,
+   "publishOn": 1762043330246,
+   "authorId": "5f6d4edaf52bd37e3669f824",
+   "systemDataId": "a06551cc-d459-4260-aa46-e4531ed59d76",
+   "systemDataVariants": "1365x2048,100w,300w,500w,750w,1000w",
+   "systemDataSourceType": "JPEG",
+   "filename": "9W4A3887.jpeg",
+   "mediaFocalPoint": {
+    "x": 0.5,
+    "y": 0.5,
+    "source": 3
+   },
+   "colorData": {
+    "topLeftAverage": "2e251e",
+    "topRightAverage": "181813",
+    "bottomLeftAverage": "382c26",
+    "bottomRightAverage": "1b1f1c",
+    "centerAverage": "ad7c42",
+    "suggestedBgColor": "68452c"
+   },
+   "urlId": "holiday-desserts",
+   "title": "Holiday Specialty Dessert Pre-Order - For Pickup Only",
+   "body": null,
+   "excerpt": "<h2 style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">SOLD OUT FOR THE SEASON</h2><h4 style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Lux Cookie Gift Box: 4 of each cookie</h4><ol data-rte-list=\"true\"><li><p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Lemon Wedding Cake Cookie: filled with lemon curd, dipped in dark chocolate</p></li><li><p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Alfajores: shortbread cookie with dulce de leche filling</p></li><li><p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Babes: palmier style cookie filled with dulce de leche filling</p></li><li><p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\">Almond Shortbread: shortbread cookie dipped in chocolate and sprinkled with almonds</p><p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"></p></li></ol><h4 style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><br /><strong>\u200bHoliday Pies - 9\" pie crust, served in a white box with bow (optional):</strong></h4><p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><strong>Apple Pecan Pie<span>\u200b </span></strong><span>- 9\" - </span>House flakey pie crust with house apple pie filling, topped with pecan streusel.</p><p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><strong>Berry Marzipan Pie</strong><span>\u200b - 9\" - </span>House flakey pie crust with mixed berries and a marzipan streusel, topped with braided pie crust.&nbsp;</p><p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><strong>Sweet Potato Pie</strong> - 9\u201d - House flakey pie crust with sweet potato filling, topped with cardamom cream .</p><p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><strong>Chicken Pot Pie </strong>- 6\u201d - House flakey pie crust with house mornay sauce, roasted chicken, and mixed vegetables. 6\" pie crust.</p><p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"></p><h4 style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"><strong>Buche de Noel  </strong>- delicate vanilla sponge cake with chocolate buttercream and house raspberry jam. Approx. 8\u201d. </h4><p style=\"white-space:pre-wrap;\" data-rte-preserve-empty=\"true\"></p>",
+   "likeCount": 0,
+   "commentCount": 0,
+   "publicCommentCount": 0,
+   "commentState": 1,
+   "unsaved": false,
+   "fullUrl": "/shop/p/holiday-desserts",
+   "assetUrl": "https://images.squarespace-cdn.com/content/v1/5f230415528b5d74fb6acbcc/a06551cc-d459-4260-aa46-e4531ed59d76/9W4A3887.jpeg",
+   "contentType": "image/jpeg",
+   "structuredContent": {
+    "_type": "StoreItem",
+    "priceCents": 0,
+    "salePriceCents": 0,
+    "priceMoney": {
+     "currency": "USD",
+     "value": "0.00"
+    },
+    "salePriceMoney": {
+     "currency": "USD",
+     "value": "0.00"
+    },
+    "onSale": false,
+    "productType": 1,
+    "additionalFieldsFormId": "654579b7136a786901ce283f",
+    "customAddButtonText": "Preorder",
+    "useCustomAddButtonText": true,
+    "additionalFieldsForm": {
+     "id": "654579b7136a786901ce283f",
+     "type": 2,
+     "name": "Choose Your Pickup Date & Time",
+     "fields": [
+      "{\"type\":\"select\",\"id\":\"select-yui_3_17_2_1_1699046111592_31539\",\"locked\":false,\"title\":\"Pickup Date & Time\",\"description\":\"Please select your desired pickup date & time. \",\"options\":[],\"required\":true,\"select\":true,\"followUpQuestions\":[]}"
+     ],
+     "parsedFields": [],
+     "submitButtonText": "Submit",
+     "submissionMessage": "{\"html\":\"Thank you!\"}",
+     "disclaimerMessage": "null",
+     "successRedirect": "",
+     "captchaEnabled": false,
+     "captchaTheme": 1,
+     "captchaAlignment": 1
+    },
+    "variants": [
+     {
+      "attributes": {
+       "Holiday Specialty Desserts": "Apple Pecan Pie\u200b - 9\""
+      },
+      "optionValues": [
+       {
+        "optionName": "Holiday Specialty Desserts",
+        "value": "Apple Pecan Pie\u200b - 9\""
+       }
+      ],
+      "id": "ce2cdd8c-7352-4761-88f5-507465b34d89",
+      "sku": "SQ0988845",
+      "price": 5000,
+      "salePrice": 0,
+      "priceMoney": {
+       "currency": "USD",
+       "value": "50.00"
+      },
+      "salePriceMoney": {
+       "currency": "USD",
+       "value": "0.00"
+      },
+      "onSale": false,
+      "unlimited": true,
+      "qtyInStock": 0,
+      "width": 0.0,
+      "height": 0.0,
+      "weight": 0.0,
+      "imageIds": [],
+      "mainImageId": "673cabb6e0129c27ae02a28d",
+      "images": [],
+      "mainImage": {
+       "id": "673cabb6e0129c27ae02a28d",
+       "assetUrl": "https://images.squarespace-cdn.com/content/v1/5f230415528b5d74fb6acbcc/7299d77c-5e18-40b2-8c18-ce7d1306c8a5/9W4A3901.jpeg",
+       "systemDataSourceType": "JPEG",
+       "systemDataVariants": "1365x2048,100w,300w,500w,750w,1000w",
+       "originalSize": "1365x2048",
+       "mediaFocalPoint": {
+        "x": 0.5,
+        "y": 0.5,
+        "source": 3
+       },
+       "title": "",
+       "displayIndex": 2
+      },
+      "len": 0.0
+     },
+     {
+      "attributes": {
+       "Holiday Specialty Desserts": "Berry Marzipan Pie\u200b - 9\""
+      },
+      "optionValues": [
+       {
+        "optionName": "Holiday Specialty Desserts",
+        "value": "Berry Marzipan Pie\u200b - 9\""
+       }
+      ],
+      "id": "e9aaea06-7a8d-448d-89db-3f44c9a05182",
+      "sku": "SQ3423040",
+      "price": 5000,
+      "salePrice": 0,
+      "priceMoney": {
+       "currency": "USD",
+       "value": "50.00"
+      },
+      "salePriceMoney": {
+       "currency": "USD",
+       "value": "0.00"
+      },
+      "onSale": false,
+      "unlimited": true,
+      "qtyInStock": 0,
+      "width": 0.0,
+      "height": 0.0,
+      "weight": 0.0,
+      "imageIds": [],
+      "images": [],
+      "len": 0.0
+     },
+     {
+      "attributes": {
+       "Holiday Specialty Desserts": "Sweet Potato Pie - 9\""
+      },
+      "optionValues": [
+       {
+        "optionName": "Holiday Specialty Desserts",
+        "value": "Sweet Potato Pie - 9\""
+       }
+      ],
+      "id": "11b6a869-fb23-4209-a069-4078da8a0321",
+      "sku": "SQ0370053",
+      "price": 5000,
+      "salePrice": 0,
+      "priceMoney": {
+       "currency": "USD",
+       "value": "50.00"
+      },
+      "salePriceMoney": {
+       "currency": "USD",
+       "value": "0.00"
+      },
+      "onSale": false,
+      "unlimited": true,
+      "qtyInStock": 0,
+      "width": 0.0,
+      "height": 0.0,
+      "weight": 0.0,
+      "imageIds": [],
+      "mainImageId": "673cabb6e0129c27ae02a28b",
+      "images": [],
+      "mainImage": {
+       "id": "673cabb6e0129c27ae02a28b",
+       "assetUrl": "https://images.squarespace-cdn.com/content/v1/5f230415528b5d74fb6acbcc/e6e2f3cf-430e-4181-a8d3-0d4ee147bbc4/9W4A3872.jpeg",
+       "systemDataSourceType": "JPEG",
+       "systemDataVariants": "1365x2048,100w,300w,500w,750w,1000w",
+       "originalSize": "1365x2048",
+       "mediaFocalPoint": {
+        "x": 0.5,
+        "y": 0.5,
+        "source": 3
+       },
+       "title": "",
+       "displayIndex": 1
+      },
+      "len": 0.0
+     },
+     {
+      "attributes": {
+       "Holiday Specialty Desserts": "Chicken Pot Pie - 6\""
+      },
+      "optionValues": [
+       {
+        "optionName": "Holiday Specialty Desserts",
+        "value": "Chicken Pot Pie - 6\""
+       }
+      ],
+      "id": "9c4c19cf-851a-438c-8371-b3755ef31cf0",
+      "sku": "SQ4849206",
+      "price": 3000,
+      "salePrice": 0,
+      "priceMoney": {
+       "currency": "USD",
+       "value": "30.00"
+      },
+      "salePriceMoney": {
+       "currency": "USD",
+       "value": "0.00"
+      },
+      "onSale": false,
+      "unlimited": true,
+      "qtyInStock": 0,
+      "width": 0.0,
+      "height": 0.0,
+      "weight": 0.0,
+      "imageIds": [],
+      "mainImageId": "673cabb6f2f9042b15c3fe65",
+      "images": [],
+      "mainImage": {
+       "id": "673cabb6f2f9042b15c3fe65",
+       "assetUrl": "https://images.squarespace-cdn.com/content/v1/5f230415528b5d74fb6acbcc/017fb892-6674-4740-8d0f-b6d445e44789/9W4A3911.jpeg",
+       "systemDataSourceType": "JPEG",
+       "systemDataVariants": "1365x2048,100w,300w,500w,750w,1000w",
+       "originalSize": "1365x2048",
+       "mediaFocalPoint": {
+        "x": 0.5,
+        "y": 0.5,
+        "source": 3
+       },
+       "title": "",
+       "displayIndex": 4
+      },
+      "len": 0.0
+     },
+     {
+      "attributes": {
+       "Holiday Specialty Desserts": "Buche De Noel"
+      },
+      "optionValues": [
+       {
+        "optionName": "Holiday Specialty Desserts",
+        "value": "Buche De Noel"
+       }
+      ],
+      "id": "c310988b-5170-4249-9273-40b8e1d61deb",
+      "sku": "SQ6972710",
+      "price": 9000,
+      "salePrice": 0,
+      "priceMoney": {
+       "currency": "USD",
+       "value": "90.00"
+      },
+      "salePriceMoney": {
+       "currency": "USD",
+       "value": "0.00"
+      },
+      "onSale": false,
+      "unlimited": true,
+      "qtyInStock": 0,
+      "width": 0.0,
+      "height": 0.0,
+      "weight": 0.0,
+      "imageIds": [],
+      "mainImageId": "673cabb6f2f9042b15c3fe65",
+      "images": [],
+      "mainImage": {
+       "id": "673cabb6f2f9042b15c3fe65",
+       "assetUrl": "https://images.squarespace-cdn.com/content/v1/5f230415528b5d74fb6acbcc/017fb892-6674-4740-8d0f-b6d445e44789/9W4A3911.jpeg",
+       "systemDataSourceType": "JPEG",
+       "systemDataVariants": "1365x2048,100w,300w,500w,750w,1000w",
+       "originalSize": "1365x2048",
+       "mediaFocalPoint": {
+        "x": 0.5,
+        "y": 0.5,
+        "source": 3
+       },
+       "title": "",
+       "displayIndex": 4
+      },
+      "len": 0.0
+     },
+     {
+      "attributes": {
+       "Holiday Specialty Desserts": "Cookie Gift Box"
+      },
+      "optionValues": [
+       {
+        "optionName": "Holiday Specialty Desserts",
+        "value": "Cookie Gift Box"
+       }
+      ],
+      "id": "13f58b2e-ab9f-4a09-ba22-0cec3cb5f353",
+      "sku": "SQ6952859",
+      "price": 5800,
+      "salePrice": 0,
+      "priceMoney": {
+       "currency": "USD",
+       "value": "58.00"
+      },
+      "salePriceMoney": {
+       "currency": "USD",
+       "value": "0.00"
+      },
+      "onSale": false,
+      "unlimited": true,
+      "qtyInStock": 0,
+      "width": 0.0,
+      "height": 0.0,
+      "weight": 0.0,
+      "imageIds": [],
+      "mainImageId": "673cabb6f2f9042b15c3fe65",
+      "images": [],
+      "mainImage": {
+       "id": "673cabb6f2f9042b15c3fe65",
+       "assetUrl": "https://images.squarespace-cdn.com/content/v1/5f230415528b5d74fb6acbcc/017fb892-6674-4740-8d0f-b6d445e44789/9W4A3911.jpeg",
+       "systemDataSourceType": "JPEG",
+       "systemDataVariants": "1365x2048,100w,300w,500w,750w,1000w",
+       "originalSize": "1365x2048",
+       "mediaFocalPoint": {
+        "x": 0.5,
+        "y": 0.5,
+        "source": 3
+       },
+       "title": "",
+       "displayIndex": 4
+      },
+      "len": 0.0
+     }
+    ],
+    "variantOptionOrdering": [
+     "Holiday Specialty Desserts"
+    ],
+    "isSubscribable": false,
+    "fulfilledExternally": false,
+    "productAddOnsConfiguration": {
+     "productAddOns": []
+    },
+    "mightHavePaymentPlan": false
+   },
+   "priceCents": 0,
+   "salePriceCents": 0,
+   "priceMoney": {
+    "currency": "USD",
+    "value": "0.00"
+   },
+   "salePriceMoney": {
+    "currency": "USD",
+    "value": "0.00"
+   },
+   "onSale": false,
+   "productType": 1,
+   "additionalFieldsFormId": "654579b7136a786901ce283f",
+   "customAddButtonText": "Preorder",
+   "useCustomAddButtonText": true,
+   "additionalFieldsForm": {
+    "id": "654579b7136a786901ce283f",
+    "type": 2,
+    "name": "Choose Your Pickup Date & Time",
+    "fields": [
+     "{\"type\":\"select\",\"id\":\"select-yui_3_17_2_1_1699046111592_31539\",\"locked\":false,\"title\":\"Pickup Date & Time\",\"description\":\"Please select your desired pickup date & time. \",\"options\":[],\"required\":true,\"select\":true,\"followUpQuestions\":[]}"
+    ],
+    "parsedFields": [],
+    "submitButtonText": "Submit",
+    "submissionMessage": "{\"html\":\"Thank you!\"}",
+    "disclaimerMessage": "null",
+    "successRedirect": "",
+    "captchaEnabled": false,
+    "captchaTheme": 1,
+    "captchaAlignment": 1
+   },
+   "variants": [
+    {
+     "attributes": {
+      "Holiday Specialty Desserts": "Apple Pecan Pie\u200b - 9\""
+     },
+     "optionValues": [
+      {
+       "optionName": "Holiday Specialty Desserts",
+       "value": "Apple Pecan Pie\u200b - 9\""
+      }
+     ],
+     "id": "ce2cdd8c-7352-4761-88f5-507465b34d89",
+     "sku": "SQ0988845",
+     "price": 5000,
+     "salePrice": 0,
+     "priceMoney": {
+      "currency": "USD",
+      "value": "50.00"
+     },
+     "salePriceMoney": {
+      "currency": "USD",
+      "value": "0.00"
+     },
+     "onSale": false,
+     "unlimited": true,
+     "qtyInStock": 0,
+     "width": 0.0,
+     "height": 0.0,
+     "weight": 0.0,
+     "imageIds": [],
+     "mainImageId": "673cabb6e0129c27ae02a28d",
+     "images": [],
+     "mainImage": {
+      "id": "673cabb6e0129c27ae02a28d",
+      "assetUrl": "https://images.squarespace-cdn.com/content/v1/5f230415528b5d74fb6acbcc/7299d77c-5e18-40b2-8c18-ce7d1306c8a5/9W4A3901.jpeg",
+      "systemDataSourceType": "JPEG",
+      "systemDataVariants": "1365x2048,100w,300w,500w,750w,1000w",
+      "originalSize": "1365x2048",
+      "mediaFocalPoint": {
+       "x": 0.5,
+       "y": 0.5,
+       "source": 3
+      },
+      "title": "",
+      "displayIndex": 2
+     },
+     "len": 0.0
+    },
+    {
+     "attributes": {
+      "Holiday Specialty Desserts": "Berry Marzipan Pie\u200b - 9\""
+     },
+     "optionValues": [
+      {
+       "optionName": "Holiday Specialty Desserts",
+       "value": "Berry Marzipan Pie\u200b - 9\""
+      }
+     ],
+     "id": "e9aaea06-7a8d-448d-89db-3f44c9a05182",
+     "sku": "SQ3423040",
+     "price": 5000,
+     "salePrice": 0,
+     "priceMoney": {
+      "currency": "USD",
+      "value": "50.00"
+     },
+     "salePriceMoney": {
+      "currency": "USD",
+      "value": "0.00"
+     },
+     "onSale": false,
+     "unlimited": true,
+     "qtyInStock": 0,
+     "width": 0.0,
+     "height": 0.0,
+     "weight": 0.0,
+     "imageIds": [],
+     "images": [],
+     "len": 0.0
+    },
+    {
+     "attributes": {
+      "Holiday Specialty Desserts": "Sweet Potato Pie - 9\""
+     },
+     "optionValues": [
+      {
+       "optionName": "Holiday Specialty Desserts",
+       "value": "Sweet Potato Pie - 9\""
+      }
+     ],
+     "id": "11b6a869-fb23-4209-a069-4078da8a0321",
+     "sku": "SQ0370053",
+     "price": 5000,
+     "salePrice": 0,
+     "priceMoney": {
+      "currency": "USD",
+      "value": "50.00"
+     },
+     "salePriceMoney": {
+      "currency": "USD",
+      "value": "0.00"
+     },
+     "onSale": false,
+     "unlimited": true,
+     "qtyInStock": 0,
+     "width": 0.0,
+     "height": 0.0,
+     "weight": 0.0,
+     "imageIds": [],
+     "mainImageId": "673cabb6e0129c27ae02a28b",
+     "images": [],
+     "mainImage": {
+      "id": "673cabb6e0129c27ae02a28b",
+      "assetUrl": "https://images.squarespace-cdn.com/content/v1/5f230415528b5d74fb6acbcc/e6e2f3cf-430e-4181-a8d3-0d4ee147bbc4/9W4A3872.jpeg",
+      "systemDataSourceType": "JPEG",
+      "systemDataVariants": "1365x2048,100w,300w,500w,750w,1000w",
+      "originalSize": "1365x2048",
+      "mediaFocalPoint": {
+       "x": 0.5,
+       "y": 0.5,
+       "source": 3
+      },
+      "title": "",
+      "displayIndex": 1
+     },
+     "len": 0.0
+    },
+    {
+     "attributes": {
+      "Holiday Specialty Desserts": "Chicken Pot Pie - 6\""
+     },
+     "optionValues": [
+      {
+       "optionName": "Holiday Specialty Desserts",
+       "value": "Chicken Pot Pie - 6\""
+      }
+     ],
+     "id": "9c4c19cf-851a-438c-8371-b3755ef31cf0",
+     "sku": "SQ4849206",
+     "price": 3000,
+     "salePrice": 0,
+     "priceMoney": {
+      "currency": "USD",
+      "value": "30.00"
+     },
+     "salePriceMoney": {
+      "currency": "USD",
+      "value": "0.00"
+     },
+     "onSale": false,
+     "unlimited": true,
+     "qtyInStock": 0,
+     "width": 0.0,
+     "height": 0.0,
+     "weight": 0.0,
+     "imageIds": [],
+     "mainImageId": "673cabb6f2f9042b15c3fe65",
+     "images": [],
+     "mainImage": {
+      "id": "673cabb6f2f9042b15c3fe65",
+      "assetUrl": "https://images.squarespace-cdn.com/content/v1/5f230415528b5d74fb6acbcc/017fb892-6674-4740-8d0f-b6d445e44789/9W4A3911.jpeg",
+      "systemDataSourceType": "JPEG",
+      "systemDataVariants": "1365x2048,100w,300w,500w,750w,1000w",
+      "originalSize": "1365x2048",
+      "mediaFocalPoint": {
+       "x": 0.5,
+       "y": 0.5,
+       "source": 3
+      },
+      "title": "",
+      "displayIndex": 4
+     },
+     "len": 0.0
+    },
+    {
+     "attributes": {
+      "Holiday Specialty Desserts": "Buche De Noel"
+     },
+     "optionValues": [
+      {
+       "optionName": "Holiday Specialty Desserts",
+       "value": "Buche De Noel"
+      }
+     ],
+     "id": "c310988b-5170-4249-9273-40b8e1d61deb",
+     "sku": "SQ6972710",
+     "price": 9000,
+     "salePrice": 0,
+     "priceMoney": {
+      "currency": "USD",
+      "value": "90.00"
+     },
+     "salePriceMoney": {
+      "currency": "USD",
+      "value": "0.00"
+     },
+     "onSale": false,
+     "unlimited": true,
+     "qtyInStock": 0,
+     "width": 0.0,
+     "height": 0.0,
+     "weight": 0.0,
+     "imageIds": [],
+     "mainImageId": "673cabb6f2f9042b15c3fe65",
+     "images": [],
+     "mainImage": {
+      "id": "673cabb6f2f9042b15c3fe65",
+      "assetUrl": "https://images.squarespace-cdn.com/content/v1/5f230415528b5d74fb6acbcc/017fb892-6674-4740-8d0f-b6d445e44789/9W4A3911.jpeg",
+      "systemDataSourceType": "JPEG",
+      "systemDataVariants": "1365x2048,100w,300w,500w,750w,1000w",
+      "originalSize": "1365x2048",
+      "mediaFocalPoint": {
+       "x": 0.5,
+       "y": 0.5,
+       "source": 3
+      },
+      "title": "",
+      "displayIndex": 4
+     },
+     "len": 0.0
+    },
+    {
+     "attributes": {
+      "Holiday Specialty Desserts": "Cookie Gift Box"
+     },
+     "optionValues": [
+      {
+       "optionName": "Holiday Specialty Desserts",
+       "value": "Cookie Gift Box"
+      }
+     ],
+     "id": "13f58b2e-ab9f-4a09-ba22-0cec3cb5f353",
+     "sku": "SQ6952859",
+     "price": 5800,
+     "salePrice": 0,
+     "priceMoney": {
+      "currency": "USD",
+      "value": "58.00"
+     },
+     "salePriceMoney": {
+      "currency": "USD",
+      "value": "0.00"
+     },
+     "onSale": false,
+     "unlimited": true,
+     "qtyInStock": 0,
+     "width": 0.0,
+     "height": 0.0,
+     "weight": 0.0,
+     "imageIds": [],
+     "mainImageId": "673cabb6f2f9042b15c3fe65",
+     "images": [],
+     "mainImage": {
+      "id": "673cabb6f2f9042b15c3fe65",
+      "assetUrl": "https://images.squarespace-cdn.com/content/v1/5f230415528b5d74fb6acbcc/017fb892-6674-4740-8d0f-b6d445e44789/9W4A3911.jpeg",
+      "systemDataSourceType": "JPEG",
+      "systemDataVariants": "1365x2048,100w,300w,500w,750w,1000w",
+      "originalSize": "1365x2048",
+      "mediaFocalPoint": {
+       "x": 0.5,
+       "y": 0.5,
+       "source": 3
+      },
+      "title": "",
+      "displayIndex": 4
+     },
+     "len": 0.0
+    }
+   ],
+   "variantOptionOrdering": [
+    "Holiday Specialty Desserts"
+   ],
+   "isSubscribable": false,
+   "fulfilledExternally": false,
+   "productAddOnsConfiguration": {
+    "productAddOns": []
+   },
+   "mightHavePaymentPlan": false,
+   "items": [
+    {
+     "id": "6732bdb88c1a290087979200",
+     "collectionId": "5f2304520562d96cc258c7cf",
+     "recordType": 2,
+     "addedOn": 1731378616217,
+     "updatedOn": 1737489421231,
+     "displayIndex": 0,
+     "authorId": "5f6d4edaf52bd37e3669f824",
+     "parentId": "6545583280dbf5603cb2582f",
+     "systemDataId": "7e56732f-4504-442e-bf57-2eb0fb32ebe1",
+     "systemDataVariants": "3556x5334,100w,300w,500w,750w,1000w,1500w,2500w",
+     "systemDataSourceType": "JPEG",
+     "filename": "DSC09508 2.JPEG",
+     "mediaFocalPoint": {
+      "x": 0.5,
+      "y": 0.5,
+      "source": 3
+     },
+     "colorData": {
+      "topLeftAverage": "adb4a5",
+      "topRightAverage": "3a2718",
+      "bottomLeftAverage": "574031",
+      "bottomRightAverage": "6b5344",
+      "centerAverage": "c57228",
+      "suggestedBgColor": "8f6442"
+     },
+     "title": "",
+     "body": null,
+     "likeCount": 0,
+     "commentCount": 0,
+     "publicCommentCount": 0,
+     "commentState": 1,
+     "fullUrl": "/shop/null",
+     "assetUrl": "https://images.squarespace-cdn.com/content/v1/5f230415528b5d74fb6acbcc/7e56732f-4504-442e-bf57-2eb0fb32ebe1/DSC09508+2.JPEG",
+     "contentType": "image/jpeg",
+     "pushedServices": {},
+     "pendingPushedServices": {},
+     "originalSize": "3556x5334",
+     "recordTypeLabel": "image"
+    },
+    {
+     "id": "673cabb6e0129c27ae02a28b",
+     "collectionId": "5f2304520562d96cc258c7cf",
+     "recordType": 2,
+     "addedOn": 1732029366139,
+     "updatedOn": 1737489421237,
+     "displayIndex": 1,
+     "authorId": "5f6d4edaf52bd37e3669f824",
+     "parentId": "6545583280dbf5603cb2582f",
+     "systemDataId": "e6e2f3cf-430e-4181-a8d3-0d4ee147bbc4",
+     "systemDataVariants": "1365x2048,100w,300w,500w,750w,1000w",
+     "systemDataSourceType": "JPEG",
+     "filename": "9W4A3872.jpeg",
+     "mediaFocalPoint": {
+      "x": 0.5,
+      "y": 0.5,
+      "source": 3
+     },
+     "colorData": {
+      "topLeftAverage": "884e29",
+      "topRightAverage": "a04e41",
+      "bottomLeftAverage": "5f3b29",
+      "bottomRightAverage": "77513a",
+      "centerAverage": "744a34",
+      "suggestedBgColor": "945e42"
+     },
+     "title": "",
+     "body": null,
+     "likeCount": 0,
+     "commentCount": 0,
+     "publicCommentCount": 0,
+     "commentState": 1,
+     "fullUrl": "/shop/null",
+     "assetUrl": "https://images.squarespace-cdn.com/content/v1/5f230415528b5d74fb6acbcc/e6e2f3cf-430e-4181-a8d3-0d4ee147bbc4/9W4A3872.jpeg",
+     "contentType": "image/jpeg",
+     "pushedServices": {},
+     "pendingPushedServices": {},
+     "originalSize": "1365x2048",
+     "recordTypeLabel": "image"
+    },
+    {
+     "id": "673cabb6e0129c27ae02a28d",
+     "collectionId": "5f2304520562d96cc258c7cf",
+     "recordType": 2,
+     "addedOn": 1732029366625,
+     "updatedOn": 1737489421240,
+     "displayIndex": 2,
+     "authorId": "5f6d4edaf52bd37e3669f824",
+     "parentId": "6545583280dbf5603cb2582f",
+     "systemDataId": "7299d77c-5e18-40b2-8c18-ce7d1306c8a5",
+     "systemDataVariants": "1365x2048,100w,300w,500w,750w,1000w",
+     "systemDataSourceType": "JPEG",
+     "filename": "9W4A3901.jpeg",
+     "mediaFocalPoint": {
+      "x": 0.5,
+      "y": 0.5,
+      "source": 3
+     },
+     "colorData": {
+      "topLeftAverage": "8d6653",
+      "topRightAverage": "7d746f",
+      "bottomLeftAverage": "71371f",
+      "bottomRightAverage": "76614a",
+      "centerAverage": "ca8749",
+      "suggestedBgColor": "915d3c"
+     },
+     "title": "",
+     "body": null,
+     "likeCount": 0,
+     "commentCount": 0,
+     "publicCommentCount": 0,
+     "commentState": 1,
+     "fullUrl": "/shop/null",
+     "assetUrl": "https://images.squarespace-cdn.com/content/v1/5f230415528b5d74fb6acbcc/7299d77c-5e18-40b2-8c18-ce7d1306c8a5/9W4A3901.jpeg",
+     "contentType": "image/jpeg",
+     "pushedServices": {},
+     "pendingPushedServices": {},
+     "originalSize": "1365x2048",
+     "recordTypeLabel": "image"
+    },
+    {
+     "id": "673ca9e2f2f9042b15c3fc84",
+     "collectionId": "5f2304520562d96cc258c7cf",
+     "recordType": 2,
+     "addedOn": 1732028898027,
+     "updatedOn": 1737489421248,
+     "displayIndex": 3,
+     "authorId": "5f6d4edaf52bd37e3669f824",
+     "parentId": "6545583280dbf5603cb2582f",
+     "systemDataId": "02aa30f2-45dd-45f3-a03a-eb02f38563ef",
+     "systemDataVariants": "1365x2048,100w,300w,500w,750w,1000w",
+     "systemDataSourceType": "JPEG",
+     "filename": "9W4A3977.jpeg",
+     "mediaFocalPoint": {
+      "x": 0.5,
+      "y": 0.5,
+      "source": 3
+     },
+     "colorData": {
+      "topLeftAverage": "db9254",
+      "topRightAverage": "5f4f3f",
+      "bottomLeftAverage": "633f28",
+      "bottomRightAverage": "7e6761",
+      "centerAverage": "693a32",
+      "suggestedBgColor": "8a5b48"
+     },
+     "title": "",
+     "body": null,
+     "likeCount": 0,
+     "commentCount": 0,
+     "publicCommentCount": 0,
+     "commentState": 1,
+     "fullUrl": "/shop/null",
+     "assetUrl": "https://images.squarespace-cdn.com/content/v1/5f230415528b5d74fb6acbcc/02aa30f2-45dd-45f3-a03a-eb02f38563ef/9W4A3977.jpeg",
+     "contentType": "image/jpeg",
+     "pushedServices": {},
+     "pendingPushedServices": {},
+     "originalSize": "1365x2048",
+     "recordTypeLabel": "image"
+    },
+    {
+     "id": "673cabb6f2f9042b15c3fe65",
+     "collectionId": "5f2304520562d96cc258c7cf",
+     "recordType": 2,
+     "addedOn": 1732029366617,
+     "updatedOn": 1737489421252,
+     "displayIndex": 4,
+     "authorId": "5f6d4edaf52bd37e3669f824",
+     "parentId": "6545583280dbf5603cb2582f",
+     "systemDataId": "017fb892-6674-4740-8d0f-b6d445e44789",
+     "systemDataVariants": "1365x2048,100w,300w,500w,750w,1000w",
+     "systemDataSourceType": "JPEG",
+     "filename": "9W4A3911.jpeg",
+     "mediaFocalPoint": {
+      "x": 0.5,
+      "y": 0.5,
+      "source": 3
+     },
+     "colorData": {
+      "topLeftAverage": "2a1e16",
+      "topRightAverage": "281d15",
+      "bottomLeftAverage": "433930",
+      "bottomRightAverage": "44362e",
+      "centerAverage": "cc9a5b",
+      "suggestedBgColor": "7d5437"
+     },
+     "title": "",
+     "body": null,
+     "likeCount": 0,
+     "commentCount": 0,
+     "publicCommentCount": 0,
+     "commentState": 1,
+     "fullUrl": "/shop/null",
+     "assetUrl": "https://images.squarespace-cdn.com/content/v1/5f230415528b5d74fb6acbcc/017fb892-6674-4740-8d0f-b6d445e44789/9W4A3911.jpeg",
+     "contentType": "image/jpeg",
+     "pushedServices": {},
+     "pendingPushedServices": {},
+     "originalSize": "1365x2048",
+     "recordTypeLabel": "image"
+    },
+    {
+     "id": "6946d3d59e309b73747e0d6a",
+     "collectionId": "5f2304520562d96cc258c7cf",
+     "recordType": 2,
+     "addedOn": 1766249429869,
+     "updatedOn": 1766249429869,
+     "displayIndex": 5,
+     "authorId": "5f6d4edaf52bd37e3669f824",
+     "parentId": "6545583280dbf5603cb2582f",
+     "systemDataId": "5d53e54a-20d6-4bc6-a446-b05cb015d1ff",
+     "systemDataVariants": "2667x4000,100w,300w,500w,750w,1000w,1500w,2500w",
+     "systemDataSourceType": "JPEG",
+     "filename": "9W4A3449.jpg",
+     "mediaFocalPoint": {
+      "x": 0.5,
+      "y": 0.5,
+      "source": 3
+     },
+     "colorData": {
+      "topLeftAverage": "958a72",
+      "topRightAverage": "785752",
+      "bottomLeftAverage": "c4bbb1",
+      "bottomRightAverage": "988786",
+      "centerAverage": "a8887c",
+      "suggestedBgColor": "a26a53"
+     },
+     "title": "9W4A3449.jpg",
+     "body": null,
+     "likeCount": 0,
+     "commentCount": 0,
+     "publicCommentCount": 0,
+     "commentState": 1,
+     "fullUrl": "/shop/null",
+     "assetUrl": "https://images.squarespace-cdn.com/content/v1/5f230415528b5d74fb6acbcc/5d53e54a-20d6-4bc6-a446-b05cb015d1ff/9W4A3449.jpg",
+     "contentType": "image/jpeg",
+     "pushedServices": {},
+     "pendingPushedServices": {},
+     "originalSize": "2667x4000",
+     "recordTypeLabel": "image"
+    },
+    {
+     "id": "6946d3d53f4b3e6c55d76308",
+     "collectionId": "5f2304520562d96cc258c7cf",
+     "recordType": 2,
+     "addedOn": 1766249429859,
+     "updatedOn": 1766249429859,
+     "displayIndex": 6,
+     "authorId": "5f6d4edaf52bd37e3669f824",
+     "parentId": "6545583280dbf5603cb2582f",
+     "systemDataId": "e52905c6-8572-4413-a6a1-d98e3fd80799",
+     "systemDataVariants": "5399x3599,100w,300w,500w,750w,1000w,1500w,2500w",
+     "systemDataSourceType": "JPEG",
+     "filename": "9W4A3470.jpg",
+     "mediaFocalPoint": {
+      "x": 0.5,
+      "y": 0.5,
+      "source": 3
+     },
+     "colorData": {
+      "topLeftAverage": "86765b",
+      "topRightAverage": "744427",
+      "bottomLeftAverage": "aa3511",
+      "bottomRightAverage": "5d3b1a",
+      "centerAverage": "863b1c",
+      "suggestedBgColor": "98563a"
+     },
+     "title": "9W4A3470.jpg",
+     "body": null,
+     "likeCount": 0,
+     "commentCount": 0,
+     "publicCommentCount": 0,
+     "commentState": 1,
+     "fullUrl": "/shop/null",
+     "assetUrl": "https://images.squarespace-cdn.com/content/v1/5f230415528b5d74fb6acbcc/e52905c6-8572-4413-a6a1-d98e3fd80799/9W4A3470.jpg",
+     "contentType": "image/jpeg",
+     "pushedServices": {},
+     "pendingPushedServices": {},
+     "originalSize": "5399x3599",
+     "recordTypeLabel": "image"
+    }
+   ],
+   "pushedServices": {},
+   "pendingPushedServices": {},
+   "seoData": {
+    "seoTitle": "Preorder Holiday Pies",
+    "seoHidden": false
+   },
+   "originalSize": "1365x2048",
+   "recordTypeLabel": "store-item"
+  }
+ ]
+}

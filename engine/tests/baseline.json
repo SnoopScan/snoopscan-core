@@ -1,0 +1,13 @@
+{
+  "headline": 0.9842,
+  "fixtures": {
+    "article_pooling": 1.0,
+    "listing_news_index": 0.9167,
+    "forum_thread": 1.0,
+    "product_keyboard": 0.9783,
+    "docs_quickstart": 0.9783,
+    "table_pricing": 1.0,
+    "directory_with_prose": 1.0,
+    "article_with_injected_script": 1.0
+  }
+}

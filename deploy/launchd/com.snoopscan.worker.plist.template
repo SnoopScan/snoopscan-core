@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.snoopscan.worker</string>
+
+  <!-- Absolute paths in an ARRAY, never one shell string: the repo path
+       contains a space and a shell would split it. -->
+  <key>ProgramArguments</key>
+  <array>
+    <string>__REPO__/.venv/bin/python</string>
+    <string>-m</string><string>engine.workers.http_worker</string>
+  </array>
+
+  <!-- settings.py reads .env relative to the working directory. -->
+  <key>WorkingDirectory</key><string>__REPO__</string>
+
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <!-- launchd's floor is 10s; being explicit stops a bad config thrashing. -->
+  <key>ThrottleInterval</key><integer>10</integer>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <!-- launchd gives a bare PATH; Homebrew's libs (libpq, redis) live here. -->
+    <key>PATH</key><string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    <key>PYTHONUNBUFFERED</key><string>1</string>
+  </dict>
+
+  <key>StandardOutPath</key><string>__LOGS__/worker.log</string>
+  <key>StandardErrorPath</key><string>__LOGS__/worker.log</string>
+</dict>
+</plist>

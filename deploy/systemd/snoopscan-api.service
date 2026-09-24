@@ -1,0 +1,29 @@
+# SnoopScan API. GENERATED from engine/services.py — run tools/render_units.py.
+#
+# Edit the user and the two paths, then:
+#   sudo cp deploy/systemd/snoopscan-api.service /etc/systemd/system/
+#   sudo systemctl daemon-reload && sudo systemctl enable --now snoopscan-api
+
+[Unit]
+Description=SnoopScan API
+After=network.target postgresql.service redis-server.service
+Wants=postgresql.service redis-server.service
+
+[Service]
+Type=simple
+User=snoopscan
+Group=snoopscan
+WorkingDirectory=/srv/snoopscan
+# python -m, never a console script: pip writes those as `#!/bin/sh` wrappers
+# when the venv path contains a space, and the supervisor cannot exec them.
+ExecStart=/srv/snoopscan/.venv/bin/python -m uvicorn engine.api.app:app --host 127.0.0.1 --port 8099
+Restart=always
+RestartSec=3
+# A stuck fetch must not take the box with it.
+MemoryMax=2G
+Environment=PYTHONUNBUFFERED=1
+StandardOutput=append:/var/log/snoopscan/snoopscan-api.log
+StandardError=append:/var/log/snoopscan/snoopscan-api.log
+
+[Install]
+WantedBy=multi-user.target

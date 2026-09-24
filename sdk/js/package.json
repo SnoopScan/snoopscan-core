@@ -1,0 +1,53 @@
+{
+  "name": "snoopscan",
+  "version": "0.5.1",
+  "description": "JavaScript/TypeScript client for the SnoopScan web scraping API",
+  "keywords": [
+    "scraping",
+    "crawler",
+    "web-scraping",
+    "markdown",
+    "llm",
+    "agents"
+  ],
+  "license": "MIT",
+  "homepage": "https://snoopscan.com",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "bin": {
+    "snoopscan": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^4.1.11"
+  }
+}

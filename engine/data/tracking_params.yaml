@@ -1,0 +1,59 @@
+# Query parameters stripped during URL normalisation (07-orchestration.md s3).
+# Data file, not code — this list grows and must not need a deploy.
+#
+# `exact` matches the whole parameter name (case-insensitive).
+# `prefixes` matches the start of the name, for families like utm_*.
+
+exact:
+  - fbclid
+  - gclid
+  - gclsrc
+  - dclid
+  - msclkid
+  - twclid
+  - igshid
+  - mc_cid
+  - mc_eid
+  - ref
+  - referrer
+  - source
+  - src
+  - campaign
+  - yclid
+  - _ga
+  - _gl
+  - _hsenc
+  - _hsmi
+  - _openstat
+  - oly_anon_id
+  - oly_enc_id
+  - vero_conv
+  - vero_id
+  - wickedid
+  - hsa_acc
+  - hsa_cam
+  - hsa_grp
+  - hsa_ad
+  - hsa_src
+  - hsa_tgt
+  - hsa_kw
+  - hsa_mt
+  - hsa_net
+  - hsa_ver
+  - trk
+  - trk_contact
+  - trk_module
+  - trk_sid
+  - ss_email_id
+  - spm
+  - scm
+
+prefixes:
+  - utm_
+  - pk_
+  - piwik_
+  - matomo_
+  - ic_
+  - at_
+  - stm_
+  - vgo_

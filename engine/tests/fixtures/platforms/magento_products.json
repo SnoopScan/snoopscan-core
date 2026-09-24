@@ -1,0 +1,76 @@
+{
+ "data": {
+  "products": {
+   "total_count": 103,
+   "page_info": {
+    "total_pages": 35,
+    "current_page": 1
+   },
+   "items": [
+    {
+     "name": "Pure Whey Protein\u2122",
+     "sku": "BPB-WPC8-0000",
+     "url_key": "pure-whey-protein",
+     "stock_status": "IN_STOCK",
+     "small_image": {
+      "url": "https://www.bulk.com/media/catalog/product/cache/74c1057f7991b4edb2bc7bdaa94de933/P/u/Pure_Whey_Protein_____4__e665.png"
+     },
+     "price_range": {
+      "minimum_price": {
+       "final_price": {
+        "value": 14.99,
+        "currency": "GBP"
+       },
+       "regular_price": {
+        "value": 21.99,
+        "currency": "GBP"
+       }
+      }
+     }
+    },
+    {
+     "name": "Pure Whey Isolate\u2122",
+     "sku": "BPB-WPI9-0000",
+     "url_key": "pure-whey-isolate-90",
+     "stock_status": "IN_STOCK",
+     "small_image": {
+      "url": "https://www.bulk.com/media/catalog/product/cache/74c1057f7991b4edb2bc7bdaa94de933/P/u/Pure_Whey_Isolate____3f1e.png"
+     },
+     "price_range": {
+      "minimum_price": {
+       "final_price": {
+        "value": 23.99,
+        "currency": "GBP"
+       },
+       "regular_price": {
+        "value": 23.99,
+        "currency": "GBP"
+       }
+      }
+     }
+    },
+    {
+     "name": "Clear Whey Isolate",
+     "sku": "BPB-CWHE",
+     "url_key": "clear-whey-isolate",
+     "stock_status": "IN_STOCK",
+     "small_image": {
+      "url": "https://www.bulk.com/media/catalog/product/cache/74c1057f7991b4edb2bc7bdaa94de933/C/l/Clear_Whey_Isolate__8__4fbd.png"
+     },
+     "price_range": {
+      "minimum_price": {
+       "final_price": {
+        "value": 25.99,
+        "currency": "GBP"
+       },
+       "regular_price": {
+        "value": 34.99,
+        "currency": "GBP"
+       }
+      }
+     }
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,45 @@
+# Secrets and local config — constraint C3: nothing identifying in the repo.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Lead exports are real people's contact details. They are the output of a
+# run, never source, and a repo is exactly the wrong place for them.
+exports/
+*.csv
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+licences.json
+
+# OS
+.DS_Store
+
+# Local agent/editor tooling — machine-specific, not project state
+/.claude/
+/CLAUDE.md
+/AGENTS.md
+
+# The private denylist names our suppliers, where we run, and who we have
+# measured — the very things it exists to keep out of published files. It
+# belongs on the machines that push, not in the repository: tools/pre_push.py
+# and tools/export_public.py read it from here, locally.
+docs/internal/publish-denylist.txt
+
+# Redis writes its save file wherever it was started; never commit one.
+dump.rdb

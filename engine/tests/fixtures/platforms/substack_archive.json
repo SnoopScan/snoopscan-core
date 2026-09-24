@@ -1,0 +1,568 @@
+[
+ {
+  "id": 213056760,
+  "editor_v2": false,
+  "publication_id": 10845,
+  "title": "How to turn your AI into a world-class designer",
+  "social_title": "How to turn your AI into a world-class designer",
+  "search_engine_title": null,
+  "search_engine_description": null,
+  "type": "newsletter",
+  "slug": "how-to-turn-your-ai-into-a-world",
+  "post_date": "2026-09-01T12:45:59.568Z",
+  "audience": "only_paid",
+  "podcast_duration": null,
+  "video_upload_id": null,
+  "podcast_upload_id": null,
+  "write_comment_permissions": "only_paid",
+  "should_send_free_preview": true,
+  "free_unlock_required": false,
+  "default_comment_sort": null,
+  "canonical_url": "https://www.lennysnewsletter.com/p/how-to-turn-your-ai-into-a-world",
+  "section_id": null,
+  "top_exclusions": [],
+  "pins": [],
+  "is_section_pinned": false,
+  "section_slug": null,
+  "section_name": null,
+  "reactions": {
+   "\u2764": 688
+  },
+  "restacks": 46,
+  "restacked_post_id": null,
+  "restacked_post_slug": null,
+  "restacked_pub_name": null,
+  "restacked_pub_logo_url": null,
+  "subtitle": "An end-to-end process for tapping into AI\u2019s hidden creativity",
+  "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/df93abba-682d-446b-a21a-5ad935867a1f_1456x970.png",
+  "cover_image_is_square": false,
+  "cover_image_is_explicit": false,
+  "podcast_url": null,
+  "videoUpload": null,
+  "podcastFields": {
+   "post_id": 213056760,
+   "podcast_episode_number": null,
+   "podcast_season_number": null,
+   "podcast_episode_type": null,
+   "should_syndicate_to_other_feed": null,
+   "syndicate_to_section_id": null,
+   "hide_from_feed": false,
+   "free_podcast_url": null,
+   "free_podcast_duration": null,
+   "preview_contains_ad": false,
+   "was_imported_self_serve_sync": false,
+   "draft_free_podcast_url": null,
+   "draft_free_podcast_duration": null
+  },
+  "podcast_preview_upload_id": null,
+  "podcastUpload": null,
+  "podcastPreviewUpload": null,
+  "voiceover_upload_id": null,
+  "voiceoverUpload": null,
+  "has_voiceover": false,
+  "description": "An end-to-end process for tapping into AI\u2019s hidden creativity",
+  "body_json": null,
+  "body_html": null,
+  "has_dynamic_content": false,
+  "truncated_body_text": "\ud83d\udc4b Hey there, I\u2019m Lenny. Each week, I share deeply researched product, growth, and career advice. For more: Lenny\u2019s Jobs | Lenny\u2019s Podcast | Lennybot | How I AI | Become an AI-Native Builder and my other favorite AI/PM courses",
+  "wordcount": 4604,
+  "post_preview_limit": 1000,
+  "language": "en",
+  "postTags": [
+   {
+    "id": "1a9b3c8a-1932-4c47-806d-356712044283",
+    "publication_id": 10845,
+    "name": "Design",
+    "slug": "design",
+    "hidden": false
+   },
+   {
+    "id": "7c0016ec-6a9d-4f48-b0f8-46e05379f728",
+    "publication_id": 10845,
+    "name": "AI",
+    "slug": "ai",
+    "hidden": false
+   }
+  ],
+  "teaser_post_eligible": true,
+  "postCountryBlocks": [],
+  "headlineTest": null,
+  "coverImagePalette": {
+   "Vibrant": {
+    "rgb": [
+     250,
+     181,
+     29
+    ],
+    "population": 99
+   },
+   "DarkVibrant": {
+    "rgb": [
+     92,
+     62,
+     11
+    ],
+    "population": 68
+   },
+   "LightVibrant": {
+    "rgb": [
+     252,
+     204,
+     139
+    ],
+    "population": 12
+   },
+   "Muted": {
+    "rgb": [
+     149,
+     126,
+     108
+    ],
+    "population": 179
+   },
+   "DarkMuted": {
+    "rgb": [
+     87,
+     74,
+     63
+    ],
+    "population": 135
+   },
+   "LightMuted": {
+    "rgb": [
+     200,
+     170,
+     146
+    ],
+    "population": 116
+   }
+  },
+  "publishedBylines": [
+   {
+    "id": 16287771,
+    "name": "Anshu Chimala",
+    "handle": "anshuc",
+    "previous_name": null,
+    "photo_url": "https://substack-post-media.s3.amazonaws.com/public/images/bcd19ce7-434e-44f4-b1c2-5ff42c4621b8_400x400.jpeg",
+    "bio": "Sharing workflows and learnings to push AI to the limits. Formerly: YC founder, UI/UX & AI at Apple",
+    "profile_set_up_at": "2026-07-17T00:37:59.604Z",
+    "reader_installed_at": "2026-08-17T19:29:47.872Z",
+    "is_guest": true,
+    "bestseller_tier": null,
+    "status": {
+     "bestsellerTier": null,
+     "subscriberTier": null,
+     "leaderboard": null,
+     "vip": false,
+     "badge": null,
+     "subscriber": null
+    },
+    "primaryPublicationId": 10542323,
+    "primaryPublicationName": "Anshu Chimala",
+    "primaryPublicationUrl": "https://anshuc.substack.com",
+    "primaryPublicationSubscribeUrl": "https://anshuc.substack.com/subscribe?"
+   }
+  ],
+  "reaction": null,
+  "reaction_count": 688,
+  "comment_count": 17,
+  "child_comment_count": 17,
+  "audio_items": [
+   {
+    "post_id": 213056760,
+    "voice_id": "en-US-AlloyTurboMultilingualNeural",
+    "audio_url": null,
+    "type": "tts",
+    "status": "paywalled"
+   }
+  ],
+  "is_geoblocked": false,
+  "hidden": true,
+  "hasCashtag": false
+ },
+ {
+  "id": 212023427,
+  "editor_v2": false,
+  "publication_id": 10845,
+  "title": "How to figure out your next career move",
+  "social_title": "How to figure out your next career move",
+  "search_engine_title": null,
+  "search_engine_description": null,
+  "type": "newsletter",
+  "slug": "how-to-figure-out-your-next-career",
+  "post_date": "2026-08-25T13:04:15.691Z",
+  "audience": "only_paid",
+  "podcast_duration": null,
+  "video_upload_id": null,
+  "podcast_upload_id": null,
+  "write_comment_permissions": "only_paid",
+  "should_send_free_preview": true,
+  "free_unlock_required": false,
+  "default_comment_sort": null,
+  "canonical_url": "https://www.lennysnewsletter.com/p/how-to-figure-out-your-next-career",
+  "section_id": null,
+  "top_exclusions": [],
+  "pins": [],
+  "is_section_pinned": false,
+  "section_slug": null,
+  "section_name": null,
+  "reactions": {
+   "\u2764": 451
+  },
+  "restacks": 23,
+  "restacked_post_id": null,
+  "restacked_post_slug": null,
+  "restacked_pub_name": null,
+  "restacked_pub_logo_url": null,
+  "subtitle": "Six essential questions to help you navigate change",
+  "cover_image": "https://substack-post-media.s3.amazonaws.com/public/images/1a88a225-3e0f-4c00-b34f-3bdcabd91bb3_1456x970.png",
+  "cover_image_is_square": false,
+  "cover_image_is_explicit": false,
+  "podcast_url": null,
+  "videoUpload": null,
+  "podcastFields": {
+   "post_id": 212023427,
+   "podcast_episode_number": null,
+   "podcast_season_number": null,
+   "podcast_episode_type": null,
+   "should_syndicate_to_other_feed": null,
+   "syndicate_to_section_id": null,
+   "hide_from_feed": false,
+   "free_podcast_url": null,
+   "free_podcast_duration": null,
+   "preview_contains_ad": false,
+   "was_imported_self_serve_sync": false,
+   "draft_free_podcast_url": null,
+   "draft_free_podcast_duration": null
+  },
+  "podcast_preview_upload_id": null,
+  "podcastUpload": null,
+  "podcastPreviewUpload": null,
+  "voiceover_upload_id": null,
+  "voiceoverUpload": null,
+  "has_voiceover": false,
+  "description": "Six essential questions to help you navigate change",
+  "body_json": null,
+  "body_html": null,
+  "has_dynamic_content": false,
+  "truncated_body_text": "\ud83d\udc4b Hey there, I\u2019m Lenny. Each week, I share deeply researched product, growth, and career advice. For more: Lenny\u2019s Jobs | Lenny\u2019s Podcast | Lennybot | How I AI | Become an AI-Native Builder and my other favorite AI/PM courses",
+  "wordcount": 4860,
+  "post_preview_limit": 1000,
+  "language": "en",
+  "postTags": [
+   {
+    "id": "098d55d2-7f61-428b-a147-93a881ce423e",
+    "publication_id": 10845,
+    "name": "Career",
+    "slug": "career",
+    "hidden": false
+   }
+  ],
+  "teaser_post_eligible": true,
+  "postCountryBlocks": [],
+  "headlineTest": null,
+  "coverImagePalette": {
+   "Vibrant": {
+    "rgb": [
+     234,
+     163,
+     33
+    ],
+    "population": 200
+   },
+   "DarkVibrant": {
+    "rgb": [
+     95,
+     70,
+     11
+    ],
+    "population": 36
+   },
+   "LightVibrant": {
+    "rgb": [
+     251,
+     198,
+     109
+    ],
+    "population": 24
+   },
+   "Muted": {
+    "rgb": [
+     147,
+     128,
+     111
+    ],
+    "population": 275
+   },
+   "DarkMuted": {
+    "rgb": [
+     60,
+     52,
+     44
+    ],
+    "population": 31
+   },
+   "LightMuted": {
+    "rgb": [
+     203,
+     190,
+     176
+    ],
+    "population": 227
+   }
+  },
+  "publishedBylines": [
+   {
+    "id": 409162791,
+    "name": "Cliff Maxwell",
+    "handle": "cliffmaxwell1",
+    "previous_name": null,
+    "photo_url": "https://substack-post-media.s3.amazonaws.com/public/images/6427c4c5-c7ec-406f-b15f-b287cb631355_1904x1904.jpeg",
+    "bio": "CEO of Vocation, an AI-powered career coach built on a decade of research at Harvard. Former Chief of Staff to Clay Christensen. ",
+    "profile_set_up_at": "2025-12-01T22:48:52.100Z",
+    "reader_installed_at": null,
+    "is_guest": true,
+    "bestseller_tier": null,
+    "status": {
+     "bestsellerTier": null,
+     "subscriberTier": 1,
+     "leaderboard": null,
+     "vip": false,
+     "badge": {
+      "type": "subscriber",
+      "tier": 1,
+      "accent_colors": null
+     },
+     "subscriber": null
+    },
+    "primaryPublicationId": 7126954,
+    "primaryPublicationName": "Seeking Progress",
+    "primaryPublicationUrl": "https://joinvocation.substack.com",
+    "primaryPublicationSubscribeUrl": "https://joinvocation.substack.com/subscribe?"
+   }
+  ],
+  "reaction": null,
+  "reaction_count": 451,
+  "comment_count": 1,
+  "child_comment_count": 1,
+  "audio_items": [
+   {
+    "post_id": 212023427,
+    "voice_id": "en-US-AlloyTurboMultilingualNeural",
+    "audio_url": null,
+    "type": "tts",
+    "status": "paywalled"
+   }
+  ],
+  "is_geoblocked": false,
+  "hidden": true,
+  "hasCashtag": false
+ },
+ {
+  "id": 208730073,
+  "editor_v2": false,
+  "publication_id": 10845,
+  "title": "Announcing Lenny\u2019s Jobs: The best place in the world to find, vet, and land your dream job",
+  "social_title": null,
+  "search_engine_title": null,
+  "search_engine_description": null,
+  "type": "newsletter",
+  "slug": "announcing-lennys-jobs-the-best-place",
+  "post_date": "2026-08-18T15:40:06.921Z",
+  "audience": "everyone",
+  "podcast_duration": null,
+  "video_upload_id": null,
+  "podcast_upload_id": null,
+  "write_comment_permissions": "subscribers",
+  "should_send_free_preview": false,
+  "free_unlock_required": false,
+  "default_comment_sort": null,
+  "canonical_url": "https://www.lennysnewsletter.com/p/announcing-lennys-jobs-the-best-place",
+  "section_id": null,
+  "top_exclusions": [],
+  "pins": [],
+  "is_section_pinned": false,
+  "section_slug": null,
+  "section_name": null,
+  "reactions": {
+   "\u2764": 370
+  },
+  "restacks": 9,
+  "restacked_post_id": null,
+  "restacked_post_slug": null,
+  "restacked_pub_name": null,
+  "restacked_pub_logo_url": null,
+  "subtitle": "Where product managers, engineers, designers, and growth/marketing professionals discover high-quality open roles at tech companies",
+  "cover_image": "https://substackcdn.com/image/fetch/$s_!PFZn!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0f696879-6374-42d6-a171-47933f6eb126_1456x970.png",
+  "cover_image_is_square": false,
+  "cover_image_is_explicit": false,
+  "podcast_url": null,
+  "videoUpload": null,
+  "podcastFields": {
+   "post_id": 208730073,
+   "podcast_episode_number": null,
+   "podcast_season_number": null,
+   "podcast_episode_type": null,
+   "should_syndicate_to_other_feed": null,
+   "syndicate_to_section_id": null,
+   "hide_from_feed": false,
+   "free_podcast_url": null,
+   "free_podcast_duration": null,
+   "preview_contains_ad": false,
+   "was_imported_self_serve_sync": false,
+   "draft_free_podcast_url": null,
+   "draft_free_podcast_duration": null
+  },
+  "podcast_preview_upload_id": null,
+  "podcastUpload": null,
+  "podcastPreviewUpload": null,
+  "voiceover_upload_id": null,
+  "voiceoverUpload": null,
+  "has_voiceover": false,
+  "description": "Where product managers, engineers, designers, and growth/marketing professionals discover high-quality open roles at tech companies",
+  "body_json": null,
+  "body_html": null,
+  "has_dynamic_content": false,
+  "truncated_body_text": "\ud83d\udc4b Hey there, I\u2019m Lenny. Each week, I share deeply researched product, growth, and career advice. For more: Lenny\u2019s Jobs | Lenny\u2019s Podcast | How I AI | Lennybot | Become an AI-Native Builder and some other favorite AI/PM courses",
+  "wordcount": 933,
+  "post_preview_limit": 1000,
+  "language": "en",
+  "postTags": [
+   {
+    "id": "098d55d2-7f61-428b-a147-93a881ce423e",
+    "publication_id": 10845,
+    "name": "Career",
+    "slug": "career",
+    "hidden": false
+   }
+  ],
+  "teaser_post_eligible": true,
+  "postCountryBlocks": [],
+  "headlineTest": null,
+  "coverImagePalette": {
+   "Vibrant": {
+    "rgb": [
+     241,
+     172,
+     28
+    ],
+    "population": 178
+   },
+   "DarkVibrant": {
+    "rgb": [
+     76,
+     52,
+     4
+    ],
+    "population": 1
+   },
+   "LightVibrant": {
+    "rgb": [
+     252,
+     212,
+     180
+    ],
+    "population": 3877
+   },
+   "Muted": {
+    "rgb": [
+     140,
+     116,
+     99
+    ],
+    "population": 22
+   },
+   "DarkMuted": {
+    "rgb": [
+     96,
+     79,
+     55
+    ],
+    "population": 154
+   },
+   "LightMuted": {
+    "rgb": [
+     207,
+     184,
+     164
+    ],
+    "population": 41
+   }
+  },
+  "publishedBylines": [
+   {
+    "id": 1849774,
+    "name": "Lenny Rachitsky",
+    "handle": "lenny",
+    "previous_name": null,
+    "photo_url": "https://bucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com/public/images/afba5161-65bb-4d99-8d6b-cce660917fa1_1540x1540.png",
+    "bio": "Writing \u2022 Angel investing \u2022 Advising",
+    "profile_set_up_at": "2021-05-01T23:55:21.518Z",
+    "reader_installed_at": "2021-12-15T18:09:25.096Z",
+    "publicationUsers": [
+     {
+      "id": 247600,
+      "user_id": 1849774,
+      "publication_id": 10845,
+      "role": "admin",
+      "public": true,
+      "is_primary": true,
+      "publication": {
+       "id": 10845,
+       "name": "Lenny's Newsletter",
+       "subdomain": "lenny",
+       "custom_domain": "www.lennysnewsletter.com",
+       "custom_domain_optional": false,
+       "hero_text": "Deeply researched product, growth, and career advice for product leaders, founders, and ambitious builders.\n",
+       "logo_url": "https://substack-post-media.s3.amazonaws.com/public/images/441213db-4824-4e48-9d28-a3a18952cbfc_592x592.png",
+       "author_id": 1849774,
+       "primary_user_id": 1849774,
+       "theme_var_background_pop": "#f47c55",
+       "created_at": "2019-06-01T15:35:37.885Z",
+       "email_from_name": "Lenny's Newsletter",
+       "copyright": null,
+       "founding_plan_name": "Insider Tier",
+       "community_enabled": true,
+       "invite_only": false,
+       "payments_state": "enabled",
+       "language": null,
+       "explicit": false,
+       "homepage_type": "newspaper",
+       "is_personal_mode": false,
+       "logo_url_wide": "https://substack-post-media.s3.amazonaws.com/public/images/bddbc549-6822-4b19-b62d-c7f01616a73e_5376x1024.png"
+      }
+     }
+    ],
+    "twitter_screen_name": "lennysan",
+    "is_guest": false,
+    "bestseller_tier": 10000,
+    "status": {
+     "bestsellerTier": 10000,
+     "subscriberTier": 10,
+     "leaderboard": null,
+     "vip": false,
+     "badge": {
+      "type": "bestseller",
+      "tier": 10000
+     },
+     "subscriber": null
+    }
+   }
+  ],
+  "reaction": null,
+  "reaction_count": 370,
+  "comment_count": 18,
+  "child_comment_count": 15,
+  "audio_items": [
+   {
+    "post_id": 208730073,
+    "voice_id": "en-US-AlloyTurboMultilingualNeural",
+    "audio_url": "https://substack-video.s3.amazonaws.com/video_upload/post/208730073/tts/7cf5cbb5-22e3-49a0-8267-e8825c015311/en-US-AlloyTurboMultilingualNeural.mp3",
+    "type": "tts",
+    "status": "completed"
+   }
+  ],
+  "is_geoblocked": false,
+  "hasCashtag": false
+ }
+]

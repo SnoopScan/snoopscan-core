@@ -1,0 +1,160 @@
+#!/usr/sbin/nft -f
+#
+# Egress filter for the crawler workload. FOR REVIEW — apply.sh applies it.
+#
+# WHAT THIS IS FOR. Everything above it in the stack is a check that happens
+# before the socket opens: we resolve a name, judge the addresses, and then
+# connect by name anyway, so a second answer arriving between the two is not
+# caught. This runs in the kernel at the moment the packet leaves, which is
+# the one place with no parse-vs-use gap.
+#
+# WHAT IT DOES NOT COVER — read this before trusting it. A packet to a
+# residential proxy has the PROXY's address on it, not the target's. The
+# target only exists inside the CONNECT, which this never sees. So this rule
+# set constrains the DIRECT path, and it cannot constrain where a proxied
+# request ends up. See README.md, "Two paths, two controls".
+#
+# IT DOES NOT TOUCH ufw. ufw owns `table ip filter` on this host; this is a
+# separate `inet` table, and nftables evaluates every table — a drop here
+# stands whatever ufw accepted. Nothing here flushes or edits another table.
+#
+# MEASURED ON THE HOST, 20 Sep 2026, before writing it:
+#   ufw active (iptables-nft backend, table ip filter), nftables.service off
+#   no Docker, no containers -> no forward path to cover, and no
+#     container-to-host-gateway case, which is the rule people miss
+#   engine + its child browsers run as uid 999 (snoopscan)
+#   loopback services it must keep: postgres 5432, redis 6379, searxng 8888
+#   resolvers: 185.12.64.1, 185.12.64.2, 2a01:4ff:ff00::add:2 — all PUBLIC,
+#     so DNS is not inside a blocked range here. Pinned below anyway, because
+#     a host that later moves to a stub resolver on 127.0.0.53 would lose DNS
+#     the moment this loaded, and "allow a /8 for DNS" is an SSRF hole with
+#     extra steps.
+
+# Create-then-delete-then-define. `nft -f` APPENDS to a table that already
+# exists — measured on this host: loading the same file twice left two copies
+# of every rule, and `observe` loaded after `enforce` left the reject rules in
+# place while printing that nothing was being refused. The bare `table` line
+# creates it when absent so the `delete` cannot fail, and the whole file is
+# one transaction, so a syntax error later leaves the previous rules intact.
+table inet snoopscan_egress
+delete table inet snoopscan_egress
+
+table inet snoopscan_egress {
+
+    # ----------------------------------------------------------------- sets
+    # Named rather than derived from ipaddress flags, because the flags are
+    # wrong in both directions: 100.64.0.0/10 reports is_private, is_reserved
+    # AND is_global all False, and 192.88.99.0/24 and 64:ff9b::/96 report
+    # is_global True. Measured on Python 3.12.14.
+
+    set forbidden4 {
+        type ipv4_addr
+        flags interval
+        elements = {
+            0.0.0.0/8,          # "this network"
+            10.0.0.0/8,         # RFC1918
+            100.64.0.0/10,      # carrier-grade NAT — also Alibaba metadata
+            127.0.0.0/8,        # loopback
+            169.254.0.0/16,     # link-local — cloud metadata lives here
+            172.16.0.0/12,      # RFC1918
+            192.0.0.0/24,       # IETF protocol assignments
+            192.0.2.0/24,       # TEST-NET-1
+            192.88.99.0/24,     # 6to4 relay anycast
+            192.168.0.0/16,     # RFC1918
+            198.18.0.0/15,      # benchmarking
+            198.51.100.0/24,    # TEST-NET-2
+            203.0.113.0/24,     # TEST-NET-3
+            224.0.0.0/4,        # multicast
+            240.0.0.0/4,        # reserved, incl. 255.255.255.255
+        }
+    }
+
+    set forbidden6 {
+        type ipv6_addr
+        flags interval
+        elements = {
+            ::/128,             # unspecified
+            ::1/128,            # loopback
+            ::ffff:0.0.0.0/96,  # IPv4-mapped
+            64:ff9b::/96,       # NAT64 well-known
+            64:ff9b:1::/48,     # NAT64 local-use
+            100::/64,           # discard-only
+            2001::/32,          # Teredo
+            2001:db8::/32,      # documentation
+            2002::/16,          # 6to4
+            fc00::/7,           # unique local
+            fe80::/10,          # link-local
+            ff00::/8,           # multicast
+        }
+    }
+
+    # --------------------------------------------------------------- output
+    # priority filter + 10: after ufw's own output chain, so its accounting is
+    # unchanged. Policy ACCEPT — this chain only ever refuses; it is not a
+    # default-deny egress policy and must not become one by accident.
+
+    chain output {
+        type filter hook output priority filter + 10; policy accept;
+
+        # Everything that is not the crawler is none of this chain's
+        # business: the Laravel app, postgres, ssh, apt, the mail queue.
+        #
+        # BOTH crawler identities are in scope. uid 999 (snoopscan) is the
+        # engine; uid 994 (snoopbrowser) is what the browsers run as, and the
+        # difference between them is the whole point of the split — see the
+        # loopback rule further down, which only 999 gets.
+        meta skuid != { 999, 994 } accept
+
+        # REPLIES, before anything else. The engine's API listens on
+        # 127.0.0.1:8099 and its answers go to the client's ephemeral port —
+        # 127.0.0.1:45000 and the like — which is inside 127.0.0.0/8 and is
+        # not one of the three allowed ports below. Without this rule the
+        # reject at the bottom refuses the API's own responses to nginx and to
+        # any local client: measured on this host, health went to 000 over
+        # loopback and 000 through nginx. A syntax check cannot catch that.
+        #
+        # `ct direction reply` and not merely `ct state established`. Both fix
+        # the outage, but plain established also accepts every connection the
+        # CRAWLER opened, including one to a forbidden address that was
+        # already open when enforcement started — which would let a connection
+        # the filter exists to prevent keep running until it closed. In the
+        # reply direction the packet is an answer to a connection SOMEONE ELSE
+        # opened, which is exactly, and only, what needs excusing here.
+        #
+        # Outbound traffic is unaffected: packets to the allowed loopback
+        # services match their own rules below for the life of the connection,
+        # and packets to public addresses match no forbidden set and fall
+        # through to the chain's accept policy.
+        ct state established,related ct direction reply accept
+
+        # Everything the crawler OPENS is judged from here on, whether it is
+        # new or already running.
+
+        # DNS, pinned to the resolvers this host actually uses.
+        ip daddr { 185.12.64.1, 185.12.64.2 } udp dport 53 accept
+        ip daddr { 185.12.64.1, 185.12.64.2 } tcp dport 53 accept
+        ip6 daddr 2a01:4ff:ff00::add:2 udp dport 53 accept
+        ip6 daddr 2a01:4ff:ff00::add:2 tcp dport 53 accept
+
+        # The loopback services the ENGINE legitimately talks to, by exact
+        # port, and by exact uid. An allow-list twice over: 127.0.0.1:3306 is
+        # the other app's database and is not here, and uid 994 is not here
+        # either, so a browser has no loopback exception of any kind.
+        #
+        # This used to be uid-blind, and the browsers shared the engine's
+        # identity — so a page that persuaded Chromium to open
+        # 127.0.0.1:5432 was allowed by the same rule that lets the engine
+        # reach its own database. The browsers now run as snoopbrowser and
+        # get nothing. See README.md, "Browser isolation".
+        meta skuid 999 ip daddr 127.0.0.1 tcp dport { 5432, 6379, 8888 } accept
+        meta skuid 999 ip6 daddr ::1 tcp dport { 5432, 6379, 8888 } accept
+
+        # Everything else aimed at infrastructure, for any protocol — these
+        # rules carry no l4proto restriction, so UDP to these ranges is
+        # refused here too. `reject` rather than `drop`: a refused connection
+        # fails in milliseconds and shows up as an error, where a dropped one
+        # hangs until the request times out and looks like a slow site.
+        ip daddr @forbidden4 counter reject with icmp type admin-prohibited
+        ip6 daddr @forbidden6 counter reject with icmpv6 type admin-prohibited
+    }
+}

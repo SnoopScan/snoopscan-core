@@ -1,0 +1,176 @@
+# The named schemas callers ask for by name (engine/core/extract/templates.py).
+#
+# A DATA FILE, deliberately, like site_rules.yaml and signatures.yaml: a field
+# list changes when a site's markup does, and that must not need a deploy.
+# The desk can add or override a template at runtime (extraction_templates in
+# the database); what is here is the floor that ships with the engine.
+#
+# Field names are schema.org's ON PURPOSE. That is what sites publish in their
+# JSON-LD, so these fill from the page's own markup with no model call. A
+# field invented here would need a model on every page, which is the whole
+# cost the template exists to avoid.
+templates:
+- name: product
+  description: 'A shop listing: name, brand, price, currency, availability, rating.'
+  schema:
+    type: object
+    properties:
+      name:
+        type: string
+      brand:
+        type: string
+      description:
+        type: string
+      sku:
+        type: string
+      price:
+        type: number
+      currency:
+        type: string
+      availability:
+        type: string
+      condition:
+        type: string
+      ratingValue:
+        type: number
+      reviewCount:
+        # A count, not a measurement: sites publish "107" and a schema of
+        # `number` turned it into 107.0 in the answer (measured live,
+        # 20 Sep 2026).
+        type: integer
+      image:
+        type: string
+    required:
+    - name
+- name: article
+  description: 'A news or blog page: headline, author, dates, section, publisher.'
+  schema:
+    type: object
+    properties:
+      headline:
+        type: string
+      author:
+        type: string
+      datePublished:
+        type: string
+      dateModified:
+        type: string
+      description:
+        type: string
+      section:
+        type: string
+      publisher:
+        type: string
+      image:
+        type: string
+    required:
+    - headline
+- name: jobPosting
+  description: 'A vacancy: title, employer, location, type, salary, dates.'
+  schema:
+    type: object
+    properties:
+      title:
+        type: string
+      hiringOrganization:
+        type: string
+      jobLocation:
+        type: string
+      employmentType:
+        type: string
+      datePosted:
+        type: string
+      validThrough:
+        type: string
+      baseSalary:
+        type: number
+      salaryCurrency:
+        type: string
+      remote:
+        type: boolean
+      description:
+        type: string
+    required:
+    - title
+- name: localBusiness
+  description: 'A business page: name, phone, address, opening hours, rating.'
+  schema:
+    type: object
+    properties:
+      name:
+        type: string
+      telephone:
+        type: string
+      email:
+        type: string
+      streetAddress:
+        type: string
+      addressLocality:
+        type: string
+      postalCode:
+        type: string
+      addressCountry:
+        type: string
+      openingHours:
+        type: string
+      ratingValue:
+        type: number
+      reviewCount:
+        # A count, not a measurement: sites publish "107" and a schema of
+        # `number` turned it into 107.0 in the answer (measured live,
+        # 20 Sep 2026).
+        type: integer
+      priceRange:
+        type: string
+    required:
+    - name
+- name: event
+  description: 'A listing with a date: name, start and end, location, organiser, price.'
+  schema:
+    type: object
+    properties:
+      name:
+        type: string
+      startDate:
+        type: string
+      endDate:
+        type: string
+      location:
+        type: string
+      organizer:
+        type: string
+      price:
+        type: number
+      currency:
+        type: string
+      description:
+        type: string
+    required:
+    - name
+- name: recipe
+  description: 'A recipe: ingredients, steps, timings, yield, rating.'
+  schema:
+    type: object
+    properties:
+      name:
+        type: string
+      author:
+        type: string
+      totalTime:
+        type: string
+      recipeYield:
+        type: string
+      recipeIngredient:
+        type: array
+        items:
+          type: string
+      recipeInstructions:
+        type: array
+        items:
+          type: string
+      ratingValue:
+        type: number
+      calories:
+        type: string
+    required:
+    - name

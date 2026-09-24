@@ -1,0 +1,69 @@
+name: Pre-publication check
+
+# Deliberately NOT on push. This gate fails while `github.com/OWNER` is still
+# a placeholder, which is the correct state for a private repository — wiring
+# it into the main build would put CI permanently red on something nobody is
+# meant to fix yet.
+#
+# Run it from the Actions tab before making the repository public, and again
+# before any release that changes what ships.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # check_public_suite_is_green() in tools/check_publish_ready.py runs the
+    # real test suite — without these, every DB-touching test fails before
+    # the check gets anywhere near what it actually exists to prove (that no
+    # proprietary-only assertion, like WAF vendor detection, leaked into the
+    # public suite). Same services the main `test` job in ci.yml uses.
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: scraping_engine
+        options: >-
+          --health-cmd pg_isready --health-interval 10s
+          --health-timeout 5s --health-retries 5
+        ports: ["5432:5432"]
+      redis:
+        image: redis:7
+        options: >-
+          --health-cmd "redis-cli ping" --health-interval 10s
+          --health-timeout 5s --health-retries 5
+        ports: ["6379:6379"]
+    env:
+      ENGINE_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/scraping_engine
+      ENGINE_REDIS_URL: redis://localhost:6379/0
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The secret-in-history check needs the whole history, not a shallow
+          # clone. A shallow clone would report clean on a repository whose
+          # first commit contained a key.
+          fetch-depth: 0
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
+      # `uv sync --frozen` alone does NOT install PEP 621 optional-dependencies
+      # extras like [dev] — this job ran `python -m pytest` for months without
+      # pytest ever being installed, failing in under a second with an empty
+      # message every time (ModuleNotFoundError goes to stderr; the check
+      # script only surfaces stdout). Matches the other jobs' proven pattern.
+      - run: uv venv --python 3.12
+      - name: Install dependencies
+        run: uv pip install -e ".[dev,browser]"
+      # test_cli.py imports from the installed package, not from sdk/python/
+      # by path — same gap ci.yml's own test job had before it was fixed.
+      - run: uv pip install -e sdk/python --python .venv/bin/python
+
+      - name: Migrate
+        run: .venv/bin/alembic upgrade head
+
+      - name: Repository must be safe to publish
+        run: .venv/bin/python tools/check_publish_ready.py

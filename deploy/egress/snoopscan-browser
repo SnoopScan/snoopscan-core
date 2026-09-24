@@ -1,0 +1,27 @@
+#!/bin/sh
+# Run the browser as its own user, so the crawler's loopback exceptions
+# (postgres, redis, searxng) do not apply to it. See deploy/egress/README.md.
+#
+# Playwright creates the profile directory as the CALLING user with 0700, and
+# the browser then cannot write it. This script runs as the caller, before
+# sudo, which is the only moment the directory can be handed over.
+CHROME=/srv/snoopscan/.cache/ms-playwright/chromium-1234/chrome-linux64/chrome
+
+for a in "$@"; do
+  case "$a" in
+    --user-data-dir=*)
+      d=${a#--user-data-dir=}
+      if [ -d "$d" ]; then
+        chgrp -R snoopbrowse "$d" 2>/dev/null || true
+        chmod -R g+rwX "$d" 2>/dev/null || true
+      fi
+      ;;
+  esac
+done
+
+# -C 20: Playwright hands the browser its remote-debugging pipe on fds 3 and
+# 4, and sudo closes everything above 2 by default — the browser then exits 13
+# with "Remote debugging pipe file descriptors are not open". Needs
+# `Defaults!<cmnd> closefrom_override` in the sudoers drop-in.
+# -H: crashpad wants a writable HOME, and the browser user has its own.
+exec sudo -n -C 20 -H -u snoopbrowser "$CHROME" "$@"

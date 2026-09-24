@@ -1,0 +1,55 @@
+name: Weekly live smoke test
+
+# 07-orchestration.md section 9 asks for a weekly live smoke test, and
+# tools/smoke.py has said "run it weekly" since it was written while nothing
+# ran it. An instruction in a docstring is not a schedule.
+#
+# This hits real public targets, so it does NOT run on every push — it would
+# be rude to the targets and would tell us nothing new between commits. The
+# number to watch is the pass rate over weeks: a drop is early warning that a
+# library or a WAF changed, before it shows up as a production failure.
+
+on:
+  schedule:
+    # Sunday 04:00 UTC — quiet for the targets, and a failure is waiting on
+    # Monday morning rather than in the middle of the week's work.
+    - cron: "0 4 * * 0"
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # The politeness gate keeps its per-host state in Redis, so a scrape needs
+    # one even when nothing is persisted. Without it every target failed on a
+    # refused connection and the run read as "the web broke" — 0/5 on the
+    # first and only run this workflow ever had (20 Sep 2026).
+    services:
+      redis:
+        image: redis:7
+        options: >-
+          --health-cmd "redis-cli ping" --health-interval 10s
+          --health-timeout 5s --health-retries 5
+        ports: ["6379:6379"]
+    env:
+      ENGINE_REDIS_URL: redis://localhost:6379/0
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Install dependencies
+        run: uv sync --frozen
+
+      - name: Live smoke test against real targets
+        run: .venv/bin/python tools/smoke.py
+        env:
+          # No proxy: this measures whether the plain fetch tiers still work.
+          # Routing it through a proxy would mask exactly the drift we are
+          # watching for.
+          ENGINE_PROXY_ENABLED: "false"
+
+      - name: Extraction checkpoint
+        run: .venv/bin/python tools/checkpoint.py
+        continue-on-error: true

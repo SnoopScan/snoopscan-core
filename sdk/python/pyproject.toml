@@ -1,0 +1,37 @@
+[project]
+name = "snoopscan"
+version = "0.5.1"
+description = "Python client for the SnoopScan web scraping API"
+readme = "README.md"
+requires-python = ">=3.10"
+# MIT, NOT AGPL. The server is AGPL; a client library must not be, or every
+# application that imports it inherits the copyleft. An AGPL SDK is an
+# adoption blocker, which is the opposite of what a client is for.
+license = "MIT"
+license-files = ["LICENSE"]
+dependencies = ["httpx>=0.27"]
+keywords = ["scraping", "crawler", "web-scraping", "markdown", "llm", "agents"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Text Processing :: Markup :: Markdown",
+]
+
+[project.scripts]
+# The command IS the package name: `snoop` is taken on both PyPI and npm, and
+# a short alias like `ss` would shadow a real tool on Linux.
+snoopscan = "snoopscan.cli:main"
+
+[project.urls]
+Homepage = "https://snoopscan.com"
+Documentation = "https://snoopscan.com/docs"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["snoopscan"]

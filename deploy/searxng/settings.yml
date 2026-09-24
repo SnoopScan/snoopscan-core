@@ -1,0 +1,44 @@
+# SearXNG, the first rung of the search ladder (07-orchestration.md section 8).
+#
+# It leads the ladder because it spreads one query across many engines at once
+# and its per-engine parsers are maintained by people for whom that is the whole
+# job. Measured 4 September 2026: at the moment Brave was returning HTTP 429 to
+# our own scraper, this answered the same query with 38 results, 18 of them
+# Brave's.
+#
+# Two settings below are the reason a public instance is no use to us:
+#   search.formats   must include `json`, which almost no public instance enables
+#   server.limiter   the bot limiter that makes public instances refuse API use
+use_default_settings: true
+
+general:
+  instance_name: "snoop-search"
+  donation_url: false
+  enable_metrics: false
+
+server:
+  port: 8888
+  bind_address: "0.0.0.0"
+  secret_key: "!SEARXNG_SECRET!"
+  limiter: false
+  public_instance: false
+  image_proxy: false
+
+search:
+  safe_search: 0
+  autocomplete: ""
+  formats:
+    - html
+    - json
+
+outgoing:
+  request_timeout: 10.0
+  max_request_timeout: 20.0
+  pool_connections: 100
+  pool_maxsize: 20
+  # Every upstream query leaves through our residential exit, never the host's
+  # own address. SearXNG scrapes Google and Bing directly, and doing that from
+  # the machine you run everything else on is how that address gets flagged.
+  proxies:
+    all://:
+      - "!SEARXNG_PROXY_URL!"

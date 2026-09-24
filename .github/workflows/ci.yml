@@ -1,0 +1,178 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    # The licence gate runs on a schedule too, not only on change — a
+    # transitive dependency can relicense underneath us.
+    - cron: "17 4 * * 1"
+
+env:
+  PYTHONPATH: ${{ github.workspace }}
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - run: uv venv --python 3.12
+      - run: uv pip install -e ".[dev]"
+      - run: .venv/bin/ruff check engine tools
+      - run: .venv/bin/ruff format --check engine tools
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - run: uv venv --python 3.12
+      # Both extras: engine/core/fetch/tier3h_camoufox.py imports camoufox at
+      # module level, so without the browser extra mypy cannot even resolve
+      # the import and every error underneath it is masked by import-not-found
+      # instead of being checked — this installs the packages only, not the
+      # ~400MB of Chromium `python -m camoufox fetch` would pull, which
+      # type-checking never needs.
+      - run: uv pip install -e ".[dev,browser]"
+      # engine/core only for a long time, which left the API and the workers
+      # unchecked — and the workers had a live type error nobody saw.
+      - run: .venv/bin/mypy --strict engine/core engine/api engine/workers engine/logging_config.py
+
+  boundary:
+    # BLOCKING. The commercial protection is that the proprietary modules are
+    # never published; that only holds if the open core does not depend on
+    # them. A single module-scope import breaks the published package.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - run: uv venv --python 3.12
+      - run: uv pip install -e ".[dev]"
+      - name: Enforce the open-core boundary
+        run: .venv/bin/python tools/check_split.py
+      - name: Check LICENSE-PROPRIETARY is not stale
+        run: .venv/bin/python tools/render_licence.py --check
+      - name: Check the systemd units are not stale
+        run: .venv/bin/python tools/render_units.py --check
+      - name: Prove the open core runs without the proprietary modules
+        # The paths come from engine/licensing.py, never a list typed here. A
+        # hand-kept `rm -rf` removed 4 of the 12 withheld paths, so this step
+        # had never proved the core runs without engine/platforms, engine/places
+        # or the stealth tiers — the exact thing it claims to prove.
+        run: |
+          .venv/bin/python - <<'EOF'
+          import shutil, pathlib
+          from engine.licensing import PROPRIETARY_PREFIXES
+          for rel in PROPRIETARY_PREFIXES:
+              p = pathlib.Path(rel)
+              if p.is_dir():
+                  shutil.rmtree(p)
+              elif p.exists():
+                  p.unlink()
+              print("removed", rel)
+          EOF
+          .venv/bin/python -c "from engine.api.app import app; from engine.mcp.server import mcp"
+
+  licence:
+    # BLOCKING, not advisory. A build that pulls a forbidden licence fails.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - run: uv venv --python 3.12
+      - run: uv pip install -e ".[dev]"
+      - name: Generate licence inventory
+        run: .venv/bin/pip-licenses --format=json --with-urls > licences.json
+      - name: Enforce licence policy
+        run: .venv/bin/python tools/check_licences.py licences.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: licences
+          path: licences.json
+
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: scraping_engine
+        options: >-
+          --health-cmd pg_isready --health-interval 10s
+          --health-timeout 5s --health-retries 5
+        ports: ["5432:5432"]
+      redis:
+        image: redis:7
+        options: >-
+          --health-cmd "redis-cli ping" --health-interval 10s
+          --health-timeout 5s --health-retries 5
+        ports: ["6379:6379"]
+    env:
+      ENGINE_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/scraping_engine
+      ENGINE_REDIS_URL: redis://localhost:6379/0
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - run: uv venv --python 3.12
+      - run: uv pip install -e ".[dev]"
+      # test_cli.py imports from the installed package, not from sdk/python/
+      # by path — without this, its whole module fails to collect and every
+      # CLI test (client faked, but the CLI itself genuinely exercised) never
+      # ran in CI at all.
+      - run: uv pip install -e sdk/python --python .venv/bin/python
+      - name: Migrate
+        run: .venv/bin/alembic upgrade head
+      - name: Assert migration is reversible
+        run: |
+          .venv/bin/alembic downgrade base
+          .venv/bin/alembic upgrade head
+      - name: Tests
+        run: .venv/bin/pytest engine/tests -q --cov=engine/core --cov-report=term-missing
+
+      - name: Extraction quality — headline F1 should only ever go up
+        run: .venv/bin/python tools/extraction_score.py --check
+
+      - name: Structured path must beat the heuristic baseline
+        run: .venv/bin/python tools/extraction_score.py --compare
+
+      - name: Backup restore — a backup nobody has restored is a hypothesis
+        run: .venv/bin/python tools/backup.py --dump /tmp/engine-backups
+
+      # test_alerts.py checks the rules reference metrics that exist; only
+      # promtool checks the PromQL itself parses. A rule with a syntax error
+      # is rejected by Prometheus at load and every rule in the file goes with
+      # it — so this is not a nicety.
+      - name: Alert rules must parse
+        run: |
+          PROM=prometheus-2.53.0.linux-amd64
+          curl -sSL "https://github.com/prometheus/prometheus/releases/download/v2.53.0/$PROM.tar.gz" \
+            | tar xz "$PROM/promtool"
+          "./$PROM/promtool" check rules deploy/alerts.yml
+
+      - name: Coverage floor on core
+        run: .venv/bin/pytest engine/tests -q --cov=engine/core --cov-fail-under=75
+
+  test-js-sdk:
+    # Unit tests only — no SNOOPSCAN_TEST_API_KEY here, so the live
+    # integration tests in tests/client.test.ts skip themselves. Same reason
+    # the Python SDK's own CI job never leaves localhost: a route change
+    # that breaks either client should fail here, not reach a publish.
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sdk/js
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: sdk/js/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build

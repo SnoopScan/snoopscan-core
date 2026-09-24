@@ -1,0 +1,316 @@
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns0="http://www.w3.org/2005/Atom" xmlns:ns2="http://search.yahoo.com/mrss/" xmlns:ns3="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Troy Hunt</title><description>Hi, I'm Troy Hunt, I write this blog, run "Have I Been Pwned" and am a Microsoft Regional Director and MVP who travels the world speaking at events and training technology professionals</description><link>https://www.troyhunt.com/</link><image><url>https://www.troyhunt.com/favicon.png</url><title>Troy Hunt</title><link>https://www.troyhunt.com/</link></image><generator>Ghost 6.62</generator><lastBuildDate>Thu, 03 Sep 2026 10:30:49 GMT</lastBuildDate><ns0:link href="https://www.troyhunt.com/rss/" rel="self" type="application/rss+xml" /><ttl>60</ttl><item><title>Weekly Update 519: Breaches &amp; Data Integrity</title><description>&lt;p&gt;It does feel like I&amp;apos;ve bitten off too much and am now chewing like crazy this week. The 3D printing talk with Elle in Oslo, the &amp;quot;normal&amp;quot; NDC infosec talk, the cyber-broken talk with Scott in Copenhagen and then those ratbag hackers keep dumping more&lt;/p&gt;</description><link>https://www.troyhunt.com/weekly-update-519/</link><guid isPermaLink="false">6a974fa322597d0001a8f2e8</guid><category>Weekly update</category><dc:creator>Troy Hunt</dc:creator><pubDate>Tue, 01 Sep 2026 22:26:38 GMT</pubDate><ns2:content url="https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2026/09/Splash-Template@1x_1.jpg" medium="image" /><ns3:encoded>&lt;img src="https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2026/09/Splash-Template@1x_1.jpg" alt="Weekly Update 519: Breaches &amp;amp; Data Integrity"&gt;&lt;p&gt;It does feel like I&amp;apos;ve bitten off too much and am now chewing like crazy this week. The 3D printing talk with Elle in Oslo, the &amp;quot;normal&amp;quot; NDC infosec talk, the cyber-broken talk with Scott in Copenhagen and then those ratbag hackers keep dumping more data too! Oh, and still finalising all the IoT door lock stuff, along with mapping out all the cameras, APs and door hubs in Ubiquiti&amp;apos;s designer to make sure we don&amp;apos;t miss anything there. It&amp;apos;s ordered chaos... just.&lt;/p&gt;
+&lt;!--kg-card-begin: html--&gt;
+&lt;div&gt;&lt;div style="width: 170px; display: inline-block; margin-right: 3px;"&gt;&lt;a href="https://itunes.apple.com/au/podcast/troy-hunts-weekly-update-podcast/id1176454699?ref=troy-hunt"&gt;&lt;img src="https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2018/05/Listen-on-Apple-Podcasts.svg" alt="Weekly Update 519: Breaches &amp;amp; Data Integrity"&gt;&lt;/a&gt;&lt;/div&gt;&lt;div style="width: 175px; display: inline-block; margin-right: 3px;"&gt;&lt;a href="https://www.youtube.com/playlist?list=PL7LAAxaabizMAXnJe0s3xjQ30q12EVmjt&amp;amp;ref=troyhunt.com"&gt;&lt;img src="https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2024/09/Watch-and-Listen-on-YouTube.svg" alt="Weekly Update 519: Breaches &amp;amp; Data Integrity"&gt;&lt;/a&gt;&lt;/div&gt;&lt;div style="width: 118px; display: inline-block; margin-right: 3px;"&gt;&lt;a href="https://open.spotify.com/show/7jMtKFohdrw6qmz8AkLqit?ref=troy-hunt"&gt;&lt;img src="https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2019/10/spotify.svg" class="kg-image" alt="Weekly Update 519: Breaches &amp;amp; Data Integrity"&gt;&lt;/a&gt;&lt;/div&gt;&lt;div style="width: 120px; display: inline-block;"&gt;&lt;a href="https://omny.fm/shows/troy-hunt-weekly-update/playlists/podcast.rss?ref=troy-hunt"&gt;&lt;img src="https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2018/07/Download-via-RSS.svg" alt="Weekly Update 519: Breaches &amp;amp; Data Integrity"&gt;&lt;/a&gt;&lt;/div&gt;&lt;iframe width="100%" height="480" src="https://www.youtube.com/embed/IGCiGo6kkTA" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy" spellcheck="false"&gt;&lt;/iframe&gt;&lt;/div&gt;
+&lt;!--kg-card-end: html--&gt;
+</ns3:encoded></item><item><title>A Cautionary Tale About Data Breach Claims, Verification and Carhartt</title><description>&lt;p&gt;You&amp;apos;re not going to believe this, but turns out you can&amp;apos;t always take criminals at their word. Actually, I&amp;apos;ll walk that back a bit as it may not even be the cybercrime guys who got this wrong, but it all starts here:&lt;/p&gt;
+&lt;!--kg-card-begin: html--&gt;
+&lt;blockquote class="twitter-tweet" data-media-max-width="560"&gt;&lt;p lang="en" dir="ltr"&gt;&amp;#x1F6A8;Cyber&lt;/p&gt;&lt;/blockquote&gt;</description><link>https://www.troyhunt.com/a-cautionary-tale-about-data-breach-claims-verification-and-carhartt/</link><guid isPermaLink="false">6a8cb4dca3e2b90001e04549</guid><category>Have I Been Pwned</category><dc:creator>Troy Hunt</dc:creator><pubDate>Tue, 25 Aug 2026 21:51:08 GMT</pubDate><ns2:content url="https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2026/08/02ce55ab-3839-456a-86a9-1afa449aacc9.png" medium="image" /><ns3:encoded>&lt;img src="https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2026/08/02ce55ab-3839-456a-86a9-1afa449aacc9.png" alt="A Cautionary Tale About Data Breach Claims, Verification and Carhartt"&gt;&lt;p&gt;You&amp;apos;re not going to believe this, but turns out you can&amp;apos;t always take criminals at their word. Actually, I&amp;apos;ll walk that back a bit as it may not even be the cybercrime guys who got this wrong, but it all starts here:&lt;/p&gt;
+&lt;!--kg-card-begin: html--&gt;
+&lt;blockquote class="twitter-tweet" data-media-max-width="560"&gt;&lt;p lang="en" dir="ltr"&gt;&amp;#x1F6A8;Cyber Alert &amp;#x203C;&amp;#xFE0F;&lt;br&gt;&lt;br&gt;&amp;#x1F1FA;&amp;#x1F1F8;US - &amp;#x1D5D6;&amp;#x1D5EE;&amp;#x1D5FF;&amp;#x1D5F5;&amp;#x1D5EE;&amp;#x1D5FF;&amp;#x1D601;&amp;#x1D601;&lt;br&gt;&lt;br&gt;ShinyHunters hacking group claims to have compromised Carhartt and allegedly stolen more than 50 GB of compressed data containing millions of customer records, employee information, customer metadata, loyalty-related information, and&amp;#x2026; &lt;a href="https://t.co/BvzsEQS54l?ref=troyhunt.com"&gt;pic.twitter.com/BvzsEQS54l&lt;/a&gt;&lt;/p&gt;&amp;#x2014; Hackmanac (@H4ckmanac) &lt;a href="https://x.com/H4ckmanac/status/2087815969796149378?ref_src=twsrc%5Etfw&amp;amp;ref=troyhunt.com"&gt;August 13, 2026&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.x.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;!--kg-card-end: html--&gt;
+&lt;p&gt;My usual Have I Been Pwned (HIBP) workflow after a breach emerges is to run &lt;a href="https://github.com/HaveIBeenPwned/EmailAddressExtractor/?ref=troyhunt.com" rel="noreferrer"&gt;our open source Email Address Extractor tool&lt;/a&gt; over the corpus of data, get a count of the unique addresses then drop it into the processing pipeline. Having a count helps prioritise: it&amp;apos;s roughly the same effort to process a breach with 10M addresses in it as it is 100k addresses, but we obviously reach 100x more people with the larger corpus so that goes first. So, following the release of the Carhartt data above, I ran the tool and got 24,876,077 addresses. That&amp;apos;s a biggy, let&amp;apos;s dive in.&lt;/p&gt;&lt;p&gt;One of the first things I do when analysing a breach is look for news and industry commentary. Once you get through all the results for class actions (&lt;a href="https://www.troyhunt.com/data-breaches-class-actions-and-ambulance-chasing/" rel="noreferrer"&gt;ugh&lt;/a&gt;), you usually find various other services and news sites reporting on the incident. One such example (which I won&amp;apos;t name, because they&amp;apos;re wrong) cited a very similar number to my initial pass, which at face value, reinforced my thinking. But here&amp;apos;s where it all takes a turn because, inevitably, this is where the other analysts stopped...&lt;/p&gt;&lt;p&gt;I&amp;apos;ve been using OpenClaw pretty extensively this year to help with a number of tasks, including breach analysis. Here&amp;apos;s how I normally begin (timestamps are AEST and yes, I called it &amp;quot;PwnedClaw&amp;quot;):&lt;/p&gt;
+&lt;!--kg-card-begin: html--&gt;
+&lt;pre&gt;&lt;code&gt;[24/08/2026 17:30] Troy Hunt: Let&amp;apos;s look at the ShinyHunters Carhartt breach. I&amp;apos;m seeing nearly 25M unique email addresses so it&amp;apos;s very large, tell me about what they do.
+  
+[24/08/2026 17:30] PwnedClaw: Carhartt is an American workwear brand founded in 1889, headquartered in Dearborn, Michigan. They make rugged, durable clothing primarily for tradespeople and outdoor workers: heavy-duty jackets, bibs, coveralls, work pants, boots, and accessories. Think construction workers, farmers, hunters.
+
+They&amp;apos;ve also crossed over into streetwear/fashion in recent years (particularly through Carhartt WIP, their Work In Progress line), which massively expanded their demographic beyond blue-collar workers into urban fashion, skateboarding, and hip-hop culture. That crossover likely explains a 25M email count &amp;#x2014; they&amp;apos;re not just selling to contractors anymore, they&amp;apos;re a mainstream lifestyle brand.
+
+Strong US base but significant global presence, especially in Europe where WIP is huge.
+
+For HIBP context: broad demographic mix (blue-collar workers + fashion/streetwear), real names, physical addresses, and purchase history are likely present given it&amp;apos;s a retail breach. Want me to pull the tracker entry for current status?&lt;/code&gt;&lt;/pre&gt;
+&lt;!--kg-card-end: html--&gt;
+&lt;p&gt;Ok, cool, nothing too revolutionary there. Let&amp;apos;s start analysing the data, and the first thing I do is begin with the report of our open source &lt;a href="https://github.com/HaveIBeenPwned/EmailAddressExtractor/?ref=troyhunt.com" rel="noreferrer"&gt;Email Address Extractor&lt;/a&gt; tool, which lists every file an address was found in, and then how many unique ones are in there:&lt;/p&gt;
+&lt;!--kg-card-begin: html--&gt;
+&lt;pre&gt;&lt;code&gt;[24/08/2026 17:32] Troy Hunt: Let&amp;apos;s start looking at data, and we&amp;apos;ll begin with the email extractor report at &amp;quot;\scratch\Carhartt\Carhartt.txt.report.txt&amp;quot;
+  
+[24/08/2026 17:32] PwnedClaw: Interesting. The data is from Databricks (their analytics/data lakehouse platform) and follows the TPC-DS benchmark schema (tpcds_sf1000) &amp;#x2014; that&amp;apos;s a standard retail analytics benchmark format. The &amp;quot;sf1000&amp;quot; means scale factor 1000, which is massive.
+
+Key observations:
+
+&amp;#x2022; All emails are in customer_chunk_XXXX.csv files, numbered 0000-0599+, so ~600 chunks
+&amp;#x2022; Each chunk has ~19,300 unique emails, remarkably uniform distribution
+&amp;#x2022; ~600 chunks &amp;#xD7; ~19,300 = ~11.6M from this directory alone &amp;#x2014; but you said ~25M total, so there are likely more directories
+
+The TPC-DS schema is telling &amp;#x2014; it means this was Carhartt&amp;apos;s customer analytics warehouse in Databricks, not their production transactional database. TPC-DS models: customer demographics, store sales, web sales, catalog sales, dates, etc. So the data likely includes purchase history and behavioral analytics on top of PII.
+
+Want me to look at an actual chunk file to see what columns are present?&lt;/code&gt;&lt;/pre&gt;
+&lt;!--kg-card-end: html--&gt;
+&lt;p&gt;Think of it as using the AI to distil large volumes of information down into something much more workable. In this case, I gave it four of the files in question and let the analysis run:&lt;/p&gt;
+&lt;!--kg-card-begin: html--&gt;
+&lt;pre&gt;&lt;code&gt;[24/08/2026 17:33] PwnedClaw: The columns from the TPC-DS customer table:
+
+&amp;#x2022; c_customer_sk / c_customer_id &amp;#x2014; internal IDs
+&amp;#x2022; c_current_cdemo_sk &amp;#x2014; customer demographic key (links to demo table with age/gender/education/marital status/income band)
+&amp;#x2022; c_current_hdemo_sk &amp;#x2014; household demographic key
+&amp;#x2022; c_current_addr_sk &amp;#x2014; current address key (links to full address table)
+&amp;#x2022; c_first_shipto_date_sk / c_first_sales_date_sk &amp;#x2014; date of first purchase/shipment
+&amp;#x2022; c_salutation &amp;#x2014; Mr/Mrs/Miss/Sir etc.
+&amp;#x2022; c_first_name / c_last_name
+&amp;#x2022; c_preferred_cust_flag &amp;#x2014; loyalty/preferred customer flag
+&amp;#x2022; c_birth_day / c_birth_month / c_birth_year &amp;#x2014; full DOB
+&amp;#x2022; c_birth_country
+&amp;#x2022; c_login &amp;#x2014; empty in the samples
+&amp;#x2022; c_email_address
+&amp;#x2022; c_last_review_date_sk / c_last_review_date
+
+So: full name, email, DOB, salutation, birth country, preferred customer status, first purchase date. Address is a foreign key here (in a separate address table that&amp;apos;s presumably also in the dump).
+
+Notable: c_login appears empty &amp;#x2014; so no passwords in this table. DOB is split across three columns which is a bit unusual but all three are there. Birth year goes back to 1949 in the sample, so this spans a wide age range.
+
+Want me to check how many rows have DOB fully populated, and whether there are other tables in the dump (address, demographics) in what you have locally?&lt;/code&gt;&lt;/pre&gt;
+&lt;!--kg-card-end: html--&gt;
+&lt;p&gt;I&amp;apos;ll save you from all the to-and-fro of my questions and PwnedClaw&amp;apos;s responses, here&amp;apos;s where it gets interesting and where AI plays a genuinely valuable role:&lt;/p&gt;
+&lt;!--kg-card-begin: html--&gt;
+&lt;pre&gt;&lt;code&gt;[24/08/2026 17:41] PwnedClaw: TLD anomaly worth flagging:
+
+&amp;#x2022; 4M .edu and 3.9M .org is extremely high for a retail brand. That&amp;apos;s likely noise from the TPC-DS synthetic data generation mixed with real records, or it could indicate Carhartt ran promotions targeting institutions. Worth sanity checking a sample of those.
+
+Want me to pull 20 random .edu and .org samples to see if they look real or synthetic?&lt;/code&gt;&lt;/pre&gt;
+&lt;!--kg-card-end: html--&gt;
+&lt;p&gt;Huh, yeah, that feels odd. Let&amp;apos;s drill down further, and just a quick caveat: I&amp;apos;m &lt;em&gt;highly&lt;/em&gt; confident that all the data I&amp;apos;m about to show is fabricated and that I&amp;apos;m not inadvertently putting someone else&amp;apos;s PII on display here.&lt;/p&gt;
+&lt;!--kg-card-begin: html--&gt;
+&lt;pre&gt;&lt;code&gt;[24/08/2026 17:47] Troy Hunt: Give me some examples of what you consider synthetic addresses
+  
+[24/08/2026 17:48] PwnedClaw: From the earlier sample:
+
+Clearly synthetic (TPC-DS generated):
+
+&amp;#x2022; roy.griffin@mbfhz82d0vkpes4x.example &amp;#x2014; random hex-like domain
+&amp;#x2022; violet.day@ob7.example &amp;#x2014; 3-char alphanumeric
+&amp;#x2022; michael.ware@c.example &amp;#x2014; single character domain
+&amp;#x2022; manuel.baugh@p.example &amp;#x2014; single character domain
+&amp;#x2022; april.garza@r3zc1yf6i2lxfg.example &amp;#x2014; random alphanumeric
+&amp;#x2022; craig.hodge@nrvnrtanujylkigl.example &amp;#x2014; random consonant string
+&amp;#x2022; ted.walker@9q3ulo9h987zp.example &amp;#x2014; starts with digit, mixed
+&amp;#x2022; michelle.larue@lkvb06fkzsjv.example &amp;#x2014; random alphanumeric
+&amp;#x2022; joel.maldonado@y8rlxnc.example &amp;#x2014; short random alphanumeric
+
+The pattern is consistent: real-looking Firstname.Lastname local part (from TPC-DS customer name generation) grafted onto a completely random/gibberish domain. The local parts look plausible but the domains have no vowel patterns, random digit insertion, or are implausibly short (single characters).
+
+The tell: TPC-DS generates customer emails by concatenating real name fields with random domain strings. So you get sally.smith@uea8muo3gx9udizg.example &amp;#x2014; Sally Smith is plausible, but no .edu institution has that domain.
+
+Want me to build a filter that identifies synthetic domains specifically (gibberish detection) and get a precise real vs synthetic split?&lt;/code&gt;&lt;/pre&gt;
+&lt;!--kg-card-end: html--&gt;
+&lt;p&gt;Oh yeah, that&amp;apos;s definitely junk. It was enough for me to start trawling through the data myself, old-school, like I used to, well, before earlier this year! And that&amp;apos;s where I found data like this:&lt;/p&gt;
+&lt;!--kg-card-begin: html--&gt;
+&lt;pre&gt;&lt;code&gt;c_customer_sk,c_customer_id,c_current_cdemo_sk,c_current_hdemo_sk,c_current_addr_sk,c_first_shipto_date_sk,c_first_sales_date_sk,c_salutation,c_first_name,c_last_name,c_preferred_cust_flag,c_birth_day,c_birth_month,c_birth_year,c_birth_country,c_login,c_email_address,c_last_review_date_sk,c_last_review_date
+11270429,AAAAAAAANBJPLKAA,1423814,7001,19788,2451033,2451003,Miss,Marina,Tucker,Y,13,3,1968,BENIN,,Marina.Tucker@xgpgHqAu.example,2452499,2452499&lt;/code&gt;&lt;/pre&gt;
+&lt;!--kg-card-end: html--&gt;
+&lt;p&gt;It&amp;apos;s the same sort of .edu pattern but not on a .edu TLD. First name, last name, random domain name. And &amp;quot;Benin&amp;quot;?! I&amp;apos;ll save you Googling it like I had to, it&amp;apos;s a small country in West Africa and if I&amp;apos;m guessing, not a major Carhartt market.&lt;/p&gt;
+&lt;!--kg-card-begin: html--&gt;
+&lt;pre&gt;&lt;code&gt;[24/08/2026 17:51] Troy Hunt: Yeah, something smells here, there are screwy domains in addresses like this too: Marina.Tucker@xgpgHqAu.example
+  
+[24/08/2026 17:52] PwnedClaw: That&amp;apos;s a much bigger problem than I initially thought. The frequency analysis confirms it:
+
+&amp;#x2022; 54.8% of addresses (13.6M) are at domains appearing 100+ times &amp;#x2014; these are real
+&amp;#x2022; 45.2% (11.25M) are at domains appearing fewer than 100 times &amp;#x2014; and 8.4M of those contain digits
+
+So the synthetic pattern isn&amp;apos;t confined to .edu/.org at all &amp;#x2014; it&amp;apos;s throughout .com and everything else too. Marina.Tucker@xgpgHqAu.example is the same TPC-DS generation, just with .com slapped on.
+
+The 32% figure I gave you earlier was a significant undercount. The real split looks closer to:
+
+&amp;#x2022; ~13.6M real addresses (domains with 100+ occurrences)
+&amp;#x2022; ~11.25M synthetic (single-use gibberish domains across all TLDs)
+
+That&amp;apos;s roughly 45% junk across the whole corpus, not 32%.
+
+For HIBP the headline number would be around 13-14M rather than 24.8M. Want me to produce a clean filtered list of just the real addresses for an accurate count?&lt;/code&gt;&lt;/pre&gt;
+&lt;!--kg-card-end: html--&gt;
+&lt;p&gt;And the more I probed, the more it all unravelled:&lt;/p&gt;
+&lt;!--kg-card-begin: html--&gt;
+&lt;pre&gt;&lt;code&gt;[24/08/2026 17:53] Troy Hunt: I want you to get a distinct list of all domains with a count next to each one showing how many addresses are on it. This is starting to smell bad.
+  
+[24/08/2026 17:54] PwnedClaw: Done. 10.35M unique domains written to:
+
+scratch/Carhartt/domain-counts.txt
+
+Format is countdomain, sorted by count descending. So the top of the file is gmail.com (http://gmail.com/) at 7M+, and the long tail is all the single-occurrence gibberish. Your HIBP domain dataset should make it very obvious where the cliff edge is between known-real and never-seen-before.
+  
+[24/08/2026 17:58] Troy Hunt: There&amp;apos;s an extraordinary long tail of domains with only 1 address. Also look at the country of birth next to the add addresses; places like Myanmar, Latvia and PNG are just really odd in terms of likelihood.
+  
+[24/08/2026 17:58] PwnedClaw: That country distribution is damning. Here&amp;apos;s what&amp;apos;s wrong with it:
+
+97.6% of domains appear exactly once &amp;#x2014; that&amp;apos;s not a long tail, that&amp;apos;s a signature. Real breach data from a retail company would have thousands of addresses on corporate domains, hundreds on ISP domains, a natural power law. Instead you have 10.1M singleton domains. That&amp;apos;s pure TPC-DS generation.
+
+The birth country data is the other nail in the coffin. Look at what&amp;apos;s in those 4 chunk files:
+
+&amp;#x2022; Venezuela, Nicaragua, Qatar, Montenegro, Lesotho, Gambia, Norfolks Island, R&amp;#xE9;union, Comoros, Western Sahara, Palau...
+&amp;#x2022; United States appears only 407 times &amp;#x2014; tied with Canada, both dwarfed by places like Antigua and Barbuda and Lesotho
+&amp;#x2022; The distribution across 211 countries is essentially uniform &amp;#x2014; ~380-420 per country
+
+That&amp;apos;s textbook TPC-DS. It generates customer records with birth countries sampled uniformly from the full ISO country list. No real Carhartt customer database would have more customers born in Montenegro than the United States.
+
+Bottom line: What you have here looks like real Carhartt customer records (the carharttdonotship.com, carhartt.com domains, the 70% HIBP hit rate on freemail addresses) that were stored in Databricks alongside TPC-DS benchmark data that was run against the same schema. ShinyHunters grabbed the whole Databricks dump without distinguishing real customer data from the benchmark test data sitting in the same tables.
+
+The real customer data is in there, but it&amp;apos;s heavily contaminated with synthetic TPC-DS records. Your domain frequency analysis from HIBP will be the cleanest way to separate them.&lt;/code&gt;&lt;/pre&gt;
+&lt;!--kg-card-end: html--&gt;
+&lt;p&gt;Annoying AI sentence structure aside (&amp;quot;that&amp;apos;s not [one thing], that&amp;apos;s [this other thing]&amp;quot;), this is just gold. And PwnedClaw gives ShinyHunters a bit of a free pass too: these guys just grabbed and published everything without realising there was a bunch of synthetic data in there. But there&amp;apos;s one more smoking gun:&lt;/p&gt;
+&lt;!--kg-card-begin: html--&gt;
+&lt;pre&gt;&lt;code&gt;[24/08/2026 18:02] Troy Hunt: Also look at the distribution of birth year - there are way too many people with early 1900&amp;apos;s entries, got any stats on that?
+  
+[24/08/2026 18:03] PwnedClaw: Birth year stats are conclusive. The distribution runs 1924-1992 and is perfectly flat &amp;#x2014; roughly 1,050-1,194 per year, every single year without exception. That&amp;apos;s not population data, that&amp;apos;s a random number generator with a fixed range.
+
+A real Carhartt customer base would be heavily weighted 1965-1995, almost nothing pre-1950, and the pre-1924/post-1992 cutoffs wouldn&amp;apos;t exist at all. Instead you get mathematically uniform coverage of 69 years. TPC-DS again.
+
+Here&amp;apos;s the full picture of what we now have as synthetic indicators &amp;#x2014; every single one points the same direction:
+
+| Signal                        | Finding                                                          |
+| ----------------------------- | ---------------------------------------------------------------- |
+| Domain singletons             | 97.6% of domains appear exactly once                             |
+| Synthetic TLDs                | 32% of addresses on .edu/.org with gibberish domains             |
+| Gibberish .com domains        | e.g. Marina.Tucker@xgpgHqAu.example                                  |
+| Firstname.Lastname pattern    | 50.4% &amp;#x2014; should be ~10-15% in real retail data                    |
+| Birth country distribution    | Perfectly uniform across all 211 ISO countries, US = 407 records |
+| Birth year distribution       | Perfectly flat 1924-1992, ~1,100/year                            |
+| carharttdonotship.com         | Proves real Carhartt data IS present                             |
+| 70% HIBP hit rate on freemail | Proves real records are mixed in                                 |
+
+The conclusion is pretty solid: this is a real Carhartt Databricks breach, but the TPC-DS benchmark data was co-located in the same schema and ShinyHunters (and every aggregator after them) grabbed it all without knowing what they were looking at.&lt;/code&gt;&lt;/pre&gt;
+&lt;!--kg-card-end: html--&gt;
+&lt;p&gt;It would have been so easy just to dump this all into HIBP, put out social posts with a big headline number and be done with it, but it&amp;apos;d also be completely wrong. And here&amp;apos;s what&amp;apos;s really worrying about watching other people do exactly this: headline numbers get misrepresented, victim organisations are unfairly reported on (news headlines with the HIBP number often follow quickly), I run the risk of attracting the ire of the company for inaccurate reporting, and the whole thing just becomes a mess.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;So, was Carhartt actually breached, and did ShinyHunters fabricate the data?&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;Almost certainly &amp;quot;yes&amp;quot; and then, almost certainly &amp;quot;no&amp;quot;, and both positions are supported by previous ShinyHunters form. These guys are approaching 100 breaches sitting on their Tor site (all of which I&amp;apos;ve reviewed), and I&amp;apos;m yet to see a single one with data they&amp;apos;ve fabricated. These guys have a track record of successfully gaining access to large orgs and dumping data that genuinely came from the claimed origin. Not to trivialise their criminal extortion campaigns, but misrepresenting the scope of their activities would be bad for business in the same way that not following through on threats and dumping data when they don&amp;apos;t get payment would be. This presents an alternate theory PwnedClaw has already touched on: Carhartt simply had a bunch of test data sitting in their Databricks instance.&lt;/p&gt;&lt;p&gt;Going back to the output of our tool, here are the largest files which we now know have junk data in them:&lt;/p&gt;
+&lt;!--kg-card-begin: html--&gt;
+&lt;pre&gt;&lt;code&gt;Unique addresses per file:
+\shouldve_paid_the_ransom_carhartt_shinyhunters\databricks\databricks_dump\tables\samples\tpcds_sf1000\customer_chunk_0309.csv: 19,402
+\shouldve_paid_the_ransom_carhartt_shinyhunters\databricks\databricks_dump\tables\samples\tpcds_sf1000\customer_chunk_0589.csv: 19,372
+\shouldve_paid_the_ransom_carhartt_shinyhunters\databricks\databricks_dump\tables\samples\tpcds_sf1000\customer_chunk_0568.csv: 19,362
+\shouldve_paid_the_ransom_carhartt_shinyhunters\databricks\databricks_dump\tables\samples\tpcds_sf1000\customer_chunk_0460.csv: 19,360
+\shouldve_paid_the_ransom_carhartt_shinyhunters\databricks\databricks_dump\tables\samples\tpcds_sf1000\customer_chunk_0263.csv: 19,358
+\shouldve_paid_the_ransom_carhartt_shinyhunters\databricks\databricks_dump\tables\samples\tpcds_sf1000\customer_chunk_0584.csv: 19,358
+\shouldve_paid_the_ransom_carhartt_shinyhunters\databricks\databricks_dump\tables\samples\tpcds_sf1000\customer_chunk_0350.csv: 19,357
+\shouldve_paid_the_ransom_carhartt_shinyhunters\databricks\databricks_dump\tables\samples\tpcds_sf1000\customer_chunk_0264.csv: 19,356
+\shouldve_paid_the_ransom_carhartt_shinyhunters\databricks\databricks_dump\tables\samples\tpcds_sf1000\customer_chunk_0278.csv: 19,356
+&lt;/code&gt;&lt;/pre&gt;
+&lt;!--kg-card-end: html--&gt;
+&lt;p&gt;There were 600 of these files, then another &lt;em&gt;1,200&lt;/em&gt; files with similar data in this common path:&lt;/p&gt;
+&lt;!--kg-card-begin: html--&gt;
+&lt;pre&gt;&lt;code&gt;C:\ShinyHunters\shouldve_paid_the_ransom_carhartt_shinyhunters\shouldve_paid_the_ransom_carhartt_shinyhunters\databricks\databricks_dump\20260801_033207\samples\tpcds_sf1000\customer\chunk_0116.csv: 9,689
+C:\ShinyHunters\shouldve_paid_the_ransom_carhartt_shinyhunters\shouldve_paid_the_ransom_carhartt_shinyhunters\databricks\databricks_dump\20260801_033207\samples\tpcds_sf1000\customer\chunk_0921.csv: 9,689
+C:\ShinyHunters\shouldve_paid_the_ransom_carhartt_shinyhunters\shouldve_paid_the_ransom_carhartt_shinyhunters\databricks\databricks_dump\20260801_033207\samples\tpcds_sf1000\customer\chunk_1172.csv: 9,689
+C:\ShinyHunters\shouldve_paid_the_ransom_carhartt_shinyhunters\shouldve_paid_the_ransom_carhartt_shinyhunters\databricks\databricks_dump\20260801_033207\samples\tpcds_sf1000\customer\chunk_0529.csv: 9,688
+C:\ShinyHunters\shouldve_paid_the_ransom_carhartt_shinyhunters\shouldve_paid_the_ransom_carhartt_shinyhunters\databricks\databricks_dump\20260801_033207\samples\tpcds_sf1000\customer\chunk_0054.csv&lt;/code&gt;&lt;/pre&gt;
+&lt;!--kg-card-end: html--&gt;
+&lt;p&gt;Once excluded, the unique address count plummeted to just 13,306,258 results. That&amp;apos;s a 47% drop from the 24M+ number we started at... and it&amp;apos;s still too high.&lt;/p&gt;&lt;p&gt;I &lt;em&gt;always&lt;/em&gt; eyeball the distinct list of email addresses after they&amp;apos;re exported by our tooling. Call me old-fashioned, but I still reckon there are things I&amp;apos;ll see with my experienced human eyes that the AI will miss (at least, for now). And it missed these:&lt;/p&gt;
+&lt;!--kg-card-begin: html--&gt;
+&lt;pre&gt;&lt;code&gt;[25/08/2026 08:47] Troy Hunt: Back on Carhartt, we have a lot of instances like these where the same alias appears across 3 different versions of the domain. I&amp;apos;m writing this up in a blog post, help me explain to the readers what&amp;apos;s going on here and why it&amp;apos;s inflating the numbers:
+
+[unique alias]@carhartt.com
+[unique alias]@carhartt.mail.onmicrosoft.com
+[unique alias]@carhartt.onmicrosoft.com
+
+  [25/08/2026 08:47] PwnedClaw: When someone creates an email account at a company like Carhartt, Microsoft 365 (which Carhartt uses for email) automatically creates the mailbox under multiple domain identities simultaneously:
+
+&amp;#x2022; carhartt.com (http://carhartt.com/) &amp;#x2014; the primary, human-facing domain (the one you&amp;apos;d put on a business card)
+&amp;#x2022; carhartt.onmicrosoft.com (http://carhartt.onmicrosoft.com/) &amp;#x2014; Microsoft&amp;apos;s default domain, automatically assigned to every Microsoft 365 tenant, exists whether you want it or not
+&amp;#x2022; carhartt.mail.onmicrosoft.com (http://carhartt.mail.onmicrosoft.com/) &amp;#x2014; a routing domain Microsoft uses internally for mail flow
+
+All three resolve to the exact same person, the same inbox, the same [unique alias]. It&amp;apos;s not three people &amp;#x2014; it&amp;apos;s one person with three email addresses that all deliver to the same place.
+
+The inflation problem: when a breach dataset is exported or scraped, all three variants can appear as distinct rows because technically they are distinct email addresses, even though they represent a single individual. A naive deduplication (or none at all) counts [unique alias] three times instead of once.
+
+The fix HIBP applies is normalising to the primary domain and deduplicating on that &amp;#x2014; but it requires knowing which domains are Microsoft routing aliases, which isn&amp;apos;t always obvious, and the breach data doesn&amp;apos;t label them as such.&lt;/code&gt;&lt;/pre&gt;
+&lt;!--kg-card-end: html--&gt;
+&lt;p&gt;I&amp;apos;ve previously removed these manually by regex&amp;apos;ing them out myself, but let&amp;apos;s not repeat laborious tasks that can be automated away:&lt;/p&gt;
+&lt;!--kg-card-begin: html--&gt;
+&lt;pre&gt;&lt;code&gt;[25/08/2026 15:39] Troy Hunt: Cool, delete all those from the file at &amp;quot;\scratch\Carhartt\Carhartt.txt&amp;quot; and we&amp;apos;ll keep refining that until it&amp;apos;s better sanitised. Tell me how many rows you remove as well.
+  
+[25/08/2026 15:39] PwnedClaw: Done. Removed 5,736 rows, down from 13,306,258 to 13,300,522.&lt;/code&gt;&lt;/pre&gt;
+&lt;!--kg-card-end: html--&gt;
+&lt;p&gt;Continuing the eyeballing work, another pattern emerges:&lt;/p&gt;
+&lt;!--kg-card-begin: html--&gt;
+&lt;pre&gt;&lt;code&gt;[25/08/2026 15:41] Troy Hunt: I&amp;apos;m seeing a lot of addresses that begin with &amp;quot;deactivate-&amp;quot;. How many are there and what can you tell me about this pattern?
+  
+[25/08/2026 15:41] PwnedClaw: 288,982 of them. The pattern is clear: these are accounts that were deactivated in Carhartt&amp;apos;s system (likely an e-commerce platform or loyalty/membership system), where instead of deleting the record, they prefixed the email address with deactivate- to mark it as inactive while preserving the row. It&amp;apos;s a common soft-delete pattern &amp;#x2014; keeps the data for audit/history purposes but flags the account as no longer active.
+
+The implications for HIBP:
+
+&amp;#x2022; These are real email addresses that no longer exist in that form &amp;#x2014; deactivate-[unique alias]@carhartt.com is not a deliverable address
+&amp;#x2022; The real person&amp;apos;s address is just [unique alias]@carhartt.com, which may already appear separately in the breach data
+&amp;#x2022; Notifying deactivate-* addresses would bounce or go nowhere
+
+Worth removing them, but worth checking first how many have a corresponding non-deactivated version in the file &amp;#x2014; if most do, they&amp;apos;re pure duplicates and safe to drop. Want me to check that?
+  
+[25/08/2026 15:42] Troy Hunt: How many already appear without that prefix?
+  
+[25/08/2026 15:42] PwnedClaw: 285,808 of the 288,982 already have a non-prefixed version in the file &amp;#x2014; that&amp;apos;s 99% pure duplicates. Only ~3,174 appear exclusively as deactivate- with no corresponding active address.
+[25/08/2026 15:43] Troy Hunt: Delete all the &amp;quot;deactivate-&amp;quot; prefixed addresses with corresponding active addresses, remove the prefix from the other ones and give me a new total count.
+[25/08/2026 15:43] PwnedClaw: Done. Removed 285,808 rows, renamed 3,174 rows, new total: 13,014,714.&lt;/code&gt;&lt;/pre&gt;
+&lt;!--kg-card-end: html--&gt;
+&lt;p&gt;That&amp;apos;s enough of human eyes, what else have we got?&lt;/p&gt;
+&lt;!--kg-card-begin: html--&gt;
+&lt;pre&gt;&lt;code&gt;[25/08/2026 15:50] Troy Hunt: Review the remaining addresses - are there any remaining unusual patterns that frequently occurs? Small issues here and there don&amp;apos;t matter, anything in the thousands or more?
+
+[25/08/2026 15:50] PwnedClaw: Two stand out:
+
+wctest.com &amp;#x2014; 48,787 rows
+Looks like a test domain used during development or QA. Not real customers.
+
+carharttdonotship.com &amp;#x2014; 32,514 rows
+The domain name says it all &amp;#x2014; this appears to be Carhartt&amp;apos;s internal domain for flagging accounts they won&amp;apos;t ship to (fraud, chargebacks, banned customers). Real people possibly, but deliberately excluded from Carhartt&amp;apos;s operations and almost certainly not expecting breach notifications from their banned account email.
+
+Everything else looks like normal consumer email providers. Want to remove either or both of those?
+
+[25/08/2026 15:53] Troy Hunt: They also all seem to have &amp;quot;perftest&amp;quot; in the alias. Delete all these addresses.
+
+[25/08/2026 15:53] PwnedClaw: Done. Removed 48,787 rows, new total: 12,965,927.
+
+[25/08/2026 15:54] Troy Hunt: And the carharttdonotship.com  addresses also have &amp;quot;perftest&amp;quot; in the aliases so let&amp;apos;s drop all those too and give me a total remaining count.
+
+[25/08/2026 15:54] PwnedClaw: Done. Removed 32,514 rows, new total: 12,933,413.&lt;/code&gt;&lt;/pre&gt;
+&lt;!--kg-card-end: html--&gt;
+&lt;p&gt;Not quite the 24M+ headline any more, that&amp;apos;s almost half the addresses in the original corpus discarded because they don&amp;apos;t represent actual people. Whilst nothing &lt;em&gt;empirically&lt;/em&gt; bad would have happened if I&amp;apos;d loaded them all, the incident would have looked twice as bad as what it actually is (based on the raw numbers, at least), and when I later put out a tweet like this, the percentage of pre-existing addresses would have read way too low:&lt;/p&gt;
+&lt;!--kg-card-begin: html--&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="en" dir="ltr"&gt;New breach: Carhartt was the target of a ShinyHunters extortion campaign earlier this month. Data allegedly obtained from the company was later published, including 12.9M unique email addresses. 83% were already in &lt;a href="https://x.com/haveibeenpwned?ref_src=twsrc%5Etfw&amp;amp;ref=troyhunt.com"&gt;@haveibeenpwned&lt;/a&gt;. Read more: &lt;a href="https://t.co/Nfs0LT2Qto?ref=troyhunt.com"&gt;https://t.co/Nfs0LT2Qto&lt;/a&gt;&lt;/p&gt;&amp;#x2014; Have I Been Pwned (@haveibeenpwned) &lt;a href="https://x.com/haveibeenpwned/status/2092369944751345807?ref_src=twsrc%5Etfw&amp;amp;ref=troyhunt.com"&gt;August 25, 2026&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.x.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;!--kg-card-end: html--&gt;
+&lt;p&gt;But let&amp;apos;s do one more AI-assisted sanity check, and I&amp;apos;m tending to ask this on each and every breach I process now:&lt;/p&gt;
+&lt;!--kg-card-begin: html--&gt;
+&lt;pre&gt;&lt;code&gt;[25/08/2026 16:01] Troy Hunt: Based on the remaining email addresses alone, what can you see that gives you confidence this came from Carhartt? Explain with examples and equally, explain if there&amp;apos;s any data that *disproves* Carhartt as the origin.
+  
+[25/08/2026 16:01] PwnedClaw: Here&amp;apos;s what the email addresses alone tell us:
+
+Evidence FOR Carhartt as the origin:
+
+&amp;#x2022; 15,057 @carhartt.com employee addresses &amp;#x2014; internal staff addresses don&amp;apos;t end up in a dataset unless it came from Carhartt&amp;apos;s own systems. You don&amp;apos;t scrape these from the outside.
+&amp;#x2022; Hash-prefixed internal aliases like 004cab9722d948ae956d10ce31e7ed74[unique alias]@carhartt.com &amp;#x2014; that 32-character hex prefix before the surname is clearly a system-generated internal identifier, the kind of thing a CRM or e-commerce platform creates internally. Completely invisible externally.
+&amp;#x2022; carharttdonotship.com (now removed) &amp;#x2014; a domain that only makes sense if you&amp;apos;re inside Carhartt&amp;apos;s order management system. No external actor would know this domain exists, let alone have thousands of records under it.
+&amp;#x2022; wctest.com perftest data (now removed) &amp;#x2014; performance test data from what appears to be Carhartt&amp;apos;s own WooCommerce implementation. Again, only accessible internally.
+&amp;#x2022; Demographically consistent &amp;#x2014; overwhelmingly US consumer email providers (Gmail, Yahoo, Hotmail, AOL, Comcast, sbcglobal, att.net (http://att.net/), verizon.net (http://verizon.net/)). Carhartt is a US workwear brand with a predominantly American customer base. The mix matches perfectly.
+
+Evidence AGAINST Carhartt as the sole/direct origin:
+
+&amp;#x2022; [unique alias]@state.mn.us &amp;#x2014; a government employee address. Plausible as a real Carhartt customer, but worth noting government addresses appearing in retail breach data is slightly unusual.
+&amp;#x2022; The sheer volume (12.9M) is large for a workwear retailer &amp;#x2014; possible the data aggregates multiple systems or years of records, or includes data from third-party partners like Ticketmaster-style fulfilment services.
+
+Overall the internal markers (employee addresses, hash aliases, internal test domains) are the smoking guns &amp;#x2014; those simply cannot come from anywhere other than Carhartt&amp;apos;s own systems.
+  
+[25/08/2026 16:14] Troy Hunt: Acknowledging the cases &amp;quot;for&amp;quot; and agreeing, I want to challenge both cases &amp;quot;against&amp;quot;:
+
+Gov email addresses are *always* in data breaches. Even Ashley Madison (and similar).
+
+My wife tells me that Carhartt is not solely considered a &amp;quot;workwear retailer&amp;quot; and produces products that are worn well beyond just the building site. Review their website and see if your analysis needs revision: https://www.carhartt.com/
+  
+[25/08/2026 16:14] PwnedClaw: Withdrawn. 12.9M records is entirely plausible for Carhartt &amp;#x2014; they&amp;apos;re a 130-year-old brand with massive mainstream appeal well beyond workwear. Streetwear culture adopted Carhartt heavily in the 90s and it&amp;apos;s remained a genuine lifestyle brand since. The volume is consistent with a large, broad consumer base accumulated over many years of e-commerce. That objection doesn&amp;apos;t hold up.&lt;/code&gt;&lt;/pre&gt;
+&lt;!--kg-card-end: html--&gt;
+&lt;p&gt;Of course, anything AI says needs to be validated and in the cases above, that had already been done. I&amp;apos;ve included that transcript here anyway just to illustrate the due diligence involved in &lt;em&gt;properly&lt;/em&gt; validating data, not just picking it up and chucking it in with a massive headline figure. But it does massively accelerate activities that were previously very manual:&lt;/p&gt;
+&lt;!--kg-card-begin: html--&gt;
+&lt;pre&gt;&lt;code&gt;[26/08/2026 05:40] Troy Hunt: Looking at the final list of email addresses, what do the sub-addresses tell us about the origin?
+  
+[26/08/2026 05:40] PwnedClaw: The sub-addresses are a goldmine for provenance. The dominant signal is clear:
+
+1,072 +carhartt &amp;#x2014; people who tagged their address specifically when signing up at Carhartt. This is the single biggest tag and is an unambiguous origin marker. Combined with the typo variants (+carhart &amp;#xD7;35, +carharrt &amp;#xD7;14, +carhatt &amp;#xD7;6, +carthartt &amp;#xD7;4, +carh &amp;#xD7;12) you&amp;apos;ve got ~1,150+ people who fingerprinted their Carhartt signup specifically.
+
++paypal &amp;#xD7;112, +pp &amp;#xD7;10, +applepay &amp;#xD7;8` &amp;#x2014; people who used PayPal/Apple Pay to check out at Carhartt, and tagged the email to that payment method. Strongly confirms this is a shopping/ecommerce dataset.
+
++shopping &amp;#xD7;28, +shop &amp;#xD7;15, +orders &amp;#xD7;9, +receipts &amp;#xD7;4, +retail &amp;#xD7;3` &amp;#x2014; generic purchase-tracking tags, consistent with an online store.
+
++www.carhartt.com &amp;#xD7;8, +carhartt.com &amp;#xD7;8` &amp;#x2014; people who tagged the full domain. Explicit.
+
++apple &amp;#xD7;13` &amp;#x2014; likely Sign in with Apple or Apple Pay checkout.
+
+The picture is unambiguous: this is a legitimate Carhartt customer/order database, not a compiled list or credential stuffing corpus. People sub-addressed their emails at the point of purchase. That&amp;apos;s about as strong a provenance signal as you can get.&lt;/code&gt;&lt;/pre&gt;
+&lt;!--kg-card-end: html--&gt;
+&lt;p&gt;And so on and so forth. I don&amp;apos;t need to labour the point with more examples, but let me come back around to the premise of this post: take headline numbers with a grain of salt unless you&amp;apos;re confident in the processes of those making the claims. I&amp;apos;m fond of saying that whenever there are misleading statements made about breaches, &amp;quot;the truth is in the data&amp;quot;, but you have to be willing to go and seek that truth out, even if it requires a significant investment in time.&lt;/p&gt;</ns3:encoded></item><item><title>Weekly Update 518: IoT Doorlock Nirvana with UniFi</title><description>&lt;p&gt;I genuinely think I&amp;apos;ve nailed the IoT door lock situation! Well, Ubiquiti has, but I think I&amp;apos;ve worked out how to put it all into a residential house and have it make sense. There are a few basic tenets:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Main power (never have to rely on&lt;/li&gt;&lt;/ol&gt;</description><link>https://www.troyhunt.com/weekly-update-518/</link><guid isPermaLink="false">6a8bc44b8a32a100012400b0</guid><category>Weekly update</category><dc:creator>Troy Hunt</dc:creator><pubDate>Mon, 24 Aug 2026 04:19:51 GMT</pubDate><ns2:content url="https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2026/08/Splash-Template-3.jpg" medium="image" /><ns3:encoded>&lt;img src="https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2026/08/Splash-Template-3.jpg" alt="Weekly Update 518: IoT Doorlock Nirvana with UniFi"&gt;&lt;p&gt;I genuinely think I&amp;apos;ve nailed the IoT door lock situation! Well, Ubiquiti has, but I think I&amp;apos;ve worked out how to put it all into a residential house and have it make sense. There are a few basic tenets:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Main power (never have to rely on batteries)&lt;/li&gt;&lt;li&gt;Fail-secure (needs to remain locked on power outage)&lt;/li&gt;&lt;li&gt;Local control (no cloud latency to contend with)&lt;/li&gt;&lt;li&gt;Manual override (&amp;quot;the house is on fire, let me out&amp;quot;)&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;Which is exactly what we have here in this week&amp;apos;s vid (and sorry about the section of rubbish audio; the camera mic started capturing it for a short period there). There are some edge cases I want to validate the impact of, namely the inability to keep the door both closed and unlocked, and some of the assumptions I&amp;apos;ve made around access methods. The laundry will be our low-impact test case; then, if that&amp;apos;s all good, I&amp;apos;ll start rolling this approach out much more seriously across the house. Stay tuned, I think this will actually be pretty awesome.&lt;/p&gt;
+&lt;!--kg-card-begin: html--&gt;
+&lt;div&gt;&lt;div style="width: 170px; display: inline-block; margin-right: 3px;"&gt;&lt;a href="https://itunes.apple.com/au/podcast/troy-hunts-weekly-update-podcast/id1176454699?ref=troy-hunt"&gt;&lt;img src="https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2018/05/Listen-on-Apple-Podcasts.svg" alt="Weekly Update 518: IoT Doorlock Nirvana with UniFi"&gt;&lt;/a&gt;&lt;/div&gt;&lt;div style="width: 175px; display: inline-block; margin-right: 3px;"&gt;&lt;a href="https://www.youtube.com/playlist?list=PL7LAAxaabizMAXnJe0s3xjQ30q12EVmjt&amp;amp;ref=troyhunt.com"&gt;&lt;img src="https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2024/09/Watch-and-Listen-on-YouTube.svg" alt="Weekly Update 518: IoT Doorlock Nirvana with UniFi"&gt;&lt;/a&gt;&lt;/div&gt;&lt;div style="width: 118px; display: inline-block; margin-right: 3px;"&gt;&lt;a href="https://open.spotify.com/show/7jMtKFohdrw6qmz8AkLqit?ref=troy-hunt"&gt;&lt;img src="https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2019/10/spotify.svg" class="kg-image" alt="Weekly Update 518: IoT Doorlock Nirvana with UniFi"&gt;&lt;/a&gt;&lt;/div&gt;&lt;div style="width: 120px; display: inline-block;"&gt;&lt;a href="https://omny.fm/shows/troy-hunt-weekly-update/playlists/podcast.rss?ref=troy-hunt"&gt;&lt;img src="https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2018/07/Download-via-RSS.svg" alt="Weekly Update 518: IoT Doorlock Nirvana with UniFi"&gt;&lt;/a&gt;&lt;/div&gt;&lt;iframe width="100%" height="480" src="https://www.youtube.com/embed/bQuSoBAFAzw" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy" spellcheck="false"&gt;&lt;/iframe&gt;&lt;/div&gt;
+&lt;!--kg-card-end: html--&gt;
+</ns3:encoded></item></channel></rss>

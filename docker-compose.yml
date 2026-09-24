@@ -1,0 +1,103 @@
+# Local development stack. Deployment topology is in 10-build-plan.md.
+#
+# Only the API is ever public. Postgres, Redis and /metrics bind to the
+# internal network; in production TLS terminates at nginx in front of the API.
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command:
+      - .venv/bin/uvicorn
+      - engine.api.app:app
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8000"
+    environment:
+      ENGINE_DATABASE_URL: postgresql://engine:engine@postgres:5432/scraping_engine
+      ENGINE_REDIS_URL: redis://redis:6379/0
+      ENGINE_ENVIRONMENT: development
+      ENGINE_SEARXNG_URL: http://searxng:8888
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # The free rung of the search ladder. Not optional: without it /v1/search
+  # falls through to the PAID rung and every query silently costs 5x more.
+  # The official image reads /etc/searxng/settings.yml; ours is templated so the
+  # secret and the proxy URL come from the environment rather than the repo.
+  searxng:
+    image: searxng/searxng:latest
+    environment:
+      SEARXNG_BASE_URL: http://localhost:8888/
+      SEARXNG_SECRET: ${SEARXNG_SECRET:-change-me-openssl-rand-hex-32}
+      SEARXNG_PROXY_URL: ${SEARXNG_PROXY_URL:-}
+    volumes:
+      - ./deploy/searxng/settings.yml:/etc/searxng/settings.yml.template:ro
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        sed -e "s|!SEARXNG_SECRET!|$${SEARXNG_SECRET}|" \
+            -e "s|!SEARXNG_PROXY_URL!|$${SEARXNG_PROXY_URL}|" \
+            /etc/searxng/settings.yml.template > /etc/searxng/settings.yml
+        exec /usr/local/searxng/dockerfiles/docker-entrypoint.sh
+    ports:
+      - "127.0.0.1:8888:8888"
+    restart: unless-stopped
+    mem_limit: 512m
+
+  worker-http:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: [".venv/bin/python", "-m", "engine.workers.http_worker"]
+    environment:
+      ENGINE_DATABASE_URL: postgresql://engine:engine@postgres:5432/scraping_engine
+      ENGINE_REDIS_URL: redis://redis:6379/0
+    # ~256MB is the HTTP worker's profile; browser workers are a different
+    # container entirely because their resource shape is nothing like this.
+    mem_limit: 512m
+    deploy:
+      replicas: 2
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: engine
+      POSTGRES_PASSWORD: engine
+      POSTGRES_DB: scraping_engine
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U engine"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    # Internal only — never expose Postgres publicly.
+    expose:
+      - "5432"
+
+  redis:
+    image: redis:7
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    expose:
+      - "6379"
+
+volumes:
+  pgdata:

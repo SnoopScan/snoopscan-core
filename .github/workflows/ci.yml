@@ -38,7 +38,15 @@ jobs:
       - run: uv pip install -e ".[dev,browser]"
       # engine/core only for a long time, which left the API and the workers
       # unchecked — and the workers had a live type error nobody saw.
-      - run: .venv/bin/mypy --strict engine/core engine/api engine/workers engine/logging_config.py
+      #
+      # Strict typing needs the WHOLE tree: the published open core leaves the
+      # proprietary modules out, so its deferred imports resolve to nothing and
+      # every one reads as Any. The full tree is checked where it exists; in
+      # the published core this step is skipped, and the tests, the boundary
+      # gate and the lint still run.
+      - name: Strict type check (full tree only)
+        if: hashFiles('engine/core/proxy/pool.py') != ''
+        run: .venv/bin/mypy --strict engine/core engine/api engine/workers engine/logging_config.py
 
   boundary:
     # BLOCKING. The commercial protection is that the proprietary modules are

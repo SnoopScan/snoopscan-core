@@ -14,6 +14,7 @@ import time
 from dataclasses import dataclass
 
 import redis.asyncio as aioredis
+from redis.commands.core import AsyncScript
 
 from engine.settings import settings
 
@@ -169,20 +170,26 @@ class PolitenessGate:
 
     def __init__(self, redis: aioredis.Redis | None = None) -> None:
         self._redis = redis
-        self._delay_sha: str | None = None
-        self._slot_sha: str | None = None
+        # Script objects, not hashes we loaded once: a Redis restart wipes its
+        # script cache, and a saved hash then fails every request with
+        # NoScriptError until the API restarts. Unattended upgrades restarted
+        # Redis on 25 Sep 2026 and every scrape failed from the first call
+        # after. A registered script re-sends itself when Redis has lost it.
+        self._delay: AsyncScript | None = None
+        self._slot: AsyncScript | None = None
 
     async def _client(self) -> aioredis.Redis:
         if self._redis is None:
             self._redis = await get_redis()
         return self._redis
 
-    async def _load_scripts(self) -> None:
+    async def _scripts(self) -> tuple[AsyncScript, AsyncScript]:
         client = await self._client()
-        if self._delay_sha is None:
-            self._delay_sha = await client.script_load(_DELAY_SCRIPT)
-        if self._slot_sha is None:
-            self._slot_sha = await client.script_load(_SLOT_SCRIPT)
+        if self._slot is None:
+            self._slot = client.register_script(_SLOT_SCRIPT)
+        if self._delay is None:
+            self._delay = client.register_script(_DELAY_SCRIPT)
+        return self._slot, self._delay
 
     async def acquire(
         self,
@@ -201,7 +208,7 @@ class PolitenessGate:
         has a ticket been taken.
         """
         client = await self._client()
-        await self._load_scripts()
+        slot_script, delay_script = await self._scripts()
 
         # The floor is the caller's plan, and a domain may only ever RAISE the
         # delay above it — a site that answered 429 stays slowed for everyone,
@@ -212,25 +219,16 @@ class PolitenessGate:
         delay = max(delay_ms or 0, floor)
         limit = max(1, max_concurrency or settings.politeness_default_concurrency)
 
-        assert self._slot_sha is not None
-        assert self._delay_sha is not None
-
         slot_key = f"politeness:slots:{domain}"
-        got_slot = await client.evalsha(self._slot_sha, 1, slot_key, limit, 120_000)
+        got_slot = await slot_script(keys=[slot_key], args=[limit, 120_000])
         if not int(got_slot):
             return PolitenessDecision(False, wait_ms=250, reason="max_concurrency")
 
         delay_key = f"politeness:next:{domain}"
         now_ms = int(time.time() * 1000)
         wait = int(
-            await client.evalsha(
-                self._delay_sha,
-                1,
-                delay_key,
-                now_ms,
-                delay,
-                max(delay * 8, 60_000),
-                max_wait_ms,
+            await delay_script(
+                keys=[delay_key], args=[now_ms, delay, max(delay * 8, 60_000), max_wait_ms]
             )
         )
         if wait < 0:

@@ -125,6 +125,35 @@ def _options(args: argparse.Namespace) -> dict[str, Any]:
     return out
 
 
+def _as_text(value: Any) -> str:
+    """One format, readable: links one per line, text as-is, the rest as JSON."""
+    if value is None:
+        return ""
+    if isinstance(value, str):
+        return value
+    if isinstance(value, list):
+        return "\n".join(
+            str(item.get("url") or item.get("href") or item)
+            if isinstance(item, dict)
+            else str(item)
+            for item in value
+        )
+    return json.dumps(value, indent=2, ensure_ascii=False)
+
+
+def _readable(raw: dict[str, Any], formats: list[str]) -> str:
+    """What was asked for, not always the markdown.
+
+    `--formats links,rawHtml` used to print the markdown — which was not
+    requested, so it was empty — and exit 0. Nothing on screen read as "this
+    page has no links", and a check built on it reported live links as gone.
+    """
+    parts = [(name, _as_text(raw.get(name))) for name in formats]
+    if len(parts) == 1:
+        return parts[0][1]
+    return "\n\n".join(f"--- {name} ---\n{text}" for name, text in parts)
+
+
 def cmd_scrape(client: SnoopScan, args: argparse.Namespace) -> int:
     doc = client.scrape(args.url, **_options(args))
     _receipt(doc.raw, args)
@@ -132,7 +161,26 @@ def cmd_scrape(client: SnoopScan, args: argparse.Namespace) -> int:
         # Worth saying out loud: a low-confidence extraction reads like a
         # normal result and is the shape a menu bar or a nav shell arrives in.
         print(f"  low confidence ({doc.extraction_confidence:.2f}) — check it", file=sys.stderr)
-    _emit(doc.raw if args.json else (doc.markdown or ""), args)
+    if args.json:
+        _emit(doc.raw, args)
+        return EXIT_OK
+    formats = _options(args).get("formats") or ["markdown"]
+    # The typed fields first, then anything else the payload carries.
+    source = {
+        **doc.raw,
+        "markdown": doc.markdown or doc.raw.get("markdown"),
+        "html": doc.html or doc.raw.get("html"),
+        "rawHtml": doc.raw_html or doc.raw.get("rawHtml"),
+        "links": doc.links or doc.raw.get("links"),
+    }
+    if all(not source.get(name) for name in formats):
+        # Loud even under --quiet: an empty answer must never pass for "none".
+        wanted = ", ".join(formats)
+        print(
+            f"  nothing came back for {wanted}. Try --json for the whole response.", file=sys.stderr
+        )
+        return EXIT_ERROR
+    _emit(_readable(source, formats), args)
     return EXIT_OK
 
 
@@ -169,7 +217,10 @@ def cmd_search(client: SnoopScan, args: argparse.Namespace) -> int:
 
 
 def cmd_crawl(client: SnoopScan, args: argparse.Namespace) -> int:
-    options = _options(args)
+    # A crawl takes page options under scrapeOptions: the API is strict, and
+    # `--formats` sent at the top level was rejected on every call.
+    page = _options(args)
+    options: dict[str, Any] = {"scrapeOptions": page} if page else {}
     if args.limit:
         options["limit"] = args.limit
     if args.wait:

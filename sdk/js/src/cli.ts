@@ -180,8 +180,47 @@ async function cmdScrape(client: SnoopScan, args: string[]): Promise<number> {
   if (doc.isSuspect && !flags.quiet) {
     note(`  low confidence (${doc.extractionConfidence.toFixed(2)}) — check it`, flags);
   }
-  emit(flags.json ? doc.raw : doc.markdown ?? '', flags);
+  if (flags.json) {
+    emit(doc.raw, flags);
+    return EXIT_OK;
+  }
+  const formats = (pageOptions(values).formats as string[] | undefined) ?? ['markdown'];
+  // The typed fields first, then anything else the payload carries.
+  const source: Record<string, unknown> = {
+    ...doc.raw,
+    markdown: doc.markdown ?? doc.raw.markdown,
+    html: doc.html ?? doc.raw.html,
+    rawHtml: doc.rawHtml ?? doc.raw.rawHtml,
+    links: doc.links.length ? doc.links : doc.raw.links,
+  };
+  if (formats.every((name) => !source[name])) {
+    // Loud even under --quiet: an empty answer must never pass for "none".
+    process.stderr.write(`  nothing came back for ${formats.join(', ')}. Try --json for the whole response.\n`);
+    return EXIT_ERROR;
+  }
+  emit(readable(source, formats), flags);
   return EXIT_OK;
+}
+
+/** One format, readable: links one per line, text as-is, the rest as JSON. */
+function asText(value: unknown): string {
+  if (value === null || value === undefined) return '';
+  if (typeof value === 'string') return value;
+  if (Array.isArray(value)) {
+    return value
+      .map((item) => (item && typeof item === 'object' ? String((item as Record<string, unknown>).url ?? (item as Record<string, unknown>).href ?? JSON.stringify(item)) : String(item)))
+      .join('\n');
+  }
+  return JSON.stringify(value, null, 2);
+}
+
+/** What was asked for, not always the markdown. `--formats links,rawHtml`
+ * used to print the (unrequested, so empty) markdown and exit 0 — which read
+ * as "this page has no links". */
+export function readable(raw: Record<string, unknown>, formats: string[]): string {
+  const parts = formats.map((name) => [name, asText(raw[name])] as const);
+  if (parts.length === 1) return parts[0]?.[1] ?? '';
+  return parts.map(([name, text]) => `--- ${name} ---\n${text}`).join('\n\n');
 }
 
 async function cmdMap(client: SnoopScan, args: string[]): Promise<number> {
@@ -236,7 +275,10 @@ async function cmdCrawl(client: SnoopScan, args: string[]): Promise<number> {
   });
   const flags = globalFlagsFrom(values);
   const url = requirePositional(positionals[0], 'Usage: snoopscan crawl <url>');
-  const options = pageOptions(values);
+  // A crawl takes page options under scrapeOptions: the API is strict, and
+  // `--formats` sent at the top level was rejected on every call.
+  const page = pageOptions(values);
+  const options: Options = Object.keys(page).length ? { scrapeOptions: page } : {};
   if (values.limit) options.limit = Number(values.limit);
 
   if (values.wait) {

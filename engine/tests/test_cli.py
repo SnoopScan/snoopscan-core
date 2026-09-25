@@ -150,6 +150,38 @@ def test_json_returns_the_payload_not_just_markdown(capsys: Any, run: Any) -> No
     assert json.loads(capsys.readouterr().out)["markdown"] == "# T"
 
 
+def test_formats_print_what_was_asked_for_not_the_markdown(capsys: Any, run: Any) -> None:
+    """`--formats links` printed the (empty) markdown and exited 0, which read
+    as "this page has no links" and reported live backlinks as gone."""
+    doc = _doc("", links=["https://a.test/", {"url": "https://b.test/"}])
+    code, _ = run(["scrape", "https://x.test", "--formats", "links"], scrape=doc)
+    assert code == 0
+    assert capsys.readouterr().out.strip() == "https://a.test/\nhttps://b.test/"
+
+
+def test_several_formats_are_labelled(capsys: Any, run: Any) -> None:
+    doc = _doc("# T", rawHtml="<p>hi</p>", links=["https://a.test/"])
+    run(["scrape", "https://x.test", "--formats", "links,rawHtml"], scrape=doc)
+    out = capsys.readouterr().out
+    assert "--- links ---\nhttps://a.test/" in out and "--- rawHtml ---\n<p>hi</p>" in out
+    assert "# T" not in out
+
+
+def test_an_empty_answer_is_loud_not_blank(capsys: Any, run: Any) -> None:
+    code, _ = run(["scrape", "https://x.test", "--formats", "rawHtml", "-q"], scrape=_doc(""))
+    assert code == 1
+    captured = capsys.readouterr()
+    assert captured.out == "" and "nothing came back for rawHtml" in captured.err
+
+
+def test_crawl_sends_page_options_where_the_api_takes_them(run: Any) -> None:
+    """Top-level `formats` on a crawl was rejected by the API on every call."""
+    job = type("Job", (), {"id": "j1", "status": "queued"})()
+    _, client = run(["crawl", "https://x.test", "--formats", "links", "--limit", "5"], crawl=job)
+    _, _, kwargs = client.calls[0]
+    assert kwargs == {"scrapeOptions": {"formats": ["links"]}, "limit": 5}
+
+
 def test_a_catalogue_is_summarised_not_dumped(capsys: Any, run: Any) -> None:
     """One blog returned 4.2 MB of post bodies to a terminal. Full fidelity is
     one flag away; the default must be readable."""

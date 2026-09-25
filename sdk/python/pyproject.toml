@@ -1,6 +1,6 @@
 [project]
 name = "snoopscan"
-version = "0.5.1"
+version = "0.5.2"
 description = "Python client for the SnoopScan web scraping API"
 readme = "README.md"
 requires-python = ">=3.10"

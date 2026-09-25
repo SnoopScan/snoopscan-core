@@ -16,7 +16,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: astral-sh/setup-uv@v3
       - run: uv venv --python 3.12
       - run: uv pip install -e ".[dev]"
@@ -26,7 +26,7 @@ jobs:
   typecheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: astral-sh/setup-uv@v3
       - run: uv venv --python 3.12
       # Both extras: engine/core/fetch/tier3h_camoufox.py imports camoufox at
@@ -54,7 +54,7 @@ jobs:
     # them. A single module-scope import breaks the published package.
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: astral-sh/setup-uv@v3
       - run: uv venv --python 3.12
       - run: uv pip install -e ".[dev]"
@@ -87,7 +87,7 @@ jobs:
     # BLOCKING, not advisory. A build that pulls a forbidden licence fails.
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: astral-sh/setup-uv@v3
       - run: uv venv --python 3.12
       - run: uv pip install -e ".[dev]"
@@ -123,7 +123,7 @@ jobs:
       ENGINE_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/scraping_engine
       ENGINE_REDIS_URL: redis://localhost:6379/0
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: astral-sh/setup-uv@v3
       - run: uv venv --python 3.12
       - run: uv pip install -e ".[dev]"
@@ -174,8 +174,8 @@ jobs:
       run:
         working-directory: sdk/js
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: '20'
           cache: 'npm'

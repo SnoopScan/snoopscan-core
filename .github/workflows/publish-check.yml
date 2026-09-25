@@ -40,7 +40,7 @@ jobs:
       ENGINE_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/scraping_engine
       ENGINE_REDIS_URL: redis://localhost:6379/0
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           # The secret-in-history check needs the whole history, not a shallow
           # clone. A shallow clone would report clean on a repository whose

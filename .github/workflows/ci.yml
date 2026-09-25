@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: astral-sh/setup-uv@v3
+      - uses: astral-sh/setup-uv@v10.2.0
       - run: uv venv --python 3.12
       - run: uv pip install -e ".[dev]"
       - run: .venv/bin/ruff check engine tools
@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: astral-sh/setup-uv@v3
+      - uses: astral-sh/setup-uv@v10.2.0
       - run: uv venv --python 3.12
       # Both extras: engine/core/fetch/tier3h_camoufox.py imports camoufox at
       # module level, so without the browser extra mypy cannot even resolve
@@ -55,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: astral-sh/setup-uv@v3
+      - uses: astral-sh/setup-uv@v10.2.0
       - run: uv venv --python 3.12
       - run: uv pip install -e ".[dev]"
       - name: Enforce the open-core boundary
@@ -88,14 +88,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: astral-sh/setup-uv@v3
+      - uses: astral-sh/setup-uv@v10.2.0
       - run: uv venv --python 3.12
       - run: uv pip install -e ".[dev]"
       - name: Generate licence inventory
         run: .venv/bin/pip-licenses --format=json --with-urls > licences.json
       - name: Enforce licence policy
         run: .venv/bin/python tools/check_licences.py licences.json
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: licences
@@ -124,7 +124,7 @@ jobs:
       ENGINE_REDIS_URL: redis://localhost:6379/0
     steps:
       - uses: actions/checkout@v5
-      - uses: astral-sh/setup-uv@v3
+      - uses: astral-sh/setup-uv@v10.2.0
       - run: uv venv --python 3.12
       - run: uv pip install -e ".[dev]"
       # test_cli.py imports from the installed package, not from sdk/python/

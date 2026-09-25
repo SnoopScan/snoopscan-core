@@ -48,7 +48,7 @@ jobs:
           fetch-depth: 0
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v3
+        uses: astral-sh/setup-uv@v10.2.0
 
       # `uv sync --frozen` alone does NOT install PEP 621 optional-dependencies
       # extras like [dev] — this job ran `python -m pytest` for months without

@@ -28,7 +28,10 @@ dependencies = [
     "trafilatura>=1.8.0",       # Apache-2.0 from 1.8.0 (earlier is GPLv3+ — pinned)
     "html-to-markdown>=3.12",   # MIT           (structure-preserving conversion base)
     "selectolax>=0.3.21",       # MIT           (fast HTML parsing / classification)
-    "sqlalchemy>=2.0",          # MIT
+    # 2.1 (Sep 2026) stopped pulling in greenlet, which the async engine and
+    # alembic need, and every CI run broke. Pinned to the tested line; the
+    # asyncio extra names greenlet explicitly.
+    "sqlalchemy[asyncio]>=2.0,<2.1",  # MIT
     "asyncpg>=0.29",            # Apache-2.0  (async app path)
     "alembic>=1.13",            # MIT
     "redis>=5.0",               # MIT

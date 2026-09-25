@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
   schedule:
     # The licence gate runs on a schedule too, not only on change — a
     # transitive dependency can relicense underneath us.
@@ -14,6 +15,11 @@ env:
 
 jobs:
   lint:
+    # Private repo: the pre-push gate (tools/pre_push.py) already runs every job
+    # below on every push, and the public snoopscan-core repo runs this same
+    # file for free. Here it spent ~1,600 of the 2,000 Actions minutes in Sept
+    # 2026, so it only runs on the private repo when started by hand.
+    if: ${{ !github.event.repository.private || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -24,6 +30,11 @@ jobs:
       - run: .venv/bin/ruff format --check engine tools
 
   typecheck:
+    # Private repo: the pre-push gate (tools/pre_push.py) already runs every job
+    # below on every push, and the public snoopscan-core repo runs this same
+    # file for free. Here it spent ~1,600 of the 2,000 Actions minutes in Sept
+    # 2026, so it only runs on the private repo when started by hand.
+    if: ${{ !github.event.repository.private || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -52,6 +63,7 @@ jobs:
     # BLOCKING. The commercial protection is that the proprietary modules are
     # never published; that only holds if the open core does not depend on
     # them. A single module-scope import breaks the published package.
+    if: ${{ !github.event.repository.private || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -85,6 +97,7 @@ jobs:
 
   licence:
     # BLOCKING, not advisory. A build that pulls a forbidden licence fails.
+    if: ${{ !github.event.repository.private || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -102,6 +115,11 @@ jobs:
           path: licences.json
 
   test:
+    # Private repo: the pre-push gate (tools/pre_push.py) already runs every job
+    # below on every push, and the public snoopscan-core repo runs this same
+    # file for free. Here it spent ~1,600 of the 2,000 Actions minutes in Sept
+    # 2026, so it only runs on the private repo when started by hand.
+    if: ${{ !github.event.repository.private || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -169,6 +187,7 @@ jobs:
     # integration tests in tests/client.test.ts skip themselves. Same reason
     # the Python SDK's own CI job never leaves localhost: a route change
     # that breaks either client should fail here, not reach a publish.
+    if: ${{ !github.event.repository.private || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     defaults:
       run:

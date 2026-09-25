@@ -59,9 +59,48 @@ class FetchRequest:
     # carries no proxy_url yet — and the egress policy, which cannot know
     # that, refused to build it. See _enforce_egress_policy.
     exit_chosen_by_fetcher: bool = False
+    # Which grade of provider a rung that mints its OWN exit should draw from
+    # (providers.pick). None is cost-first across every grade. The deep rungs
+    # used to draw with no grade and no price, so the dearest pool carried the
+    # most bytes.
+    proxy_grade: str | None = None
+    # The CALLER chose this exit's type (`proxy: datacenter`, say). A deep
+    # rung may swap a datacenter exit the router chose for a residential one
+    # of its own — a datacenter address at a fingerprinting rung is a wasted
+    # load — but never one the caller asked for by name.
+    proxy_pinned: bool = False
+    # False when the proxy bandwidth budget is spent. The deep rungs then
+    # do not mint an exit of their own: the budget used to be checked only
+    # where the scrape service chose the exit, so a stealth rung kept buying
+    # residential bytes on a day the cap had already refused everything else.
+    paid_exit_allowed: bool = True
+    # False for hosts whose players stream video however autoplay is set
+    # (site_rules.yaml). The Firefox rungs then run without Media Source
+    # Extensions, which is how a player fetches its segments. A preference,
+    # not an intercepting route, so the deep rungs' fingerprint is untouched
+    # everywhere else.
+    media_streaming: bool = True
 
     def __post_init__(self) -> None:
         _enforce_egress_policy(self)
+
+
+def wants_own_exit(req: FetchRequest) -> bool:
+    """Should a deep rung mint a residential exit of its own for this request?
+
+    Yes when the request brought no exit, or brought a DATACENTER one the
+    router chose: the fingerprinting rungs exist for sites that refuse
+    datacenter addresses, and a browser load through one is paid for and
+    refused. No when the caller named the type, and no when the bandwidth
+    budget is spent — the budget used to be checked only where the scrape
+    service chose the exit, so these rungs kept buying on a day the cap had
+    refused everything else.
+    """
+    if not req.paid_exit_allowed:
+        return False
+    if not req.proxy_url:
+        return True
+    return req.proxy_type == "datacenter" and not req.proxy_pinned
 
 
 class DirectEgressRefused(RuntimeError):
@@ -155,6 +194,13 @@ class FetchResult:
     # "invalid" (the step cannot be carried out as written) or "timeout" (it
     # was well-formed and the page did not answer). Different diagnoses.
     action_fault: str | None = None
+    # A TERMINAL refusal by the fetcher itself — "response_too_large",
+    # "binary_content". Not a transport error, which the ladder retries and
+    # climbs on: a file refused at tier 0 for its size would otherwise be
+    # downloaded again, whole, by every rung above it. The validator reads it
+    # as a target error, and the ladder stops.
+    refused: str | None = None
+    refused_detail: str | None = None
 
     @property
     def ok_transport(self) -> bool:

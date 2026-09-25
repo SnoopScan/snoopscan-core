@@ -343,6 +343,18 @@ def is_extractable(content_type: str | None) -> bool:
 
 
 def _layer1(result: FetchResult) -> Verdict | None:
+    # The fetcher refused the response itself — too large to carry through a
+    # paid exit, or a file no rung can make a page of. A target error, so the
+    # ladder stops: read as a transport error it would be retried, then
+    # re-downloaded whole by every rung above (see fetch/binary.py).
+    if result.refused:
+        return Verdict(
+            ok=False,
+            reason=Reason.TARGET_ERROR,
+            signal=result.refused,
+            confidence=1.0,
+            details={"status_code": result.status_code, "message": result.refused_detail},
+        )
     if result.error is not None:
         lowered = result.error.lower()
         reason = Reason.EMPTY if "timeout" in lowered else Reason.EMPTY
@@ -452,6 +464,25 @@ def _layer1(result: FetchResult) -> Verdict | None:
             confidence=1.0,
             details={"content_type": result.content_type},
         )
+
+    # A FILE, whatever the server called it: an archive labelled text/html is
+    # still an archive, and no browser rung will render it into a page.
+    if 200 <= status < 300:
+        from engine.core.fetch.binary import refused_kind
+
+        kind = refused_kind(result.url, result.content_type, result.body)
+        if kind is not None:
+            return Verdict(
+                ok=False,
+                reason=Reason.TARGET_ERROR,
+                signal="binary_content",
+                confidence=1.0,
+                details={
+                    "status_code": status,
+                    "kind": kind,
+                    "message": f"The URL is a {kind} file, not a page",
+                },
+            )
 
     if status == 403:
         # A 403 with a whole page behind it is the page. etsy.com serves its

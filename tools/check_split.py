@@ -42,6 +42,9 @@ PUBLIC_PREFIXES = (
     "engine/core/fetch/tier0_http.py",
     "engine/core/fetch/tier1_impersonate.py",
     "engine/core/fetch/byte_meter.py",  # httpx/httpcore byte counting tier0 imports at module scope
+    # Is this response a file, not a page? Magic numbers and extensions; tier0
+    # and the validator import it, and a self-hoster downloads tarballs too.
+    "engine/core/fetch/binary.py",
     "engine/core/fetch/site_rules.py",  # consent cookies; a self-hoster hits the same walls
     "engine/core/fetch/site_rules.yaml",
     "engine/core/fetch/consent.py",  # replays "Accept all" over HTTP; same door for everyone

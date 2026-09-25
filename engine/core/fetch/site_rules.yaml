@@ -12,6 +12,10 @@
 #             browser needs it; it is rewritten to the actual host's registrable
 #             domain when the rule matched by TLD wildcard.
 #   why       one line, so nobody deletes a rule they do not understand
+#   media_streaming
+#             false: the Firefox rungs run with Media Source Extensions off on
+#             these hosts, so a player cannot buffer video through a paid exit.
+#             Per host on purpose — a missing MediaSource is a fingerprint.
 #
 # Not here: anything that authenticates. Site rules carry consent and
 # preference state a first visit would set anyway — never a session.
@@ -29,3 +33,11 @@ rules:
         value: CAISHAgBEhJnd3NfMjAyNDAxMDEtMF9SQzIaAmVuIAEaBgiA_LyaBg
         domain: .google.com
         path: /
+
+  - hosts: ["youtube.com", "youtube-nocookie.com"]
+    why: >
+      The watch-page player buffers video segments with autoplay blocked:
+      3.3 MB of a 10.8 MB load at stealth_hard, measured 25 Sep 2026, for a
+      page whose content is all in its HTML. youtube.com was the largest
+      single proxy spender that week (108 MB in 7 days).
+    media_streaming: false

@@ -1,9 +1,11 @@
-"""Which requests are budget work: only a domain that is cheap on the record.
+"""Which requests are narrowed to premium providers: only hard work, on evidence.
 
-A budget provider costs a fraction of a premium one per GB and, measured on a
-defended job board, fails where premium ones get through. So the rule is
-evidence-only: several clean successes at the plain rungs and not one block.
-Anything unknown or ever-difficult is premium.
+The grade used to default to premium: a domain was budget work only after
+several clean successes at the plain rungs, so every first visit and every
+browser rung paid 2-4x per GB. Measured over the week to 25 Sep 2026 the
+budget pools were no worse at the plain rungs and close at the browser ones,
+so the default is now no grade at all — the cheapest healthy provider — and a
+budget pool that fails on a site is passed over there on its record.
 """
 
 from __future__ import annotations
@@ -17,25 +19,17 @@ from engine.core.scrape_service import proxy_grade
 EASY = DomainProfile("docs.example.com", success_count=12, min_working_tier=Tier.HTTP)
 
 
-def test_a_domain_proven_easy_is_budget_work() -> None:
-    assert proxy_grade(EASY, ScrapeOptions()) == "budget"
-    assert (
-        proxy_grade(replace(EASY, min_working_tier=Tier.IMPERSONATE), ScrapeOptions()) == "budget"
-    )
+def test_ordinary_work_is_not_narrowed_so_the_cheapest_provider_takes_it() -> None:
+    assert proxy_grade(EASY, ScrapeOptions()) is None
+    assert proxy_grade(DomainProfile("new.example.com"), ScrapeOptions()) is None
+    # A browser rung or an old block is not a firewall: the provider record
+    # decides those, provider by provider.
+    assert proxy_grade(replace(EASY, min_working_tier=Tier.BROWSER), ScrapeOptions()) is None
+    assert proxy_grade(replace(EASY, block_count=1), ScrapeOptions()) is None
 
 
-def test_a_domain_seen_for_the_first_time_is_premium() -> None:
-    assert proxy_grade(DomainProfile("new.example.com"), ScrapeOptions()) == "premium"
-    assert proxy_grade(replace(EASY, success_count=2), ScrapeOptions()) == "premium"
-
-
-def test_one_block_anywhere_on_the_record_makes_it_premium() -> None:
-    assert proxy_grade(replace(EASY, block_count=1), ScrapeOptions()) == "premium"
-
-
-def test_a_known_firewall_or_a_browser_rung_makes_it_premium() -> None:
+def test_a_known_firewall_makes_it_premium() -> None:
     assert proxy_grade(replace(EASY, detected_waf="cloudflare"), ScrapeOptions()) == "premium"
-    assert proxy_grade(replace(EASY, min_working_tier=Tier.BROWSER), ScrapeOptions()) == "premium"
 
 
 def test_clicking_or_phone_requests_are_premium() -> None:

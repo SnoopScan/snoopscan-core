@@ -292,3 +292,83 @@ async def test_charge_writes_the_credits_onto_the_cost_block(
     assert cost.credits is None
     await billing.charge(_key(100), endpoint="scrape", url="https://a.test", cost=cost)
     assert cost.credits == 1  # a plain page is one credit, and the response now says so
+
+
+# -- rate-limited keys ------------------------------------------------------
+
+
+class _FakeRedis:
+    """Just enough of redis.asyncio for RateLimiter: counters and one hash per day."""
+
+    def __init__(self) -> None:
+        self.values: dict[str, int] = {}
+        self.hashes: dict[str, dict[str, int]] = {}
+
+    async def incr(self, key: str) -> int:
+        self.values[key] = self.values.get(key, 0) + 1
+        return self.values[key]
+
+    async def expire(self, key: str, seconds: int) -> bool:
+        return True
+
+    async def hincrby(self, key: str, field: str, amount: int) -> int:
+        bucket = self.hashes.setdefault(key, {})
+        bucket[field] = bucket.get(field, 0) + amount
+        return bucket[field]
+
+    async def hgetall(self, key: str) -> dict[str, str]:
+        return {k: str(v) for k, v in self.hashes.get(key, {}).items()}
+
+
+@pytest.mark.asyncio
+async def test_rate_limiter_counts_only_refusals_per_key_per_day() -> None:
+    import time as _time
+
+    from engine.core.politeness import RateLimiter, refused_key
+
+    fake = _FakeRedis()
+    limiter = RateLimiter(fake)  # type: ignore[arg-type]
+    results = [await limiter.check("key_a", 2) for _ in range(5)]
+    assert [r[0] for r in results] == [True, True, False, False, False]
+    await limiter.check("key_b", 100)
+
+    day = _time.strftime("%Y-%m-%d", _time.gmtime())
+    assert fake.hashes[refused_key(day)] == {"key_a": 3}
+    assert await limiter.refused_on(day) == [{"key_id": "key_a", "refused": 3}]
+
+
+@pytest.mark.asyncio
+async def test_a_counting_failure_never_changes_the_429() -> None:
+    from engine.core.politeness import RateLimiter
+
+    class _Broken(_FakeRedis):
+        async def hincrby(self, key: str, field: str, amount: int) -> int:
+            raise RuntimeError("redis went away")
+
+    limiter = RateLimiter(_Broken())  # type: ignore[arg-type]
+    await limiter.check("key_a", 1)
+    allowed, remaining, _ = await limiter.check("key_a", 1)
+    assert allowed is False and remaining == 0
+
+
+def test_rate_limited_endpoint_is_gated_and_reads_the_day(
+    client: TestClient, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from engine.core import politeness
+
+    seen: list[str] = []
+
+    async def fake_refused_on(self: object, day: str) -> list[dict[str, Any]]:
+        seen.append(day)
+        return [{"key_id": "key_a", "refused": 40}]
+
+    monkeypatch.setattr(politeness.RateLimiter, "refused_on", fake_refused_on)
+    assert client.get("/internal/rate-limited").status_code == 401
+    r = client.get("/internal/rate-limited", params={"day": "2026-09-25"}, headers=H)
+    assert r.status_code == 200
+    assert r.json() == {"success": True, "data": [{"key_id": "key_a", "refused": 40}]}
+    assert seen == ["2026-09-25"]
+    assert client.get("/internal/rate-limited", params={"day": "nope"}, headers=H).status_code in (
+        400,
+        422,
+    )

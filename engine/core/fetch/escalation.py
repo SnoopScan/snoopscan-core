@@ -188,6 +188,8 @@ class Attempt:
     # tiers is an exit they chose themselves.
     error: str | None = None
     proxy_id: str | None = None
+    # ...and what kind of exit it was, so the bandwidth ledger can price it.
+    proxy_type: str | None = None
     # WHICH url this attempt was for. The fetch log recorded an empty hash on
     # every row, so the only history we had was "something on this domain
     # failed" — enough to open the breaker, never enough to tell a hostile
@@ -221,6 +223,17 @@ class EscalationOutcome:
     @property
     def total_bytes(self) -> int:
         return sum(a.bytes_transferred for a in self.attempts)
+
+    @property
+    def proxied_bytes(self) -> int:
+        """Only the attempts that went out through an exit: what a vendor bills.
+
+        `total_bytes` counts the direct rungs too, and was reported as the
+        request's proxy bytes whenever the serving rung was proxied — an
+        archive fetched direct twice and then once through a stealth exit was
+        reported as 19 MB of proxy traffic for 5 MB on the invoice.
+        """
+        return sum(a.bytes_transferred for a in self.attempts if a.proxy_id)
 
 
 def _waf_min_tier() -> dict[str, Tier]:
@@ -525,6 +538,7 @@ class EscalationController:
                 bytes_transferred=result.bytes_transferred,
                 error=result.error,
                 proxy_id=result.proxy_id,
+                proxy_type=result.proxy_type,
                 url=attempt_req.url,
             )
             attempts.append(attempt)

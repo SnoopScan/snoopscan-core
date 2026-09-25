@@ -18,6 +18,7 @@ import json
 import re
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
+from decimal import Decimal
 from typing import Any
 
 import asyncpg
@@ -387,7 +388,7 @@ async def job_api_key(job_id: str) -> ApiKey | None:
 PROVIDER_COLUMNS = (
     "id, name, type::text AS type, host, port, username, country, username_template, "
     "password_template, password_sticky_template, sticky_lifetime_minutes, enabled, priority, "
-    "grade, created_at, updated_at"
+    "grade, cost_per_gb::float8 AS cost_per_gb, created_at, updated_at"
 )
 
 
@@ -427,6 +428,11 @@ async def get_proxy_provider_secret(provider_id: str) -> str | None:
     return decrypt(enc) if enc else None
 
 
+def _money(value: Any) -> Decimal | None:
+    """A price for a numeric column: via str, so 3.75 is stored as 3.75."""
+    return None if value is None else Decimal(str(value))
+
+
 async def create_proxy_provider(fields: dict[str, Any]) -> dict[str, Any]:
     from engine.core.secrets import encrypt
 
@@ -436,7 +442,7 @@ async def create_proxy_provider(fields: dict[str, Any]) -> dict[str, Any]:
         INSERT INTO proxy_providers (id, name, type, host, port, username, password_enc, country,
                                      username_template, password_template,
                                      password_sticky_template, sticky_lifetime_minutes,
-                                     enabled, priority, grade)
+                                     enabled, priority, grade, cost_per_gb)
         VALUES ($1, $2, $3::proxy_type, $4, $5, $6, $7, $8,
                 COALESCE($9, '{username}'),
                 COALESCE($10, '{password}_country-{country}'),
@@ -445,7 +451,7 @@ async def create_proxy_provider(fields: dict[str, Any]) -> dict[str, Any]:
                     '{password}_country-{country}_session-{session}_lifetime-{lifetime}m'
                 ),
                 COALESCE($12, 10), COALESCE($13, true), COALESCE($14, 100),
-                COALESCE($15, 'premium'))
+                COALESCE($15, 'premium'), $16)
         """,
         provider_id,
         fields["name"],
@@ -462,6 +468,7 @@ async def create_proxy_provider(fields: dict[str, Any]) -> dict[str, Any]:
         fields.get("enabled"),
         fields.get("priority"),
         fields.get("grade"),
+        _money(fields.get("cost_per_gb")),
     )
     row = await get_proxy_provider(provider_id)
     assert row is not None
@@ -485,8 +492,11 @@ async def update_proxy_provider(provider_id: str, fields: dict[str, Any]) -> boo
         "enabled",
         "priority",
         "grade",
+        "cost_per_gb",
     }
     updates = {k: v for k, v in fields.items() if k in allowed and v is not None}
+    if "cost_per_gb" in updates:
+        updates["cost_per_gb"] = _money(updates["cost_per_gb"])
     if fields.get("password"):
         updates["password_enc"] = encrypt(fields["password"])
     if not updates:

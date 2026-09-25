@@ -241,6 +241,32 @@ class Settings(BaseSettings):
     # took all traffic from the one in .env (measured 7 Sep 2026). Lower wins.
     proxy_priority: int = 100
 
+    # --- What a GB costs, per provider and per type -------------------------
+    # USD per GB. Within a priority tier the router sends a request to the
+    # CHEAPEST healthy provider (providers.pick), and the spend report prices
+    # the ledger with the same figures, so ordering and reporting cannot
+    # disagree. Desk providers carry their own `cost_per_gb`; these two are
+    # for the environment's gateways. Unset means "not priced": the type's
+    # estimate below stands in.
+    proxy_cost_per_gb: float | None = None
+    proxy_datacenter_cost_per_gb: float | None = None
+    # List-price ESTIMATES for a provider nobody has priced, Sep 2026 market
+    # rates for pay-as-you-go plans. Used to order and to estimate only; the
+    # desk's figure always wins. The order is what matters most: datacenter <
+    # ISP < residential < mobile.
+    proxy_default_cost_per_gb_datacenter: float = 0.60
+    proxy_default_cost_per_gb_isp: float = 1.50
+    proxy_default_cost_per_gb_residential: float = 4.00
+    proxy_default_cost_per_gb_mobile: float = 8.00
+    # One request in N lets a provider back onto a site where it has been
+    # passed over for blocks, so a site can move back DOWN the price list in
+    # hours rather than waiting a week for its record to age out. 0 disables.
+    proxy_provider_reprobe_every: int = 20
+    # A domain learned to need a dearer exit TYPE (residential after a
+    # datacenter block) tries the next cheaper configured type again every Nth
+    # success. Same shape as proxy_direct_reprobe_every. 0 disables.
+    proxy_type_reprobe_every: int = 10
+
     # --- Bandwidth budget -------------------------------------------------
     # THE cost control. Residential bandwidth is billed per GB, and a runaway
     # crawl overnight is exactly how a large unexpected bill happens. At 80%
@@ -256,11 +282,20 @@ class Settings(BaseSettings):
     #
     # Sized for the work in hand: a large first-pass crawl is ~230 MB, which
     # was already 46% of the old daily cap in a single day.
+    # A domain learned to need a proxy is tried DIRECT again on every Nth
+    # request. The flag used to be permanent: one rate-limit or timeout, then a
+    # success through a stealth rung's own exit, and the domain paid residential
+    # bandwidth forever. On 25 Sep 2026 41 of 75 flagged domains had never been
+    # blocked at all (nameplay.org: 627 successes, 0 blocks, every one proxied).
+    proxy_direct_reprobe_every: int = 20
     proxy_daily_budget_mb: int = 2_000
     proxy_monthly_budget_mb: int = 40_000
     proxy_budget_warn_fraction: float = 0.8
-    # Refuse any single fetch expected to exceed this. Stops one enormous
-    # asset eating the day's allowance.
+    # Refuse any single PROXIED response larger than this, before it is
+    # streamed in full. Stops one enormous asset eating the day's allowance.
+    # Enforced at tiers 0 and 1 (the rungs that download files) as a TERMINAL
+    # refusal the ladder honours, so a refused download is not re-fetched by a
+    # browser rung above it. 0 disables.
     proxy_max_response_mb: int = 25
 
     # --- Search (07-orchestration.md s8) -----------------------------------

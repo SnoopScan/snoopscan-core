@@ -202,6 +202,23 @@ async def put_costs(body: CreditCosts, _: InternalDep) -> dict[str, Any]:
     return {"success": True, "data": await repo.get_credit_costs()}
 
 
+@router.get("/rate-limited")
+async def rate_limited(
+    _: InternalDep,
+    day: str | None = Query(default=None, pattern=r"^\d{4}-\d{2}-\d{2}$"),
+) -> dict[str, Any]:
+    """Keys refused with a 429 for going over their per-minute limit on one UTC
+    day (default today), as [{key_id, refused}], busiest first. Read-only; the
+    counts are kept three days. The app emails an owner whose key keeps
+    hitting its limit (RateLimitHit)."""
+    from datetime import UTC, datetime
+
+    from engine.core.politeness import RateLimiter
+
+    wanted = day or datetime.now(UTC).strftime("%Y-%m-%d")
+    return {"success": True, "data": await RateLimiter().refused_on(wanted)}
+
+
 @router.get("/jobs")
 async def jobs(
     _: InternalDep, limit: int = Query(default=50, ge=1, le=500), owner_ref: str | None = None
@@ -275,7 +292,7 @@ async def proxies(_: InternalDep) -> dict[str, Any]:
 class CreateProvider(BaseModel):
     model_config = ConfigDict(extra="forbid")
     name: str = Field(min_length=1, max_length=80)
-    type: Literal["datacenter", "residential", "mobile"]
+    type: Literal["datacenter", "isp", "residential", "mobile"]
     host: str = Field(min_length=1, max_length=255)
     port: int = Field(ge=1, le=65535)
     username: str = Field(min_length=1, max_length=255)
@@ -287,14 +304,18 @@ class CreateProvider(BaseModel):
     sticky_lifetime_minutes: int | None = Field(default=None, ge=1, le=1440)
     enabled: bool | None = None
     priority: int | None = Field(default=None, ge=0, le=10_000)
-    # budget: easy work on domains already proven easy. premium: everything else.
+    # budget: cheap by definition, first among equal prices. premium: the
+    # grade hard work (a known firewall, clicking, a phone) is narrowed to.
     grade: Literal["budget", "premium"] | None = None
+    # USD per GB, as the vendor bills it. Within a priority the cheapest
+    # healthy provider takes the request; unset, the type's estimate stands in.
+    cost_per_gb: float | None = Field(default=None, ge=0, le=1_000)
 
 
 class UpdateProvider(BaseModel):
     model_config = ConfigDict(extra="forbid")
     name: str | None = Field(default=None, min_length=1, max_length=80)
-    type: Literal["datacenter", "residential", "mobile"] | None = None
+    type: Literal["datacenter", "isp", "residential", "mobile"] | None = None
     host: str | None = Field(default=None, min_length=1, max_length=255)
     port: int | None = Field(default=None, ge=1, le=65535)
     username: str | None = Field(default=None, min_length=1, max_length=255)
@@ -306,8 +327,12 @@ class UpdateProvider(BaseModel):
     sticky_lifetime_minutes: int | None = Field(default=None, ge=1, le=1440)
     enabled: bool | None = None
     priority: int | None = Field(default=None, ge=0, le=10_000)
-    # budget: easy work on domains already proven easy. premium: everything else.
+    # budget: cheap by definition, first among equal prices. premium: the
+    # grade hard work (a known firewall, clicking, a phone) is narrowed to.
     grade: Literal["budget", "premium"] | None = None
+    # USD per GB, as the vendor bills it. Within a priority the cheapest
+    # healthy provider takes the request; unset, the type's estimate stands in.
+    cost_per_gb: float | None = Field(default=None, ge=0, le=1_000)
 
 
 def _providers_changed() -> None:
@@ -343,6 +368,19 @@ async def proxy_providers(_: InternalDep) -> dict[str, Any]:
             {"consecutiveFailures": 0, "benched": False, "secondsRemaining": 0},
         ),
     }
+
+
+@router.get("/proxy-spend")
+async def proxy_spend(_: InternalDep, days: int = 30) -> dict[str, Any]:
+    """Measured proxy bytes and their estimated cost, by provider and by type.
+
+    Priced with the same per-GB figures the router orders by, so the desk sees
+    what "cheapest first" is actually saving. Every proxied ATTEMPT is in the
+    ledger, including the exits the deep rungs choose for themselves.
+    """
+    from engine.core.proxy import budget
+
+    return {"success": True, "data": await budget.spend_by_provider(days=max(1, min(days, 90)))}
 
 
 @router.post("/proxy-providers", status_code=201)

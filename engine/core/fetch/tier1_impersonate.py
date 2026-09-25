@@ -88,8 +88,16 @@ class ImpersonateFetcher:
             # here it is the library doing the contradicting.
             headers["Sec-Ch-Ua-Mobile"] = "?1"
 
+        # A proxied body over the cap is refused by libcurl itself: on the
+        # declared length before the body, and (libcurl >= 8.4) the moment the
+        # running count passes it. Direct fetches cost no vendor bytes.
+        cap_mb = settings.proxy_max_response_mb
+        cap = cap_mb * 1024 * 1024 if req.proxy_url and cap_mb > 0 else 0
+
         try:
             async with AsyncSession() as session:
+                if cap:
+                    session.curl_options[CurlOpt.MAXFILESIZE_LARGE] = cap
                 # Redirects are walked here rather than by curl, so the SSRF
                 # guard sees every hop. `allow_redirects=True` validated the
                 # submitted URL and then followed whatever the server said —
@@ -129,6 +137,13 @@ class ImpersonateFetcher:
                     url, method = hop
         except curl_errors.RequestsError as exc:
             message = str(exc)
+            if cap and (getattr(exc, "code", None) == 63 or "maximum file size" in message.lower()):
+                refused = self._failure(req, started, None, exc.response)
+                refused.refused = "response_too_large"
+                refused.refused_detail = (
+                    f"The response passed the {cap_mb} MB limit for a proxied fetch"
+                )
+                return refused
             kind = "timeout" if "timed out" in message.lower() else "request_error"
             # curl_cffi's exception carries the partial response libcurl built
             # before the failure (attached as .response), and libcurl itself
@@ -158,7 +173,7 @@ class ImpersonateFetcher:
         )
 
     def _failure(
-        self, req: FetchRequest, started: float, error: str, partial: object | None
+        self, req: FetchRequest, started: float, error: str | None, partial: object | None
     ) -> FetchResult:
         transferred = 0
         if partial is not None:

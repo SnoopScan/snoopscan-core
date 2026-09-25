@@ -92,6 +92,22 @@ proxy_bytes = Counter(
     ["proxy_type"],
 )
 
+# Per ATTEMPT and per provider, priced: every proxied attempt, including the
+# exits the deep rungs choose for themselves, which `proxy_bytes` (recorded
+# once per successful request) never saw. The label set is small — one value
+# per registered provider.
+proxy_spend_bytes = Counter(
+    "engine_proxy_spend_bytes_total",
+    "Proxy bytes per provider and exit type, every attempt, success or not.",
+    ["provider", "proxy_type"],
+)
+proxy_spend_usd = Counter(
+    "engine_proxy_spend_usd_total",
+    "Estimated proxy spend in USD per provider and exit type, at the provider's "
+    "cost_per_gb (or its type's estimate when unpriced).",
+    ["provider", "proxy_type"],
+)
+
 browser_time = Counter(
     "engine_browser_ms_total",
     "Wall-clock milliseconds a browser was held. Browser time is the second "
@@ -167,6 +183,14 @@ def record_cost(proxy_type: str | None, proxy_bytes_used: int, browser_ms: int) 
         proxy_bytes.labels(proxy_type=proxy_type).inc(proxy_bytes_used)
     if browser_ms:
         browser_time.inc(browser_ms)
+
+
+def record_proxy_spend(provider: str, proxy_type: str | None, bytes_used: int, usd: float) -> None:
+    if not bytes_used:
+        return
+    kind = proxy_type or "unknown"
+    proxy_spend_bytes.labels(provider=provider, proxy_type=kind).inc(bytes_used)
+    proxy_spend_usd.labels(provider=provider, proxy_type=kind).inc(usd)
 
 
 def record_cache(hit: bool) -> None:

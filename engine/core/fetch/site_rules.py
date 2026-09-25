@@ -56,6 +56,9 @@ class _Rule:
     hosts: tuple[str, ...]
     cookies: tuple[dict[str, str], ...]
     why: str
+    # False: the Firefox rungs run without Media Source Extensions here (see
+    # tier3h_camoufox._NO_MSE). Read by `media_streaming()`, not `for_url`.
+    media_streaming: bool = True
 
     def matches(self, host: str) -> bool:
         for suffix in self.hosts:
@@ -89,6 +92,7 @@ def _load() -> tuple[_Rule, ...]:
                 hosts=tuple(str(h).lower() for h in item.get("hosts", [])),
                 cookies=cookies,
                 why=str(item.get("why", "")).strip(),
+                media_streaming=bool(item.get("media_streaming", True)),
             )
         )
     return tuple(out)
@@ -115,6 +119,19 @@ def for_url(url: str) -> SiteRule:
             )
             return SiteRule(cookies=cookies, why=rule.why)
     return EMPTY
+
+
+def media_streaming(url: str) -> bool:
+    """False when a rule for this host says its players stream regardless.
+
+    Every matching rule is consulted, not only the first: the cookie rules
+    stop at the first match, and a streaming rule must not have to share an
+    entry with — or be shadowed by — a consent rule for the same host.
+    """
+    host = (urlsplit(url).hostname or "").lower()
+    if not host:
+        return True
+    return not any(r.matches(host) and not r.media_streaming for r in _load())
 
 
 def _domain_fits(cookie_domain: str, host: str) -> bool:

@@ -261,9 +261,26 @@ class PolitenessGate:
         await client.set(f"politeness:next:{domain}", next_allowed, px=max(seconds * 1000, 60_000))
 
 
+# How long a day's count of rate-limited requests is kept. The app reads
+# today's; a few days' grace lets it catch up after downtime.
+REFUSED_TTL_S = 3 * 86_400
+
+
+def refused_key(day: str) -> str:
+    """One Redis hash per UTC day: api key id -> requests refused with a 429."""
+    return f"ratelimited:{day}"
+
+
 class RateLimiter:
     """Per-API-key request limiting. Exists to stop a runaway loop, not to
-    monetise."""
+    monetise.
+
+    Every refusal is also counted, per key per UTC day, so the operator app
+    can tell a customer their key keeps hitting its limit — a 429 their code
+    swallows looks like missing data, not an error. Read with `refused_on`,
+    served as GET /internal/rate-limited. One HINCRBY per refused request,
+    nothing on an allowed one.
+    """
 
     def __init__(self, redis: aioredis.Redis | None = None) -> None:
         self._redis = redis
@@ -283,4 +300,26 @@ class RateLimiter:
             await client.expire(redis_key, 120)
         remaining = max(0, limit_rpm - count)
         reset = (window + 1) * 60
-        return count <= limit_rpm, remaining, reset
+        allowed = count <= limit_rpm
+        if not allowed:
+            await self._count_refusal(client, key_id)
+        return allowed, remaining, reset
+
+    async def _count_refusal(self, client: aioredis.Redis, key_id: str) -> None:
+        # Best effort: a failure to COUNT a 429 must never turn it into a 500.
+        day = time.strftime("%Y-%m-%d", time.gmtime())
+        try:
+            await client.hincrby(refused_key(day), key_id, 1)
+            await client.expire(refused_key(day), REFUSED_TTL_S)
+        except Exception:  # noqa: BLE001
+            return
+
+    async def refused_on(self, day: str) -> list[dict[str, str | int]]:
+        """Keys refused on one UTC day (YYYY-MM-DD), busiest first."""
+        client = await self._client()
+        raw = await client.hgetall(refused_key(day))
+        rows: list[dict[str, str | int]] = [
+            {"key_id": str(k), "refused": int(v)} for k, v in (raw or {}).items()
+        ]
+        rows.sort(key=lambda r: int(r["refused"]), reverse=True)
+        return rows

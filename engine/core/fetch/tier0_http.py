@@ -15,6 +15,7 @@ import time
 import httpx
 
 from engine.core.fetch.base import FetchRequest, FetchResult, _is_internal
+from engine.core.fetch.binary import refused_kind
 from engine.core.fetch.byte_meter import ByteCounter, CountingTransport
 from engine.core.fetch.pinning import PinnedBackend
 from engine.core.fetch.redirects import follow as follow_redirects
@@ -24,7 +25,7 @@ from engine.core.redaction import redact
 from engine.settings import settings
 
 
-def _measured_bytes(response: httpx.Response) -> int:
+def _measured_bytes(response: httpx.Response, body_len: int | None = None) -> int:
     """Body plus header bytes actually received.
 
     httpx exposes no raw socket counter, so header size is computed from the
@@ -34,10 +35,13 @@ def _measured_bytes(response: httpx.Response) -> int:
     """
     header_bytes = sum(len(name) + len(value) + 4 for name, value in response.headers.raw) + 2
     status_line = len(response.http_version) + 12
-    return len(response.content) + header_bytes + status_line
+    body = len(response.content) if body_len is None else body_len
+    return body + header_bytes + status_line
 
 
-def _billable_bytes(response: httpx.Response, meter: ByteCounter | None) -> int:
+def _billable_bytes(
+    response: httpx.Response, meter: ByteCounter | None, body_len: int | None = None
+) -> int:
     """What this fetch actually cost on the wire.
 
     Through a proxy the raw socket counter wins, and it was already running —
@@ -58,7 +62,63 @@ def _billable_bytes(response: httpx.Response, meter: ByteCounter | None) -> int:
     """
     if meter is not None:
         return meter.total
-    return _measured_bytes(response)
+    return _measured_bytes(response, body_len)
+
+
+MB = 1024 * 1024
+# Enough of the body to read any magic number fetch/binary.py knows.
+_SNIFF_BYTES = 512
+
+
+async def _read_capped(
+    response: httpx.Response, req: FetchRequest
+) -> tuple[bytes, str | None, str | None]:
+    """The body, or a terminal refusal before the rest of it is paid for.
+
+    Two refusals, both decided as early as the bytes allow:
+      * a FILE (fetch/binary.py) — on the first chunk, whatever the label;
+      * a proxied body over `proxy_max_response_mb` — on the declared length
+        before a byte of body is read, or the moment the running count passes
+        it. Direct fetches cost no vendor bytes and are not capped.
+    Returns (body, refused, detail); `refused` None means the body is whole.
+    """
+    cap_mb = settings.proxy_max_response_mb
+    cap = cap_mb * MB if req.proxy_url and cap_mb > 0 else 0
+    declared = response.headers.get("content-length", "")
+    if cap and declared.isdigit() and int(declared) > cap:
+        return (
+            b"",
+            "response_too_large",
+            (
+                f"The response is {int(declared) / MB:.1f} MB, over the {cap_mb} MB "
+                "limit for a proxied fetch"
+            ),
+        )
+    chunks: list[bytes] = []
+    total = 0
+    sniffed = not (200 <= response.status_code < 300)
+    async for chunk in response.aiter_bytes():
+        chunks.append(chunk)
+        total += len(chunk)
+        if not sniffed and total >= _SNIFF_BYTES:
+            sniffed = True
+            kind = refused_kind(
+                str(response.url), response.headers.get("content-type"), b"".join(chunks)
+            )
+            if kind is not None:
+                return b"", "binary_content", f"The URL is a {kind} file, not a page"
+        if cap and total > cap:
+            return (
+                b"",
+                "response_too_large",
+                (f"The response passed the {cap_mb} MB limit for a proxied fetch"),
+            )
+    body = b"".join(chunks)
+    if not sniffed:
+        kind = refused_kind(str(response.url), response.headers.get("content-type"), body)
+        if kind is not None:
+            return b"", "binary_content", f"The URL is a {kind} file, not a page"
+    return body, None, None
 
 
 def _is_internal_target(req: FetchRequest) -> bool:
@@ -170,7 +230,12 @@ class HttpFetcher:
                 # loopback — and the guard is there to refuse exactly that.
                 validate=not _is_internal_target(req),
                 pin=backend.pin_target if backend is not None else None,
+                stream=True,
             )
+            try:
+                body, refused, refused_detail = await _read_capped(response, req)
+            finally:
+                await response.aclose()
         except httpx.TimeoutException as exc:
             # redact(): a transport exception can carry the full proxy URL,
             # credentials included, and this string is logged and stored.
@@ -184,18 +249,20 @@ class HttpFetcher:
                 await pinned.aclose()
 
         latency_ms = int((time.monotonic() - started) * 1000)
-        measured = _billable_bytes(response, meter)
+        measured = _billable_bytes(response, meter, len(body))
         return FetchResult(
             url=str(response.url),
             status_code=response.status_code,
             headers={k.lower(): v for k, v in response.headers.items()},
-            body=response.content,
+            body=body,
             content_type=response.headers.get("content-type"),
             tier=self.name,
             latency_ms=latency_ms,
             bytes_transferred=measured,
             proxy_id=req.proxy_id,
             proxy_type=req.proxy_type,
+            refused=refused,
+            refused_detail=refused_detail,
         )
 
     def _failure(

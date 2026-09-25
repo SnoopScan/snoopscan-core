@@ -897,6 +897,13 @@ X-RateLimit-Reset: 1725112800
 
 Internal keys get a high limit. This exists to stop a runaway loop, not to monetise.
 
+Every refused request is also counted, per key per UTC day, in the Redis hash
+`ratelimited:YYYY-MM-DD` (kept three days). The operator app reads it from
+`GET /internal/rate-limited?day=YYYY-MM-DD` (internal token; default today),
+which returns `[{"key_id", "refused"}]` busiest first, and emails an owner whose
+key keeps hitting its limit. Counting is best effort: a Redis error while
+counting never changes the 429 itself.
+
 ## Health and metrics
 
 - `GET /health` — liveness. No auth. Returns 200 with `{"status":"ok"}`

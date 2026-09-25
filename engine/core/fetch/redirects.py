@@ -55,6 +55,7 @@ async def follow(
     extensions: dict[str, object] | None = None,
     validate: bool = True,
     pin: Any = None,
+    stream: bool = False,
 ) -> httpx.Response:
     """Send `request`, walking redirects with the SSRF guard on every hop.
 
@@ -81,7 +82,10 @@ async def follow(
             merged["timeout"] = timeout.as_dict()
         request.extensions = merged
 
-        response = await client.send(request, follow_redirects=False)
+        # `stream`: the final response's body is left unread, for a caller
+        # that needs to look at it before paying for all of it (tier 0's byte
+        # cap). A redirect hop's body is still drained below.
+        response = await client.send(request, follow_redirects=False, stream=stream)
         if response.status_code not in REDIRECT_STATUSES:
             return response
 

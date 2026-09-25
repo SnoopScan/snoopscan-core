@@ -49,6 +49,7 @@ from engine.core.extract.router import ExtractionResult, ExtractOptions, extract
 from engine.core.extract.summary import summarise
 from engine.core.fetch import consent, site_rules
 from engine.core.fetch.base import Fetcher, FetchRequest, FetchResult
+from engine.core.fetch.binary import names_a_download
 from engine.core.fetch.escalation import (
     Attempt,
     DomainProfile,
@@ -119,6 +120,21 @@ SHARED_BODY_MIN_URLS = 3
 TEXT_DEPENDENT_FORMATS = frozenset({"markdown", "html", "links", "summary", "json"})
 
 
+def due_direct_reprobe(profile: DomainProfile) -> bool:
+    """Whether this request should try a proxy-flagged domain direct again.
+
+    Deterministic (every Nth success) so it is testable and evenly spread.
+    """
+    every = settings.proxy_direct_reprobe_every
+    return bool(profile.requires_proxy and every > 0 and profile.success_count % every == 0)
+
+
+def forget_proxy_need(profile: DomainProfile, proxy_id: str | None) -> bool:
+    """A proxy-flagged domain just answered with no proxy at all: it no longer
+    needs one, so stop paying for it."""
+    return bool(profile.requires_proxy and not proxy_id)
+
+
 @dataclass
 class ScrapeOutcome:
     data: ScrapeData
@@ -168,6 +184,52 @@ class ScrapeService:
             )
         except Exception as exc:  # noqa: BLE001 - logging must never fail a fetch
             _log_swallowed("fetch_log write failed", exc)
+        if attempt.proxy_id:
+            await self._ledger_attempt(domain, attempt)
+
+    async def _ledger_attempt(self, domain: str, attempt: Attempt) -> None:
+        """Every proxied ATTEMPT into the bandwidth ledger, priced.
+
+        The ledger used to be written once per request, and only when the
+        scrape service had chosen the exit — so every byte the deep rungs spent
+        through exits of their own, every country retry and every retry past a
+        refusal was missing from it. Measured 25 Sep 2026: fetch_log saw 441 MB
+        go through proxies that day, the ledger 252 MB. The daily and monthly
+        caps are read from the ledger, so they were enforced against about
+        57% of the real spend. Writing it here, where fetch_log is written,
+        makes the two agree by construction.
+        """
+        try:
+            from engine.core.proxy import budget, pool
+        except ImportError:  # the open core has no ledger
+            return
+        proxy_id = attempt.proxy_id or ""
+        try:
+            await pool.ensure_registered_id(proxy_id, attempt.proxy_type)
+            await budget.record(
+                proxy_id=proxy_id,
+                domain=domain,
+                bytes_used=attempt.bytes_transferred,
+                success=attempt.verdict.ok,
+                attempt_id=f"fetch_log:{attempt.log_id}" if attempt.log_id else None,
+            )
+        except Exception as exc:  # noqa: BLE001 - accounting must not fail a fetch
+            _log_swallowed("proxy ledger write failed", exc)
+            return
+        usd = budget.estimated_cost_usd(proxy_id, attempt.proxy_type, attempt.bytes_transferred)
+        metrics.record_proxy_spend(
+            budget.provider_of(proxy_id), attempt.proxy_type, attempt.bytes_transferred, usd
+        )
+        logger.info(
+            "proxy_spend",
+            domain=domain,
+            provider=budget.provider_of(proxy_id),
+            proxy_type=attempt.proxy_type,
+            tier=str(attempt.tier),
+            kb=attempt.bytes_transferred // 1024,
+            usd=round(usd, 6),
+            ok=attempt.verdict.ok,
+        )
 
     async def _amend_attempt_log(
         self, attempts: list[Attempt], result: FetchResult | None, verdict: Verdict
@@ -306,6 +368,7 @@ class ScrapeService:
         try:
             # 5. Escalate through the tier ladder.
             endpoint = await self._select_proxy(domain, options, profile)
+            paid_exit_allowed = await self._paid_exit_allowed(options)
 
             # Per-site defaults (site_rules.yaml): the consent/preference cookies
             # a first visit would set. Without them an EU exit is shown Google's
@@ -330,6 +393,14 @@ class ScrapeService:
                 proxy_id=endpoint.scored_as if endpoint else None,
                 proxy_type=str(endpoint.type) if endpoint else None,
                 cookies=rule.browser_cookies(),
+                # What the deep rungs need to choose an exit of their own the
+                # way the router would: cost-first unless the domain is hard,
+                # nothing at all once the budget is spent, and never in place
+                # of an exit type the caller named.
+                proxy_grade=proxy_grade(profile, options),
+                paid_exit_allowed=paid_exit_allowed,
+                proxy_pinned=options.proxy != ProxyMode.AUTO,
+                media_streaming=site_rules.media_streaming(url),
             )
             # A breaker open on the DOMAIN must not bury a url that works.
             # One hostile path — a results page, a login wall — fills the
@@ -362,6 +433,15 @@ class ScrapeService:
             # while costing more. Capped unless the caller chose a ceiling.
             feed = _is_feed_url(url)
             feed_cap = Tier.IMPERSONATE if feed and options.maxTier is None else options.maxTier
+            # A URL that names a download (an archive, an installer, a video)
+            # is fetched by the plain rungs only, from the bottom: their first
+            # chunk decides whether it is a file (fetch/binary.py) and stops
+            # there. A domain whose floor is a browser rung sent a tarball
+            # straight to Chromium through a residential exit (25 Sep 2026).
+            if forced is None and options.maxTier is None and names_a_download(url):
+                forced = Tier.HTTP
+                feed_cap = Tier.IMPERSONATE
+                logger.info("download_url_kept_to_plain_rungs", url=url)
             outcome = await self._controller.fetch(
                 fetch_req,
                 attempt_profile,
@@ -491,6 +571,8 @@ class ScrapeService:
                 outcome, rule, fetch_req = healed
 
         if outcome.result is None or not outcome.verdict.ok:
+            if endpoint is not None and options.proxy == ProxyMode.AUTO:
+                self._climb_proxy_type(profile, endpoint, outcome.attempts, domain)
             await self._record_failure(profile, outcome.verdict, outcome.attempts, domain)
             raise _error_with_captcha(outcome.verdict, outcome.tiers_attempted, outcome.result)
 
@@ -808,9 +890,34 @@ class ScrapeService:
             # telling us it needs one. Recording that means the NEXT request
             # routes a proxy from the start instead of burning three direct
             # attempts to rediscover it (03-fetch-tiers.md section 7).
-            if chosen and endpoint is None and result.proxy_id and result.proxy_type:
+            if chosen and forget_proxy_need(profile, result.proxy_id):
+                logger.info("proxy_need_cleared", domain=domain)
+                profile.requires_proxy = False
+                profile.required_proxy_type = None
+            if (
+                chosen
+                and result.proxy_id
+                and result.proxy_type
+                and options.proxy == ProxyMode.AUTO
+                # Evidence the domain needs an exit: a deep rung had to find
+                # its own, or it was already flagged. An exit bought only for
+                # a caller's `location` says nothing of the kind, and flagging
+                # on it would proxy every later request to the domain.
+                and (endpoint is None or profile.requires_proxy)
+            ):
+                # The exit TYPE that served it is the one to start from next
+                # time — which is also how a type re-probe that succeeded one
+                # step cheaper moves the domain down (see auto_proxy_type).
+                if profile.required_proxy_type != result.proxy_type:
+                    logger.info(
+                        "proxy_type_learned",
+                        domain=domain,
+                        was=profile.required_proxy_type,
+                        now=result.proxy_type,
+                    )
                 profile.requires_proxy = True
                 profile.required_proxy_type = result.proxy_type
+            if chosen and endpoint is None and result.proxy_id and result.proxy_type:
                 with contextlib.suppress(Exception):
                     from engine.core.proxy import pool as proxy_pool
 
@@ -822,7 +929,9 @@ class ScrapeService:
             tiers_attempted=outcome.tiers_attempted,
             proxy_used=result.proxy_id is not None,
             proxy_type=result.proxy_type,
-            proxy_bytes=outcome.total_bytes if result.proxy_id else 0,
+            # Only the attempts that went out through an exit. `total_bytes`
+            # counted the direct rungs too whenever the serving one was proxied.
+            proxy_bytes=outcome.proxied_bytes,
             browser_ms=result.browser_ms,
             extraction_path=str(extraction.extraction_path),
             cached=False,
@@ -1189,7 +1298,24 @@ class ScrapeService:
             # when the caller named a place, which only an exit can deliver.
             if not profile.requires_proxy and not wants_place:
                 return None
-            required = ProxyType(profile.required_proxy_type or ProxyType.RESIDENTIAL)
+            if not wants_place and due_direct_reprobe(profile):
+                # Ask again whether the domain still needs an exit. If direct
+                # works, the success path clears the flag; if not, a stealth
+                # rung finds its own exit and the flag stays.
+                logger.info("proxy_direct_reprobe", domain=domain)
+                return None
+            # The CHEAPEST exit type this domain has not been seen to fail on:
+            # datacenter < ISP < residential, of the types configured here.
+            from engine.core.proxy import providers as _providers
+
+            required = auto_proxy_type(profile, _providers.available_types(domain))
+            if profile.required_proxy_type and str(required) != profile.required_proxy_type:
+                logger.info(
+                    "proxy_type_reprobe",
+                    domain=domain,
+                    learned=profile.required_proxy_type,
+                    trying=str(required),
+                )
         else:
             required = ProxyType(str(options.proxy))
 
@@ -1228,6 +1354,52 @@ class ScrapeService:
             # they are different facts with different fixes, so say which.
             refuse(_no_exit_reason(asked, required, domain, country))
         return endpoint
+
+    async def _paid_exit_allowed(self, options: ScrapeOptions) -> bool:
+        """May a deep rung buy an exit of its own on this request?
+
+        Not once the bandwidth budget is spent. An explicit proxy request was
+        already refused over budget by _select_proxy, so this only ever
+        narrows AUTO.
+        """
+        if not self._persist or not settings.proxy_enabled or options.proxy == ProxyMode.NONE:
+            return True
+        try:
+            from engine.core.proxy import budget
+        except ImportError:
+            return True
+        return await budget.affordable_cached()
+
+    def _climb_proxy_type(
+        self, profile: DomainProfile, endpoint: Any, attempts: list[Attempt], domain: str
+    ) -> None:
+        """A block through a cheap exit TYPE moves the domain one type dearer.
+
+        Evidence only: a block (not a timeout, not a thin page) on an attempt
+        that went out through the exit the router chose. The next request
+        starts one step up the price list; auto_proxy_type's re-probe walks
+        it back down if the cheaper type starts working again.
+        """
+        try:
+            from engine.core.proxy import providers as _providers
+            from engine.core.proxy.vendor import ProxyType
+        except ImportError:
+            return
+        blocked = any(
+            a.proxy_id == endpoint.scored_as
+            and a.verdict.reason in (Reason.BLOCKED, Reason.SOFT_BLOCK)
+            for a in attempts
+        )
+        if not blocked:
+            return
+        dearer = next_dearer_type(ProxyType(str(endpoint.type)), _providers.available_types(domain))
+        if dearer is None:
+            return
+        logger.info("proxy_type_climbed", domain=domain, was=str(endpoint.type), now=str(dearer))
+        # The type only. Whether the domain needs an exit AT ALL is not what a
+        # block through one says, and an exit bought for a caller's `location`
+        # must not flag the domain for every later request.
+        profile.required_proxy_type = str(dearer)
 
     # How many extra countries to try on a blocked domain. Two, not the whole
     # list: each attempt is a paid request that probably fails, and the point
@@ -1415,9 +1587,9 @@ class ScrapeService:
         outcome: Any,
         job_id: str | None,
     ) -> None:
-        """Write the bandwidth ledger and update the per-domain score."""
+        """Update the exit's per-domain score and its provider's health."""
         try:
-            from engine.core.proxy import budget, pool
+            from engine.core.proxy import pool
         except ImportError:
             return
 
@@ -1426,14 +1598,11 @@ class ScrapeService:
             Reason.BLOCKED,
             Reason.SOFT_BLOCK,
         )
+        # The bandwidth ledger is written per attempt, in _ledger_attempt: this
+        # wrote the whole ladder's bytes against the chosen exit, and nothing
+        # at all when a deep rung had chosen its own.
+        _ = job_id
         try:
-            await budget.record(
-                proxy_id=endpoint_id,
-                domain=domain,
-                bytes_used=outcome.total_bytes,
-                success=bool(result and outcome.verdict.ok),
-                job_id=job_id,
-            )
             if blocked:
                 await pool.record_block(endpoint_id, domain)
             elif result is not None and outcome.verdict.ok:
@@ -1882,34 +2051,71 @@ def _outcome_for(verdict: Verdict) -> str:
 _GEO_RETRYABLE_REASONS = frozenset({Reason.BLOCKED, Reason.SOFT_BLOCK})
 
 
-# A domain is budget work only on its record: enough clean successes, no block
-# of any kind, no firewall seen, and a working rung that is a plain fetch.
-BUDGET_MIN_SUCCESSES = 3
-_BUDGET_TIERS = frozenset({Tier.HTTP, Tier.IMPERSONATE})
+def proxy_grade(profile: DomainProfile, options: ScrapeOptions) -> str | None:
+    """Which grade of provider this request is narrowed to, or None for all.
 
+    None — the cheapest healthy provider, whatever its grade — unless the work
+    is hard on the evidence: a firewall on record for the domain, a caller's
+    clicks, or a phone. Those go premium.
 
-def proxy_grade(profile: DomainProfile, options: ScrapeOptions) -> str:
-    """Which grade of proxy provider this request should go out through.
-
-    Budget providers cost a fraction of premium ones per GB and, measured on a
-    defended job board, fail where premium ones get through. So budget is kept
-    for work that is cheap by evidence — a domain this engine has already
-    fetched cleanly at the plain rungs, several times, without one block —
-    and everything else is premium: a domain seen for the first time, one
-    that has ever blocked, one behind a known firewall, a browser-rung domain,
-    and a request that clicks or pretends to be a phone. A budget exit that
-    gets blocked puts a block on the record, and the domain is premium from
-    the next request on.
+    This used to be the other way round: premium for everything except a
+    domain already proven easy, which kept the budget providers out of every
+    first visit and every browser rung. Measured over the week to 25 Sep 2026
+    the budget pools were no worse at the plain rungs (83% and 82% success at
+    http against 76% and 71% for the premium pair) and within a few points at
+    the browser ones, so paying 2-4x per GB on an unknown domain bought
+    nothing. A budget provider that does fail on a site is passed over there
+    on its record (providers._drop_proven_losers), which is the evidence the
+    old rule tried to guess in advance.
     """
-    easy = (
-        profile.success_count >= BUDGET_MIN_SUCCESSES
-        and profile.block_count == 0
-        and profile.detected_waf is None
-        and profile.min_working_tier in _BUDGET_TIERS
-        and not options.actions
-        and not options.mobile
-    )
-    return "budget" if easy else "premium"
+    hard = profile.detected_waf is not None or bool(options.actions) or options.mobile
+    return "premium" if hard else None
+
+
+def auto_proxy_type(profile: DomainProfile, available: list[Any]) -> Any:
+    """The exit TYPE an AUTO request starts from: the cheapest expected to work.
+
+    `available` is the configured types, cheapest first (providers
+    .available_types). A domain with nothing learned starts at the cheapest.
+    A domain that has learned a type starts there — and every
+    `proxy_type_reprobe_every`th success tries one type cheaper, so a site
+    that stopped refusing datacenter addresses moves back down instead of
+    paying residential for ever. The requires_proxy flag was permanent until
+    22800a9; this is the same fix one level down.
+
+    Mobile is never an AUTO start: a learned "mobile" means the mobile rung
+    served it through its own exit, and the plain rungs start residential.
+    """
+    from engine.core.proxy.vendor import TYPE_COST_ORDER, ProxyType
+
+    ladder = [t for t in available if t != ProxyType.MOBILE]
+    if not ladder:
+        return ProxyType.RESIDENTIAL
+    try:
+        learned = ProxyType(profile.required_proxy_type) if profile.required_proxy_type else None
+    except ValueError:
+        learned = None
+    if learned is None:
+        return ladder[0]
+    if learned == ProxyType.MOBILE:
+        learned = ProxyType.RESIDENTIAL
+    rank = TYPE_COST_ORDER.index
+    # The learned type if it is configured, else the cheapest configured type
+    # above it (a removed pool must not strand the domain), else the dearest.
+    start = next((t for t in ladder if rank(t) >= rank(learned)), ladder[-1])
+    cheaper = [t for t in ladder if rank(t) < rank(start)]
+    every = settings.proxy_type_reprobe_every
+    if cheaper and every > 0 and profile.success_count and profile.success_count % every == 0:
+        return cheaper[-1]
+    return start
+
+
+def next_dearer_type(current: Any, available: list[Any]) -> Any | None:
+    """The next configured exit type up the price list, or None at the top."""
+    from engine.core.proxy.vendor import TYPE_COST_ORDER, ProxyType
+
+    rank = TYPE_COST_ORDER.index
+    return next((t for t in available if t != ProxyType.MOBILE and rank(t) > rank(current)), None)
 
 
 def countries_to_retry(profile: DomainProfile, requested: str | None, limit: int) -> list[str]:
@@ -2017,7 +2223,10 @@ def _error_for(verdict: Verdict, tiers: list[str]) -> EngineError:
             )
         return InvalidRequest(message, detail)
     if verdict.reason == Reason.TARGET_ERROR:
-        return TargetError(verdict.details.get("status_code"))
+        # A refusal of our own (too large for a paid exit, a file that is no
+        # page) says so; "Target returned status 200" sent people looking at
+        # a server that had answered perfectly well.
+        return TargetError(verdict.details.get("status_code"), verdict.details.get("message"))
     if verdict.reason == Reason.ROBOTS_DENIED:
         return RobotsDenied(verdict.details.get("url", ""))
     if verdict.reason == Reason.EMPTY and verdict.signal == "transport_error":
